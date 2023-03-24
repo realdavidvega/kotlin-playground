@@ -54,8 +54,8 @@ val Welcome = FC<WelcomeProps> { props ->
     }
     button {
         onClick = {
-            name = "Daniel"
+            name = "Tereza"
         }
-        +"Change name to Daniel"
+        +"Change name to Tereza"
     }
 }

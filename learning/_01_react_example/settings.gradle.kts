@@ -1,3 +1,3 @@
 
-rootProject.name = "_01_react_example"
+rootProject.name = "react_example"
 
