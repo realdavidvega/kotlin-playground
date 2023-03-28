@@ -73,7 +73,7 @@ kotlin {
 }
 
 application {
-    mainClass.set("mainKt")
+    mainClass.set("MainKt")
 }
 
 // include JS artifacts in any JAR we generate

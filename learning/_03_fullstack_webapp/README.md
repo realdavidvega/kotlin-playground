@@ -4,3 +4,9 @@
 # Full Stack JVM & JS App Hands-On Lab
 
 This repository is the code corresponding to the hands-on lab [Building a Full Stack Web App with Kotlin Multiplatform](https://play.kotlinlang.org/hands-on/Full%20Stack%20Web%20App%20with%20Kotlin%20Multiplatform/).
+
+## How to run
+
+You can run the application with the Gradle `run` task.
+
+NOTE: Set `ORG_GRADLE_PROJECT_isProduction=true` on Environment variables of the Gradle task to perform all available optimizations.
