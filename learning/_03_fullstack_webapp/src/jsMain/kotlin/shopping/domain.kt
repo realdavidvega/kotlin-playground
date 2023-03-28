@@ -2,7 +2,9 @@ package shopping
 
 @JsModule("uuid")
 @JsNonModule
-@JsName("v4")
-external fun uuidV4(): String
+external object UUID {
+    @JsName("v4")
+    fun uuidV4(): String
+}
 
-actual fun randomUUID(): String = uuidV4()
+actual fun randomUUID(): String = UUID.uuidV4()
