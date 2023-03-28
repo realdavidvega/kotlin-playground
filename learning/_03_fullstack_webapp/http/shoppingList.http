@@ -1,0 +1,15 @@
+
+### List elements
+GET http://localhost:9090/shoppingList
+
+### Add element
+POST http://localhost:9090/shoppingList
+Content-Type: application/json
+
+{
+  "desc": "Peppers 🌶",
+  "priority": 5
+}
+
+### Delete element
+DELETE http://localhost:9090/shoppingList/ed4d5918-ea1c-4e93-86c5-3972aa290d4e

@@ -1,5 +1,6 @@
 import com.typesafe.config.ConfigFactory
 import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
@@ -10,9 +11,16 @@ import io.ktor.server.plugins.compression.Compression
 import io.ktor.server.plugins.compression.gzip
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.cors.routing.CORS
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import shopping.ShoppingListItem
+import shopping.shoppingRoutes
 
 fun main() {
     val config = ConfigFactory.load()
@@ -29,7 +37,7 @@ fun main() {
 
 fun Application.module() {
     plugins()
-    routing()
+    router()
 }
 
 fun Application.plugins() {
@@ -47,10 +55,8 @@ fun Application.plugins() {
     }
 }
 
-fun Application.routing() {
+fun Application.router() {
     routing {
-        get("/hello") {
-            call.respondText("Hello, API!")
-        }
+        shoppingRoutes()
     }
 }
