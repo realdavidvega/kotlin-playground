@@ -1,5 +1,6 @@
 
 import com.typesafe.config.ConfigFactory
+import env.dependencies
 import io.ktor.http.HttpMethod
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -48,8 +49,11 @@ fun Application.plugins() {
 }
 
 fun Application.router() {
-    routing {
-        shoppingRoutes()
-        staticsRoutes()
+    val dependencies = dependencies()
+    with(dependencies) {
+        routing {
+            shoppingRoutes(shoppingService)
+            staticsRoutes()
+        }
     }
 }
