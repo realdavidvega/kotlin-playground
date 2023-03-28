@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val kotlin = "1.8.10"
 val serialization = "1.3.3"
@@ -72,7 +73,7 @@ kotlin {
 }
 
 application {
-    mainClass.set("ServerKt")
+    mainClass.set("mainKt")
 }
 
 // include JS artifacts in any JAR we generate
@@ -90,9 +91,9 @@ tasks.getByName<Jar>("jvmJar") {
 }
 
 tasks {
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "19"
+            jvmTarget = "17"
         }
     }
 }
