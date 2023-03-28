@@ -3,10 +3,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val kotlin = "1.8.10"
 val serialization = "1.3.3"
+val coroutines = "1.6.2"
 val ktor = "2.2.4"
 val logback = "1.2.11"
 val wrappers = "1.0.0-pre.525"
 val mongo = "4.5.0"
+
+fun kotlinw(target: String): String =
+    "org.jetbrains.kotlin-wrappers:kotlin-$target"
 
 plugins {
     kotlin("multiplatform") version "1.8.10"
@@ -34,6 +38,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
                 implementation("io.ktor:ktor-client-core:$ktor")
             }
         }
@@ -49,7 +55,6 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-serialization:$ktor")
                 implementation("io.ktor:ktor-server-content-negotiation:$ktor")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
                 implementation("io.ktor:ktor-server-cors:$ktor")
                 implementation("io.ktor:ktor-server-compression:$ktor")
                 implementation("io.ktor:ktor-server-core-jvm:$ktor")
@@ -63,10 +68,11 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-js:$ktor")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktor")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
-                implementation(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$wrappers"))
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
+                implementation(enforcedPlatform(kotlinw("wrappers-bom:$wrappers")))
+                implementation(kotlinw("browser"))
+                implementation(kotlinw("react"))
+                implementation(kotlinw("react-dom"))
+                implementation(npm("uuid", "9.0.0"))
             }
         }
     }

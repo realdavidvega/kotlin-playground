@@ -1,13 +1,5 @@
 package shopping
 
-import kotlinx.serialization.Serializable
-import randomUUID
+import java.util.*
 
-@Serializable
-data class ShoppingListItem(val desc: String, val priority: Int) {
-    val id: String = randomUUID()
-
-    companion object {
-        const val path = "/shoppingList"
-    }
-}
+actual fun randomUUID(): String = UUID.randomUUID().toString()

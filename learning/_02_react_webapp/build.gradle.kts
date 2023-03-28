@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+
 plugins {
     kotlin("js") version "1.8.10"
     kotlin("plugin.serialization") version "1.8.10"
@@ -48,6 +50,6 @@ tasks.register("stage") {
     dependsOn("build")
 }
 
-rootProject.extensions.configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
+rootProject.extensions.configure<NodeJsRootExtension> {
     versions.webpackCli.version = "4.10.0"
 }
