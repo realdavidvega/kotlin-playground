@@ -9,5 +9,3 @@ data class Video(
     val speaker: String,
     val videoUrl: String
 )
-
-
