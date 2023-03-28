@@ -10,7 +10,10 @@ import react.dom.html.ReactHTML.ul
 import react.useEffectOnce
 import react.useState
 import shopping.ShoppingListItem
+import shopping.addShoppingListItem
+import shopping.deleteShoppingListItem
 import shopping.getShoppingList
+import shopping.inputComponent
 import web.dom.document
 import web.dom.Element
 
@@ -36,11 +39,28 @@ val App = FC<Props> {
     h1 {
         +"Full-Stack Shopping List"
     }
+
     ul {
-        shoppingList.sortedByDescending(ShoppingListItem::priority).forEach { item ->
+        shoppingList.sortedByDescending(ShoppingListItem::priority).map { item ->
             li {
                 key = item.toString()
+                onClick = {
+                    scope.launch {
+                        deleteShoppingListItem(item)
+                        shoppingList = getShoppingList()
+                    }
+                }
                 +"[${item.priority}] ${item.desc} "
+            }
+        }
+    }
+
+    inputComponent {
+        onSubmit = { input ->
+            val cartItem = ShoppingListItem(input.replace("!", ""), input.count { it == '!' })
+            scope.launch {
+                addShoppingListItem(cartItem)
+                shoppingList = getShoppingList()
             }
         }
     }

@@ -11,7 +11,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 
-
 val jsonClient = HttpClient {
     install(ContentNegotiation) {
         json()
