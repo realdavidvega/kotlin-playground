@@ -5,37 +5,16 @@ import csstype.NamedColor
 import csstype.Position
 import csstype.px
 import emotion.react.css
+import react.EmailIcon
+import react.EmailShareButton
 import react.FC
 import react.Props
+import react.ReactPlayer
+import react.TelegramIcon
+import react.TelegramShareButton
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.h3
-import react.dom.html.ReactHTML.img
-import react.dom.html.ReactHTML.p
-import react.key
-
-external interface VideoListProps : Props {
-    var videos: List<Video>
-    var selectedVideo: Video?
-    var onSelectVideo: (Video) -> Unit
-}
-
-val VideoList = FC<VideoListProps> { props ->
-    with(props) {
-        videos.map { video ->
-            p {
-                key = video.id.toString()
-                onClick = {
-                    onSelectVideo(video)
-                }
-                if (video == selectedVideo) {
-                    +"▶ "
-                }
-                +"${video.speaker}: ${video.title}"
-            }
-        }
-    }
-}
 
 external interface VideoPlayerProps : Props {
     var video: Video
@@ -51,6 +30,20 @@ val VideoPlayer = FC<VideoPlayerProps> { props ->
                 top = 10.px
                 right = 10.px
             }
+            EmailShareButton {
+                url = video.videoUrl
+                EmailIcon {
+                    size = 32
+                    round = false
+                }
+            }
+            TelegramShareButton {
+                url = video.videoUrl
+                TelegramIcon {
+                    size = 32
+                    round = false
+                }
+            }
             h3 {
                 +"${video.speaker}: ${video.title}"
             }
@@ -64,8 +57,9 @@ val VideoPlayer = FC<VideoPlayerProps> { props ->
                 }
                 if (unwatchedVideo) +"Mark as watched" else +"Mark as unwatched"
             }
-            img {
-                src = "https://via.placeholder.com/640x360.png?text=Video+Player+Placeholder"
+            ReactPlayer {
+                url = video.videoUrl
+                controls = true
             }
         }
     }

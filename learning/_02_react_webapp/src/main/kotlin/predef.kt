@@ -1,11 +1,4 @@
-package video
-
-data class Video(
-    val id: Int,
-    val title: String,
-    val speaker: String,
-    val videoUrl: String
-)
+import video.Video
 
 val unwatchedList = listOf(
     Video(1, "Opening Keynote", "Andrey Breslav", "https://youtu.be/PsaFVLr8t4E"),
