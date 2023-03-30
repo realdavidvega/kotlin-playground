@@ -1,5 +1,5 @@
-
-import com.typesafe.config.ConfigFactory
+import env.Dependencies
+import env.Env
 import env.dependencies
 import io.ktor.http.HttpMethod
 import io.ktor.serialization.kotlinx.json.json
@@ -16,21 +16,20 @@ import shopping.shoppingRoutes
 import statics.staticsRoutes
 
 fun main() {
-    val config = ConfigFactory.load()
-    val host = config.getString("ktor.deployment.host")
-    val port = config.getInt("ktor.deployment.port")
+    val env = Env()
+    val dependencies = dependencies(env)
 
     embeddedServer(
         factory = Netty,
-        port = port,
-        host = host,
-        module = Application::module
+        port = env.http.port,
+        host = env.http.host,
+        module = { module(dependencies) }
     ).start(wait = true)
 }
 
-fun Application.module() {
+fun Application.module(dependencies: Dependencies) {
     plugins()
-    router()
+    router(dependencies)
 }
 
 fun Application.plugins() {
@@ -48,12 +47,9 @@ fun Application.plugins() {
     }
 }
 
-fun Application.router() {
-    val dependencies = dependencies()
-    with(dependencies) {
-        routing {
-            shoppingRoutes(shoppingService)
-            staticsRoutes()
-        }
+fun Application.router(dependencies: Dependencies) {
+    routing {
+        staticsRoutes()
+        shoppingRoutes(dependencies.shoppingService)
     }
 }

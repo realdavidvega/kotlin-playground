@@ -1,6 +1,5 @@
 package shopping
 
-import org.litote.kmongo.eq
 import shoppingList
 
 interface ShoppingService {
