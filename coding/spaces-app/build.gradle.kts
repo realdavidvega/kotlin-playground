@@ -2,6 +2,10 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 val kotlin = "1.8.10"
 val wrappers = "1.0.0-pre.525"
+val postcss = "8.3.5"
+val postcssLoader = "4.2.0"
+val autoprefixer = "10.2.6"
+val tailwindcss = "3.3.0"
 
 fun wrappers(target: String): String =
     "org.jetbrains.kotlin-wrappers:kotlin-$target"
@@ -28,10 +32,10 @@ dependencies {
     implementation(wrappers("extensions"))
     implementation(wrappers("mui"))
     implementation(wrappers("mui-icons"))
-    implementation(npm("postcss", "8.3.5"))
-    implementation(npm("postcss-loader", "4.2.0"))
-    implementation(npm("autoprefixer", "10.2.6"))
-    implementation(npm("tailwindcss", "3.3.0"))
+    implementation(npm("postcss", postcss))
+    implementation(npm("postcss-loader", postcssLoader))
+    implementation(npm("autoprefixer", autoprefixer))
+    implementation(npm("tailwindcss", tailwindcss))
 }
 
 kotlin {
