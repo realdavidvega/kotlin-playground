@@ -1,0 +1,1 @@
+INSERT INTO users (username, email) VALUES ('testuser', 'testuser@test.com') ON CONFLICT DO NOTHING;
