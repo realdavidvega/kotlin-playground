@@ -1,4 +1,4 @@
-package delegation
+package typeclasses
 
 interface Operations {
   fun sum(a: Int, b: Int): Int
@@ -10,7 +10,7 @@ class OperationsBase : Operations {
   override fun multiply(a: Int, b: Int): Int = a * b
 }
 
-class OperationsComplex(private operations: OperationsBase) : Operations {
+class OperationsComplex(private val operations: OperationsBase) : Operations {
   override fun sum(a: Int, b: Int): Int = operations.sum(a, b)
   override fun multiply(a: Int, b: Int): Int = operations.multiply(a, b)
   fun divide(a: Int, b: Int): Int = a / b
