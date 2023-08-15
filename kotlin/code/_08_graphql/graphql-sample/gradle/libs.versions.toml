@@ -7,6 +7,8 @@ arrow = "1.2.0"
 ktor = "2.3.3"
 logback = "1.2.11"
 sqldelight = "2.0.0"
+flyway = "9.21.1"
+kgraphql = "0.19.0"
 
 [libraries]
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref="kotlinx-coroutines" }
@@ -23,6 +25,9 @@ ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", v
 logback = { module = "ch.qos.logback:logback-classic", version.ref="logback" }
 sqldelight-jdbc = { module = "app.cash.sqldelight:jdbc-driver", version.ref = "sqldelight" }
 sqldelight-postgresql = { module = "app.cash.sqldelight:postgresql-dialect", version.ref = "sqldelight" }
+flyway = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+kgraphql = { module = "com.apurebase:kgraphql", version.ref = "kgraphql" }
+kgraphql-ktor = { module = "com.apurebase:kgraphql-ktor", version.ref = "kgraphql" }
 
 [bundles]
 ktor = [
@@ -31,15 +36,19 @@ ktor = [
     "ktor-server-content-negotiation",
     "ktor-serialization"
 ]
-sqldelight = [
-    "sqldelight-jdbc",
-    "sqldelight-postgresql"
-]
 arrow = [
     "arrow-core",
     "arrow-fx-coroutines",
     "arrow-fx-stm",
     "arrow-resilience"
+]
+kgraphql = [
+    "kgraphql",
+    "kgraphql-ktor"
+]
+sqldelight = [
+    "sqldelight-jdbc",
+    "sqldelight-postgresql"
 ]
 
 [plugins]
