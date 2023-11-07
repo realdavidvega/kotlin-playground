@@ -19,17 +19,34 @@ object Options {
   @JvmInline value class Role(val name: String)
 
   @JvmInline
-  value class Salary(val value: Double) { // never use Long / Double for money
+  value class Salary(val value: Double) {
     operator fun compareTo(other: Salary): Int = value.compareTo(other.value)
   }
 
   // database
   val JOBS_DATABASE: Map<JobId, Job> =
     mapOf(
-      JobId(1) to Job(JobId(1), Company("Apple"), Role("Data Engineer"), Salary(100000.0)),
-      JobId(2) to Job(JobId(2), Company("Microsoft"), Role("Software Engineer"), Salary(100001.0)),
+      JobId(1) to
+        Job(
+          JobId(1),
+          Company("Apple Inc."),
+          Role("Senior Software Engineer II"),
+          Salary(1000000.0)
+        ),
+      JobId(2) to
+        Job(
+          JobId(2),
+          Company("Microsoft Corporation"),
+          Role("Software Engineer II"),
+          Salary(1000001.0)
+        ),
       JobId(3) to
-        Job(JobId(3), Company("Google"), Role("Site Reliability Engineer"), Salary(100002.0)),
+        Job(
+          JobId(3),
+          Company("Google LLC"),
+          Role("Junior Software Engineer IV"),
+          Salary(10000002.0)
+        )
     )
 
   interface Jobs {
