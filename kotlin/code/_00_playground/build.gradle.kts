@@ -9,19 +9,21 @@ val mockk_version: String by project
 val date_version: String by project
 val dotenv_version: String by project
 val arrow_version: String by project
+val spotless_version: String by project
 
 plugins {
     kotlin("jvm") version "1.9.10"
     id("io.ktor.plugin") version "2.2.3"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
+    id("com.diffplug.spotless") version "6.22.0"
 }
 
-group = "naps"
+group = "playground"
 version = "0.0.1"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 application {
-    mainClass.set("naps.MainKt")
+    mainClass.set("playground.MainKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -30,7 +32,7 @@ application {
 ktor {
     docker {
         jreVersion.set(io.ktor.plugin.features.JreVersion.JRE_17)
-        localImageName.set("naps-app")
+        localImageName.set("playground-app")
         imageTag.set("0.0.1-preview")
     }
 }
@@ -56,6 +58,13 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")
     testImplementation("io.kotest:kotest-assertions-core:$kotest_version")
     testImplementation("io.kotest.extensions:kotest-assertions-ktor:$kotest_ktor")
+}
+
+spotless {
+  kotlin {
+    target("**/*.kt")
+    ktfmt().googleStyle()
+  }
 }
 
 //tasks.withType<Test>().configureEach {

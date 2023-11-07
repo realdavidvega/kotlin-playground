@@ -1,35 +1,65 @@
+@file:Suppress("Unused")
+
 package typeclasses
 
-interface Operations {
-  fun sum(a: Int, b: Int): Int
-  fun multiply(a: Int, b: Int): Int
-}
+object Delegation {
+  interface Operations {
+    fun sum(a: Double, b: Double): Double
 
-class OperationsBase : Operations {
-  override fun sum(a: Int, b: Int): Int = a + b
-  override fun multiply(a: Int, b: Int): Int = a * b
-}
+    fun multiply(a: Double, b: Double): Double
+  }
 
-class OperationsComplex(private val operations: OperationsBase) : Operations {
-  override fun sum(a: Int, b: Int): Int = operations.sum(a, b)
-  override fun multiply(a: Int, b: Int): Int = operations.multiply(a, b)
-  fun divide(a: Int, b: Int): Int = a / b
-}
+  open class OperationsOpen : Operations {
+    override fun sum(a: Double, b: Double): Double = a + b
 
-class OperationsDelegation(private val operations: Operations) : Operations by operations {
-    fun divide(a: Int, b: Int): Int = a / b
-}
+    override fun multiply(a: Double, b: Double): Double = a * b
+  }
 
-fun main() {
-    val operationsBase = OperationsBase()
-    val delegation = OperationsComplex(operationsBase)
-    println(delegation.sum(1, 2))
-    println(delegation.multiply(1, 2))
-    println(delegation.divide(1, 2))
+  class OperationsExtends : OperationsOpen() {
+    fun divide(a: Double, b: Double): Double = a / b
+  }
 
-    // delegation
-    val operationsDelegation = OperationsDelegation(operationsBase)
-    println(operationsDelegation.sum(1, 2))
-    println(operationsDelegation.multiply(1, 2))
-    println(operationsDelegation.divide(1, 2))
+  class OperationsBase : Operations {
+    override fun sum(a: Double, b: Double): Double = a + b
+
+    override fun multiply(a: Double, b: Double): Double = a * b
+  }
+
+  class OperationsParam(private val operations: OperationsBase) : Operations {
+    override fun sum(a: Double, b: Double): Double = operations.sum(a, b)
+
+    override fun multiply(a: Double, b: Double): Double = operations.multiply(a, b)
+
+    fun divide(a: Double, b: Double): Double = a / b
+  }
+
+  class OperationsDelegation(private val operations: Operations) : Operations by operations {
+    fun divide(a: Double, b: Double): Double = a / b
+  }
+
+  fun main() {
+    println("Extends:")
+    val extends = OperationsExtends()
+    println(extends.sum(1.0, 2.0))
+    println(extends.multiply(1.0, 2.0))
+    println(extends.divide(1.0, 2.0))
+    println("")
+
+    // base impl
+    val base = OperationsBase()
+
+    println("Param:")
+    val param = OperationsParam(base)
+    println(param.sum(1.0, 2.0))
+    println(param.multiply(1.0, 2.0))
+    println(param.divide(1.0, 2.0))
+    println("")
+
+    println("Delegation:")
+    val delegation = OperationsDelegation(base)
+    println(delegation.sum(1.0, 2.0))
+    println(delegation.multiply(1.0, 2.0))
+    println(delegation.divide(1.0, 2.0))
+    println("")
+  }
 }

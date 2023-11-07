@@ -1,4 +1,4 @@
-@file:Suppress("MagicNumber", "SwallowedException", "TooGenericExceptionCaught")
+@file:Suppress("MagicNumber", "SwallowedException", "TooGenericExceptionCaught", "Unused")
 
 package functional
 
@@ -9,11 +9,13 @@ import arrow.core.raise.option
 import arrow.core.toOption
 import java.util.NoSuchElementException
 
-object ErrorHandling {
+object Options {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
 
   @JvmInline value class JobId(val value: Long)
+
   @JvmInline value class Company(val name: String)
+
   @JvmInline value class Role(val name: String)
 
   @JvmInline
@@ -32,7 +34,9 @@ object ErrorHandling {
 
   interface Jobs {
     fun findById(id: JobId): Job? // ? means that this value may be null
+
     fun findByIdOption(id: JobId): Option<Job>
+
     fun findAll(): List<Job>
   }
 
@@ -97,7 +101,7 @@ object ErrorHandling {
   class JobsService3(private val jobs: Jobs, private val converter: CurrencyConverter) {
     fun retrieveSalary(id: JobId): Double = jobs.findById(id)?.salary?.value ?: 0.0
 
-    // Option(jobs.findById(id)).map((j: Job) => converter.usd2Eur(j.salary.value)).getOrElse(0.0)
+    // Options(jobs.findById(id)).map((j: Job) => converter.usd2Eur(j.salary.value)).getOrElse(0.0)
     fun retrieveSalaryEur(id: JobId): Double =
       jobs.findById(id)?.let { // lambda
         converter.usd2Eur(it.salary.value)
