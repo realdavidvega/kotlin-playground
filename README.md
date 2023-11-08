@@ -5,6 +5,9 @@
 1. Spring Boot in Kotlin
 2. FP in Kotlin and Arrow
 
+### Code
+1. Playground: playground with random Kotlin code, like functional programming, typeclases and coroutines
+
 ## JS
 ### Learning
 1. React Example: simple web app, built on Kotlin/JS + React
