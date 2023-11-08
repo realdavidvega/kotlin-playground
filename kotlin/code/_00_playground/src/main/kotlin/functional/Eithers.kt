@@ -1,4 +1,4 @@
-@file:Suppress("Unused", "MagicNumber", "UnusedPrivateProperty")
+@file:Suppress("Unused", "MagicNumber", "UnusedPrivateProperty", "TooGenericExceptionCaught")
 
 package functional
 
@@ -9,7 +9,6 @@ import arrow.core.left
 import arrow.core.raise.catch
 import arrow.core.raise.either
 import arrow.core.right
-import functional.Results.maxSalary
 
 object Eithers {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)

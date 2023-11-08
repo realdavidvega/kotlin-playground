@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED")
+@file:Suppress("Unused", "MagicNumber")
 
 package typeclasses
 
