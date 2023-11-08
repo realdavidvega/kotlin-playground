@@ -64,13 +64,9 @@ object Options {
       if (maybeJob != null) return maybeJob else throw NoSuchElementException("Job not found")
     }
 
-    override fun findByIdOption(id: JobId): Option<Job> {
-      TODO("Not yet implemented")
-    }
+    override fun findByIdOption(id: JobId): Option<Job> = TODO("Not yet implemented")
 
-    override fun findAll(): List<Job> {
-      TODO("Not yet implemented")
-    }
+    override fun findAll(): List<Job> = TODO("Not yet implemented")
   }
 
   // nullables

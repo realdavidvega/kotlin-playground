@@ -73,13 +73,13 @@ object Results {
       .toResult()
 
   interface Jobs {
-    fun findJobId(id: JobId): Result<Job?>
+    fun findById(id: JobId): Result<Job?>
 
     fun findAll(): Result<List<Job>>
   }
 
   class TryCatchJobs : Jobs {
-    override fun findJobId(id: JobId): Result<Job?> =
+    override fun findById(id: JobId): Result<Job?> =
       try {
         Result.success(JOBS_DATABASE[id])
       } catch (e: Exception) {
@@ -90,7 +90,7 @@ object Results {
   }
 
   class RunCatchingJobs : Jobs {
-    override fun findJobId(id: JobId): Result<Job?> = runCatching {
+    override fun findById(id: JobId): Result<Job?> = runCatching {
       JOBS_DATABASE[id] // desired value
     }
 
@@ -116,7 +116,7 @@ object Results {
 
   class JobService(private val jobs: Jobs, private val currencyConverter: CurrencyConverter) {
     fun maybePrintJobId(jobId: JobId) {
-      val maybeJob: Result<Job?> = jobs.findJobId(jobId)
+      val maybeJob: Result<Job?> = jobs.findById(jobId)
       // success or failure
       // getOrNull, getOrElse, ...
       if (maybeJob.isSuccess)
@@ -128,7 +128,7 @@ object Results {
     // you lose control over exceptions, but you can recover later
     fun getSalaryInEur(jobId: JobId): Result<Double> =
       jobs
-        .findJobId(jobId)
+        .findById(jobId)
         .map { it?.salary }
         .mapCatching { // exception swallowed and stored
           currencyConverter.convertUsdToEur(it?.value)
@@ -137,7 +137,7 @@ object Results {
     // plain, step by step, imperative way of dealing with values (non-idiomatic way)
     // because we are manipulating the values instead of dealing with the result at a higher level
     fun getSalaryGapVsMaxNonIdiomatic(jobId: JobId): Result<Double> = runCatching {
-      val maybeJob: Job? = jobs.findJobId(jobId).getOrThrow()
+      val maybeJob: Job? = jobs.findById(jobId).getOrThrow()
       val jobSalary = maybeJob?.salary ?: Salary(0.0)
       val jobList = jobs.findAll().getOrThrow()
       val maxSalary = jobList.maxSalary().getOrThrow()
@@ -146,7 +146,7 @@ object Results {
 
     // functionally pure, chained, dealing with errors at more high level (idiomatic)
     fun getSalaryGapVsMax(jobId: JobId): Result<Double> =
-      jobs.findJobId(jobId).flatMap { maybeJob -> // Job? -> Result<...>
+      jobs.findById(jobId).flatMap { maybeJob -> // Job? -> Result<...>
         val salary = maybeJob?.salary ?: Salary(0.0)
         jobs.findAll().flatMap { jobList ->
           jobList.maxSalary().map { maxSalary -> maxSalary.value - salary.value }
@@ -166,7 +166,7 @@ object Results {
     // imperative style with arrow, short-circuit
     fun getSalaryGapVsMaxArrow(jobId: JobId): Result<Double> = result {
       // if it throws some exception, then break the chain
-      val maybeJob: Job? = jobs.findJobId(jobId).bind()
+      val maybeJob: Job? = jobs.findById(jobId).bind()
       ensureNotNull(maybeJob) { NoSuchElementException("Job not found") }
       // null is eliminated by the compiler
       val jobSalary = maybeJob.salary
@@ -218,7 +218,7 @@ object Results {
       )
     println(finalStatement)
 
-    fun Result<Double>.printResult() =
+    fun Result<Double>.printResult(): Unit =
       this.fold({ println("Salary gap: $it") }, { println("Error: $it") })
 
     jobsService.getSalaryGapVsMaxNonIdiomatic(JobId(42)).printResult() // salary 0.0
