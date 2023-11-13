@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package coroutines
+package threads
 
 import java.util.concurrent.Executors
 import kotlinx.coroutines.CoroutineDispatcher

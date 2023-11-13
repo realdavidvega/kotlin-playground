@@ -1,6 +1,6 @@
 @file:Suppress("TooManyFunctions", "MagicNumber")
 
-package coroutines
+package threads
 
 import io.github.oshai.KotlinLogging
 import kotlinx.coroutines.Deferred

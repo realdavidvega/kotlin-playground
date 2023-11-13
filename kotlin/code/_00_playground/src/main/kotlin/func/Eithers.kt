@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber", "UnusedPrivateProperty", "TooGenericExceptionCaught")
 
-package functional
+package func
 
 import arrow.core.Either
 import arrow.core.flatMap

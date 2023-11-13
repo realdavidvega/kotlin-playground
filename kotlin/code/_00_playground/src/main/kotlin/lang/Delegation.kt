@@ -1,6 +1,6 @@
 @file:Suppress("Unused")
 
-package typeclasses
+package lang
 
 object Delegation {
   interface Operations {

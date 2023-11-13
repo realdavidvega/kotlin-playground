@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package coroutines
+package threads
 
 import java.lang.Thread.sleep
 import java.time.Duration
@@ -29,7 +29,7 @@ object Continuations {
 
     fun resumeWith(result: Result<T>)
 
-    fun resume(t: T) = resumeWith(Result.success(t))
+    fun resume(t: T): Unit = resumeWith(Result.success(t))
 
     fun resumeWithException(exception: Throwable): Unit = resumeWith(Result.failure(exception))
   }
