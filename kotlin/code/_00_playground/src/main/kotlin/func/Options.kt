@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber", "SwallowedException", "TooGenericExceptionCaught", "Unused")
 
-package functional
+package func
 
 import arrow.core.Option
 import arrow.core.none
@@ -114,12 +114,12 @@ object Options {
   class JobsService3(private val jobs: Jobs, private val converter: CurrencyConverter) {
     fun retrieveSalary(id: JobId): Double = jobs.findById(id)?.salary?.value ?: 0.0
 
-    // Options(jobs.findById(id)).map((j: Job) => converter.usd2Eur(j.salary.value)).getOrElse(0.0)
+    // Options(jobs.findById(id)).map((j: Job) =>
+    // converter.usd2Eur(j.salary.value)).getOrElse(0.0)
     fun retrieveSalaryEur(id: JobId): Double =
       jobs.findById(id)?.let { // lambda
         converter.usd2Eur(it.salary.value)
-      }
-        ?: 0.0
+      } ?: 0.0
 
     fun isFromCompany(id: JobId, company: String): Boolean =
       jobs.findById(id)?.takeIf { it.company.name == company } != null

@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package typeclasses
+package lang
 
 import kotlinx.datetime.LocalDate
 

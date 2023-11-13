@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "TooGenericExceptionCaught", "MagicNumber")
 
-package functional
+package func
 
 import arrow.core.flatMap
 import arrow.core.raise.ensureNotNull
@@ -135,7 +135,8 @@ object Results {
         }
 
     // plain, step by step, imperative way of dealing with values (non-idiomatic way)
-    // because we are manipulating the values instead of dealing with the result at a higher level
+    // because we are manipulating the values instead of dealing with the result at a higher
+    // level
     fun getSalaryGapVsMaxNonIdiomatic(jobId: JobId): Result<Double> = runCatching {
       val maybeJob: Job? = jobs.findById(jobId).getOrThrow()
       val jobSalary = maybeJob?.salary ?: Salary(0.0)

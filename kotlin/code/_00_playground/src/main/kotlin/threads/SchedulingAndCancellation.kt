@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package coroutines
+package threads
 
 import java.util.concurrent.Executors
 import kotlinx.coroutines.CoroutineDispatcher
@@ -107,7 +107,8 @@ suspend fun forgettingFriendBirthdayRoutine() {
       // after 2s I remember I have a birthday today
       delay(2000L)
 
-      // sends a SIGNAL to the coroutine to cancel, cancellation happens at first yielding point
+      // sends a SIGNAL to the coroutine to cancel, cancellation happens at first yielding
+      // point
       // without yielding point it won't be cancelled!
       workingJob.cancel()
 

@@ -1,6 +1,6 @@
 @file:Suppress("MatchingDeclarationName", "MagicNumber")
 
-package coroutines
+package threads
 
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
