@@ -4,6 +4,8 @@ package lang
 
 import kotlinx.coroutines.runBlocking
 
+// context receivers
+
 object ContextReceivers {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
 
@@ -138,7 +140,7 @@ object ContextReceivers {
 
   // context receivers are suitable for dependency injection
   context(Jobs, JsonScope<Job>, Logger)
-  class JobController() {
+  class JobController {
     suspend fun findJobById(id: String): String {
       info("Searching job with id $id")
       val jobId = JobId(id.toLong())
@@ -162,9 +164,9 @@ object ContextReceivers {
     }
   }
 
-  // In overall, is better practice to pass business logic algebras explicitly
-  // Meaning, we should inject it through constructor of the class instead
-  // That way, the responsibilities of each method call are clear and explicit.
+  // in overall, is better practice to pass business logic algebras explicitly.
+  // meaning, we should inject it through constructor of the class instead.
+  // that way, the responsibilities of each method call are clear and explicit.
   context(JsonScope<Job>, Logger)
   class JobControllerGreat(private val jobs: Jobs) {
     suspend fun findJobById(id: String): String {
@@ -177,7 +179,7 @@ object ContextReceivers {
     }
   }
 
-  /* How it looks in Scala
+  /* how it looks in Scala
     class JobController[F[_]: Monad: Jobs: JsonScope: Logger]: F[String] {
     def findJobById(id: String): F[String] = {
       Logger[F].info(s"Searching job with id $id") *>

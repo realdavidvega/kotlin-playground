@@ -16,12 +16,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import reactor.core.publisher.Mono
 
-/*
- * Continuations
- */
+// 0 - continuations and coroutines basics
 
+// continuations
 object Continuations {
-  // Continuation
+
+  // continuation example
   // has some context
   // can be resumed with a Result, which encapsulates a successful outcome T or failure Throwable
   interface MyContinuation<in T> {
@@ -41,7 +41,7 @@ object Continuations {
       override fun resumeWith(result: Result<Unit>) = TODO()
     }
 
-  // Blocking vs. Suspending
+  // blocking vs. suspending
   private const val MILLIS = 1000L
 
   private fun blocking() {
@@ -66,13 +66,11 @@ object Continuations {
   }
 }
 
-/*
- * Coroutines
- */
-
+// coroutines
 typealias Coroutine = Continuation<Unit>
 
 object Coroutines {
+
   // some playground.suspending block
   private val suspending: suspend () -> Int = suspend { 1 }
 
@@ -113,10 +111,7 @@ object Coroutines {
   }
 }
 
-/*
- * Coroutine Context
- */
-
+// coroutine contexts
 interface MyCoroutineContext {
   operator fun <E : Element> get(key: Key<E>): E?
 
