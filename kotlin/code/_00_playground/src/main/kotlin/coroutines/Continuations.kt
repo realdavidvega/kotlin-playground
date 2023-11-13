@@ -119,8 +119,11 @@ object Coroutines {
 
 interface MyCoroutineContext {
   operator fun <E : Element> get(key: Key<E>): E?
+
   fun <R> fold(initial: R, operation: (R, Element) -> R): R
+
   operator fun plus(context: MyCoroutineContext): MyCoroutineContext
+
   fun minusKey(key: Key<*>): MyCoroutineContext
 
   interface Key<E : Element>
