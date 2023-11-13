@@ -1,4 +1,6 @@
-package learning
+@file:Suppress("MatchingDeclarationName", "MagicNumber")
+
+package coroutines
 
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -6,10 +8,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
 
-// From RockTheJVM video series in YT
-// Kotlin Coroutines Tutorial, Part 2: Cooperative Scheduling, Cancellation, Coroutine Context
-
-// resources
 class Desk : AutoCloseable {
     init {
         logger.info { "Starting to work on this desk" }

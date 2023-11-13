@@ -1,6 +1,6 @@
-@file:Suppress("TooManyFunctions")
+@file:Suppress("TooManyFunctions", "MagicNumber")
 
-package learning
+package coroutines
 
 import io.github.oshai.KotlinLogging
 import kotlinx.coroutines.delay
@@ -9,11 +9,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-
-// From RockTheJVM video series in YT
-// Kotlin Coroutines Tutorial, Part 1: Suspend Functions, Coroutine Scopes, Async and More
 
 // coroutine = lightweight "thread"
 // easier to start, schedule, stop...
@@ -71,6 +69,7 @@ suspend fun concurrentMorningRoutine() {
 }
 
 // without parent need
+@OptIn(DelicateCoroutinesApi::class)
 suspend fun noStructConcurrencyMorningRoutine() {
     // but no trivial error handling
     GlobalScope.launch { bathTime() }

@@ -10,54 +10,59 @@ val date_version: String by project
 val dotenv_version: String by project
 val arrow_version: String by project
 val spotless_version: String by project
+val logging_version: String by project
+val reactor_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.9.10"
-    id("io.ktor.plugin") version "2.2.3"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
-    id("com.diffplug.spotless") version "6.22.0"
+  kotlin("jvm") version "1.9.10"
+  id("io.ktor.plugin") version "2.2.3"
+  id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
+  id("com.diffplug.spotless") version "6.22.0"
 }
 
 group = "playground"
+
 version = "0.0.1"
+
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 application {
-    mainClass.set("playground.MainKt")
+  mainClass.set("playground.MainKt")
 
-    val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+  val isDevelopment: Boolean = project.ext.has("development")
+  applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
 ktor {
-    docker {
-        jreVersion.set(io.ktor.plugin.features.JreVersion.JRE_17)
-        localImageName.set("playground-app")
-        imageTag.set("0.0.1-preview")
-    }
+  docker {
+    jreVersion.set(io.ktor.plugin.features.JreVersion.JRE_17)
+    localImageName.set("playground-app")
+    imageTag.set("0.0.1-preview")
+  }
 }
 
 repositories {
-    mavenCentral()
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
+  mavenCentral()
+  maven("https://oss.sonatype.org/content/repositories/snapshots")
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-resources:$ktor_version")
-    implementation("io.ktor:ktor-server-default-headers:$ktor_version")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$date_version")
-    implementation("io.arrow-kt:arrow-core:$arrow_version")
-
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
-    testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")
-    testImplementation("io.kotest:kotest-assertions-core:$kotest_version")
-    testImplementation("io.kotest.extensions:kotest-assertions-ktor:$kotest_ktor")
+  implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
+  implementation("io.ktor:ktor-server-resources:$ktor_version")
+  implementation("io.ktor:ktor-server-default-headers:$ktor_version")
+  implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+  implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
+  implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
+  implementation("ch.qos.logback:logback-classic:$logback_version")
+  implementation("org.jetbrains.kotlinx:kotlinx-datetime:$date_version")
+  implementation("io.arrow-kt:arrow-core:$arrow_version")
+  implementation("io.projectreactor:reactor-core:$reactor_version")
+  implementation("io.github.oshai:kotlin-logging-jvm:$logging_version")
+  testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
+  testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+  testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")
+  testImplementation("io.kotest:kotest-assertions-core:$kotest_version")
+  testImplementation("io.kotest.extensions:kotest-assertions-ktor:$kotest_ktor")
 }
 
 spotless {
@@ -67,6 +72,6 @@ spotless {
   }
 }
 
-//tasks.withType<Test>().configureEach {
+// tasks.withType<Test>().configureEach {
 //    useJUnitPlatform()
-//}
+// }

@@ -1,4 +1,6 @@
-package learning
+@file:Suppress("Unused", "MagicNumber")
+
+package coroutines
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ExperimentalCoroutinesApi
