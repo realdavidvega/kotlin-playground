@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktor_version: String by project
@@ -11,7 +13,6 @@ val mockk_version: String by project
 val date_version: String by project
 val dotenv_version: String by project
 val arrow_version: String by project
-val spotless_version: String by project
 val logging_version: String by project
 val reactor_version: String by project
 
@@ -26,7 +27,7 @@ group = "playground"
 
 version = "0.0.1"
 
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_20
 
 application {
   mainClass.set("playground.MainKt")
@@ -70,7 +71,7 @@ dependencies {
 spotless {
   kotlin {
     target("**/*.kt")
-    ktfmt().googleStyle()
+    ktfmt("0.46").googleStyle()
   }
 }
 
