@@ -2,6 +2,8 @@
 
 package lang
 
+// inheritance and delegation
+
 object Delegation {
   interface Operations {
     fun sum(a: Double, b: Double): Double

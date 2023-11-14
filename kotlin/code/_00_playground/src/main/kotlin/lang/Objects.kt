@@ -4,6 +4,8 @@ package lang
 
 import kotlinx.datetime.LocalDate
 
+// data classes and data objects
+
 object Objects {
   sealed class Tweet {
     data class Normal(val content: String) : Tweet()
