@@ -1,4 +1,4 @@
-@file:Suppress("Unused", "MagicNumber", "UnusedPrivateProperty", "TooGenericExceptionCaught")
+@file:Suppress("Unused", "MagicNumber", "UnusedPrivateProperty")
 
 package func
 
@@ -13,7 +13,9 @@ object Raises {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
 
   @JvmInline value class JobId(val value: Long)
+
   @JvmInline value class Company(val name: String)
+
   @JvmInline value class Role(val name: String)
 
   @JvmInline
@@ -47,8 +49,11 @@ object Raises {
     )
 
   sealed interface JobError
+
   data class JobNotFound(val jobId: JobId) : JobError
+
   data class GenericError(val cause: String) : JobError
+
   data object NegativeSalary : JobError
 
   // Raise context
@@ -61,8 +66,7 @@ object Raises {
   // you can only raise a type from the Raise context
   class LiveJobs : Jobs {
     context(Raise<JobError>)
-    override fun findById(jobId: JobId): Job =
-      JOBS_DATABASE[jobId] ?: raise(JobNotFound(jobId))
+    override fun findById(jobId: JobId): Job = JOBS_DATABASE[jobId] ?: raise(JobNotFound(jobId))
   }
 
   // the alternative without context receivers would be something like this
@@ -79,50 +83,47 @@ object Raises {
   // to create some raise context, we can use fold
   class JobsService(private val jobs: Jobs) {
     // creates a default raise context (DefaultRaise), and consumes it
-    fun printSalaryFold(jobId: JobId): Unit = fold(
-      // what we want to execute
-      block = { jobs.findById(jobId) },
-      // if we raise an error
-      recover = { error: JobError ->
-        when (error) {
-          is JobNotFound -> println("Job with id ${jobId.value} not found")
-          else -> println("An error was raised: $error")
-        }
-      },
-      // happy path
-      transform = { job: Job ->
-        println("Job salary for job with id ${jobId.value} is ${job.salary}")
-      },
-      // this version just rethrows exceptions instead of handling them with the catch argument
-      // also won't intercept serious errors: VM, interrupted (threads), cancellation (coroutines)
-      // catch = { throwable: Throwable -> println("A serious error occurred: $throwable") }
-    )
+    fun printSalaryFold(jobId: JobId): Unit =
+      fold(
+        // what we want to execute
+        block = { jobs.findById(jobId) },
+        // if we raise an error
+        recover = { error: JobError ->
+          when (error) {
+            is JobNotFound -> println("Job with id ${jobId.value} not found")
+            else -> println("An error was raised: $error")
+          }
+        },
+        // happy path
+        transform = { job: Job ->
+          println("Job salary for job with id ${jobId.value} is ${job.salary}")
+        },
+        // this version just rethrows exceptions instead of handling them with the catch argument
+        // also won't intercept serious errors: VM, interrupted (threads), cancellation (coroutines)
+        // catch = { throwable: Throwable -> println("A serious error occurred: $throwable") }
+      )
   }
 
   // would bubble up, and not converted to raise
   class CurrencyConverter {
     @Throws(IllegalArgumentException::class)
     fun convertUsdToEur(amount: Double?): Double =
-      require(amount != null && amount > 0.0) {
-        "Amount must be positive"
-      }.let { amount * 0.91 }
+      require(amount != null && amount > 0.0) { "Amount must be positive" }.let { amount * 0.91 }
   }
 
   // we can wrap around the converter
   class RaiseCurrencyConverter(private val currencyConverter: CurrencyConverter) {
-    context (Raise<Throwable>)
-    fun convertUsdToEur(amount: Double?): Double =
-      currencyConverter.convertUsdToEur(amount)
+    context(Raise<Throwable>)
+    fun convertUsdToEur(amount: Double?): Double = currencyConverter.convertUsdToEur(amount)
 
     // if we want to bring the throwable in the context of raise
-    context (Raise<JobError>)
-    fun convertUsdToEur2(amount: Double?): Double = catch ({
-      currencyConverter.convertUsdToEur(amount)
-    }) { exception: IllegalArgumentException ->
-      // we wrap here the throwable to our domain model and raise our domain error
-      println("Oh, some error happened in the background: $exception")
-      raise(NegativeSalary)
-    }
+    context(Raise<JobError>)
+    fun convertUsdToEur2(amount: Double?): Double =
+      catch({ currencyConverter.convertUsdToEur(amount) }) { exception: IllegalArgumentException ->
+        // we wrap here the throwable to our domain model and raise our domain error
+        println("Oh, some error happened in the background: $exception")
+        raise(NegativeSalary)
+      }
   }
 
   class SalaryService(private val converter: RaiseCurrencyConverter) {
@@ -144,7 +145,8 @@ object Raises {
       )
   }
 
-  @JvmStatic fun main(args: Array<String>) {
+  @JvmStatic
+  fun main(args: Array<String>) {
     val appleJobId = JobId(1)
     val jobs = LiveJobs()
     // won't work if we don't provide a Raise context
@@ -164,9 +166,7 @@ object Raises {
     // An error was raised: NegativeSalary
 
     // we can also recover from errors
-    val fallbackAmount = recover({ converter.convertUsdToEur2(-1.0) }) { _: JobError ->
-      0.0
-    }
+    val fallbackAmount = recover({ converter.convertUsdToEur2(-1.0) }) { _: JobError -> 0.0 }
     println("The fallback amount is $fallbackAmount")
     // The fallback amount is 0.0
   }
