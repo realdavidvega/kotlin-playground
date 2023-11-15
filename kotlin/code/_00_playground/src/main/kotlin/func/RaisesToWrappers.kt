@@ -17,13 +17,13 @@ import arrow.core.raise.nullable
 import arrow.core.raise.option
 import arrow.core.raise.result
 import func.Raises.Company
+import func.Raises.CurrencyConverter
 import func.Raises.JOBS_DATABASE
 import func.Raises.Job
 import func.Raises.JobError
 import func.Raises.JobId
 import func.Raises.Role
 import func.Raises.Salary
-import func.Raises.CurrencyConverter
 
 // 5 - arrow's raises to wrappers
 
@@ -78,7 +78,7 @@ object RaisesToWrappers {
     fun salaryWithRaise(jobId: JobId): Salary = salary(jobId).bind()
 
     // we can also convert from option to nullable
-    context (NullableRaise)
+    context(NullableRaise)
     fun salaryWithNullableRaise(jobId: JobId): Salary = salary(jobId).bind()
 
     // convert to nullable
@@ -91,12 +91,11 @@ object RaisesToWrappers {
 
   class RaiseCurrencyConverter(private val currencyConverter: CurrencyConverter) {
     // with the Result<A> wrapper type
-    context (ResultRaise)
-    fun convertUsdToEurRaiseException(amount: Double?): Double = catch({
-      currencyConverter.convertUsdToEur(amount)
-    }) { ex: IllegalArgumentException ->
-      raise(ex)
-    }
+    context(ResultRaise)
+    fun convertUsdToEurRaiseException(amount: Double?): Double =
+      catch({ currencyConverter.convertUsdToEur(amount) }) { ex: IllegalArgumentException ->
+        raise(ex)
+      }
   }
 
   @JvmStatic
@@ -139,24 +138,22 @@ object RaisesToWrappers {
     // with result
     val converter = RaiseCurrencyConverter(CurrencyConverter())
     val maybeSalaryInEur: (Double) -> Result<Double> = { salary: Double ->
-      result {
-        converter.convertUsdToEurRaiseException(salary)
-      }
+      result { converter.convertUsdToEurRaiseException(salary) }
     }
 
-    maybeSalaryInEur(100.0).getOrElse { throwable: Throwable ->
-      println("An error occurred: $throwable")
-    }.let { println("The salary in EUR is: $it") }
+    maybeSalaryInEur(100.0)
+      .getOrElse { throwable: Throwable -> println("An error occurred: $throwable") }
+      .let { println("The salary in EUR is: $it") }
 
     // also we can convert it back to raise
-    val maybeSalaryInEurRaise: context(ResultRaise) (Double) -> Double = { salary: Double ->
-      maybeSalaryInEur(salary).bind()
-    }
-
-    result {
-      maybeSalaryInEurRaise(this, 100.0)
-    }.getOrElse { throwable: Throwable ->
-      println("An error occurred: $throwable")
-    }.let { println("The salary in EUR is: $it") }
+    //    val maybeSalaryInEurRaise: context(ResultRaise) (Double) -> Double = { salary: Double ->
+    //      maybeSalaryInEur(salary).bind()
+    //    }
+    //
+    //    result {
+    //      maybeSalaryInEurRaise(this, 100.0)
+    //    }.getOrElse { throwable: Throwable ->
+    //      println("An error occurred: $throwable")
+    //    }.let { println("The salary in EUR is: $it") }
   }
 }
