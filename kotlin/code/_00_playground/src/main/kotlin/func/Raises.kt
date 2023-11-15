@@ -8,10 +8,12 @@ import arrow.core.mapOrAccumulate
 import arrow.core.raise.Raise
 import arrow.core.raise.RaiseAccumulate
 import arrow.core.raise.catch
+import arrow.core.raise.ensure
 import arrow.core.raise.fold
 import arrow.core.raise.mapOrAccumulate
 import arrow.core.raise.recover
 import arrow.core.raise.withError
+import arrow.core.raise.zipOrAccumulate
 
 // 4 - arrow's raise context
 
@@ -186,9 +188,9 @@ object Raises {
     ): Either<NonEmptyList<JobError>, List<Double>> =
       jobIdList.mapOrAccumulate { getSalaryGapWithMax(it) }
 
-    // collect errors and combine them into a custom type
+    // collect errors and combine them into a custom type, aka transforming an error
     context(Raise<JobErrors>)
-    fun getSalaryGapWithMaxJobErrors(jobIdList: List<JobId>) =
+    fun getSalaryGapWithMaxJobErrors(jobIdList: List<JobId>): List<Double> =
       mapOrAccumulate(jobIdList, ::combine) {
         withError({ jobError -> JobErrors(jobError.toString()) }) { getSalaryGapWithMax(it) }
       }
@@ -248,6 +250,34 @@ object Raises {
         recover = { error: JobError -> println("An error was raised: $error") },
         transform = { salaryInEur: Double -> println("Salary in EUR: $salaryInEur") },
       )
+  }
+
+  // for zipping errors
+  sealed interface SalaryError
+
+  data object InvalidAmount : SalaryError
+
+  data class InvalidCurrency(val message: String) : SalaryError
+
+  // prevent us from creating objects that are not valid
+  // BUT, private primary constructor is exposed via the generated 'copy()' method of a 'data' class
+  data class SalaryWithCurrency private constructor(val amount: Double, val currency: String) {
+    companion object {
+      // would create a valid instance of salary type
+      context(Raise<NonEmptyList<SalaryError>>)
+      operator fun invoke(amount: Double, currency: String): SalaryWithCurrency =
+        // we zip the possible errors from amount and currency
+        zipOrAccumulate(
+          { ensure(amount >= 0.0) { InvalidAmount } },
+          {
+            ensure(currency.isNotEmpty() && currency.matches("[A-Z]{3}".toRegex())) {
+              InvalidCurrency("Currency must be not empty and valid")
+            }
+          },
+        ) { _, _ ->
+          SalaryWithCurrency(amount, currency)
+        }
+    }
   }
 
   @JvmStatic
@@ -323,6 +353,13 @@ object Raises {
       { jobService.getSalaryGapWithMaxJobErrors(listOf(JobId(-1), JobId(42))) },
       { error -> println("The risen errors are: $error") },
       { salaryGaps -> println("The salary gaps are $salaryGaps") }
+    )
+
+    // zipping errors
+    fold(
+      { SalaryWithCurrency(-1.0, "EU") },
+      { error -> println("The risen errors are: $error") },
+      { salary -> println("The valid salary is $salary") }
     )
   }
 }
