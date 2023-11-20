@@ -1,3 +1,5 @@
+@file:Suppress("Unused", "MagicNumber", "UnusedPrivateProperty")
+
 package threads
 
 import arrow.core.Either
@@ -14,7 +16,9 @@ import arrow.fx.coroutines.parMap
 import arrow.fx.coroutines.parMapOrAccumulate
 import arrow.fx.coroutines.parZip
 import arrow.fx.coroutines.raceN
+import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
@@ -176,19 +180,30 @@ object HighLevelConcurrency {
 
           context(Raise<Error>)
           override suspend fun getFastestUser(user1: UserId, user2: UserId): UserName =
-            ensure(user1 != user2) {
-              Error.Generic("user ids cannot be the same")
-            }.let {
-              raceN(
-                {users.getUserName(user1)},
-                {users.getUserName(user2)}
-              ).fold(
-                {userOne -> userOne},
-                {userTwo -> userTwo}
-              )
-            }
+            ensure(user1 != user2) { Error.Generic("user ids cannot be the same") }
+              .let {
+                raceN({ users.getUserName(user1) }, { users.getUserName(user2) })
+                  .fold({ userOne -> userOne }, { userTwo -> userTwo })
+              }
         }
     }
+  }
+
+  private suspend fun logCancellation(): Unit =
+    try {
+      println("Sleeping for 500 ms...")
+      delay(500)
+    } catch (e: CancellationException) {
+      println("Sleep was cancelled early!")
+      throw e
+    }
+
+  private suspend fun Raise<String>.failOnEven(i: Int): Unit {
+    ensure(i % 2 != 0) {
+      delay(100)
+      "Not even error!"
+    }
+    logCancellation()
   }
 
   @JvmStatic
@@ -205,6 +220,8 @@ object HighLevelConcurrency {
         }
         .getOrElse { error -> println(error) }
 
+      println("------------------------------")
+
       // get tweets for ids
       either { service.getTweetsForIds(listOf(UserId(1), UserId(2))) }
         .map { userList ->
@@ -213,6 +230,8 @@ object HighLevelConcurrency {
           }
         }
         .getOrElse { error -> println(error) }
+
+      println("------------------------------")
 
       // get tweets for ids, accumulating errors
       service
@@ -224,12 +243,57 @@ object HighLevelConcurrency {
         }
         .getOrElse { errors -> errors.forEach { error -> println(error) } }
 
+      println("------------------------------")
+
       // racing
+      either { service.getFastestUser(UserId(1), UserId(1)) }
+        .map { user -> println("The fastest user to retrieve was '${user.value}'") }
+        .getOrElse { error -> println(error) }
+
+      println("------------------------------")
+
+      // typed errors
+      parZip(
+        { either<String, Unit> { logCancellation() } },
+        {
+          either<String, Unit> {
+            delay(100)
+            raise("Error")
+          }
+        },
+        { either<String, Unit> { logCancellation() } }
+      ) { a, b, c ->
+        Triple(a, b, c)
+      }
+
+      println("------------------------------")
+
+      // parZip cancellation on raise
       either {
-        service.getFastestUser(UserId(1), UserId(1))
-      }.map { user ->
-        println("The fastest user to retrieve was '${user.value}'")
-      }.getOrElse { error -> println(error) }
+          parZip(
+            { logCancellation() },
+            {
+              delay(100)
+              raise("Error!")
+            }, // early cancellation
+            { logCancellation() }
+          ) { a, b, c ->
+            Triple(a, b, c)
+          } // unreachable
+        }
+        .getOrElse { error -> println(error) }
+
+      println("------------------------------")
+
+      // parMap cancellation on raise
+      either { listOf(1, 2, 3, 4).parMap { failOnEven(it) } }.getOrElse { error -> println(error) }
+
+      println("------------------------------")
+
+      // other accumulation example
+      listOf(1, 2, 3, 4)
+        .parMapOrAccumulate { failOnEven(it) }
+        .getOrElse { errors -> errors.forEach { error -> println(error) } }
     }
   }
 }
