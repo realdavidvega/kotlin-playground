@@ -69,8 +69,12 @@ object Raises {
 
   // Raise context
   interface Jobs {
+    // extension receiver
+    fun Raise<JobError>.findById(jobId: JobId): Job
+
+    // context receiver
     context(Raise<JobError>)
-    fun findById(jobId: JobId): Job
+    fun findById2(jobId: JobId): Job
 
     context(Raise<JobError>)
     fun findAll(): List<Job>
@@ -79,8 +83,11 @@ object Raises {
   // we can use the raise function from the DSL
   // you can only raise a type from the Raise context
   class LiveJobs : Jobs {
+    override fun Raise<JobError>.findById(jobId: JobId): Job =
+      JOBS_DATABASE[jobId] ?: raise(JobNotFound(jobId))
+
     context(Raise<JobError>)
-    override fun findById(jobId: JobId): Job = JOBS_DATABASE[jobId] ?: raise(JobNotFound(jobId))
+    override fun findById2(jobId: JobId): Job = JOBS_DATABASE[jobId] ?: raise(JobNotFound(jobId))
 
     context(Raise<JobError>)
     override fun findAll(): List<Job> =
@@ -106,7 +113,7 @@ object Raises {
     fun printSalaryFold(jobId: JobId): Unit =
       fold(
         // what we want to execute
-        block = { jobs.findById(jobId) },
+        block = { jobs.findById2(jobId) },
         // if we raise an error
         recover = { error: JobError ->
           when (error) {
@@ -127,7 +134,7 @@ object Raises {
     // we are only interested in the happy path in this case
     context(Raise<JobError>)
     fun getSalaryGapWithMax(jobId: JobId): Double {
-      val job: Job = jobs.findById(jobId)
+      val job: Job = jobs.findById2(jobId)
       val jobList: List<Job> = jobs.findAll()
       val maxSalary: Salary = jobList.maxSalary()
       return maxSalary.value - job.salary.value
@@ -146,7 +153,7 @@ object Raises {
     // won't compile without NegativeAmount raise context
     context(Raise<JobError>, Raise<NegativeAmount>)
     fun getSalaryGapWithMaxInEur(jobId: JobId): Double {
-      val job: Job = jobs.findById(jobId)
+      val job: Job = jobs.findById2(jobId)
       val jobList: List<Job> = jobs.findAll()
       val maxSalary: Salary = jobList.maxSalary()
       val salaryGap = maxSalary.value - job.salary.value
@@ -158,7 +165,7 @@ object Raises {
     // again
     context(Raise<JobError>)
     fun getSalaryGapWithMaxInEur(jobId: JobId): Double {
-      val job: Job = jobs.findById(jobId)
+      val job: Job = jobs.findById2(jobId)
       val jobList: List<Job> = jobs.findAll()
       val maxSalary: Salary = jobList.maxSalary()
       val salaryGap = maxSalary.value - job.salary.value
@@ -261,6 +268,7 @@ object Raises {
 
   // prevent us from creating objects that are not valid
   // BUT, private primary constructor is exposed via the generated 'copy()' method of a 'data' class
+  // aka 'smart constructor'
   data class SalaryWithCurrency private constructor(val amount: Double, val currency: String) {
     companion object {
       // would create a valid instance of salary type

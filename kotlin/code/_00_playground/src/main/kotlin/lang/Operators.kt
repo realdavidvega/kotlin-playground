@@ -11,14 +11,17 @@ import arrow.core.raise.either
 object Operators {
   sealed interface SalaryError {
     data object InvalidAmount : SalaryError
+
     data object InvalidCurrency : SalaryError
+
     data object IncompatibleCurrencies : SalaryError
+
     data class NotFound(val salaryId: Long) : SalaryError
   }
 
-  @JvmInline value class Amount(val value: Double) {
-    operator fun plus(other: Amount): Amount =
-      Amount(this.value + other.value)
+  @JvmInline
+  value class Amount(val value: Double) {
+    operator fun plus(other: Amount): Amount = Amount(this.value + other.value)
   }
 
   @JvmInline value class Currency(val value: String)
@@ -35,22 +38,24 @@ object Operators {
       else raise(SalaryError.IncompatibleCurrencies)
   }
 
-  val SALARY_DATABASE = mapOf(
-    1L to Salary(Amount(500.0), Currency("EUR")),
-    2L to Salary(Amount(1500.0), Currency("EUR")),
-    3L to Salary(Amount(2000.0), Currency("USD"))
-  )
+  val SALARY_DATABASE =
+    mapOf(
+      1L to Salary(Amount(500.0), Currency("EUR")),
+      2L to Salary(Amount(1500.0), Currency("EUR")),
+      3L to Salary(Amount(2000.0), Currency("USD"))
+    )
 
   interface Salaries {
     context(Raise<SalaryError.NotFound>)
     fun findById(salaryId: Long): Salary
 
     companion object {
-      operator fun invoke(): Salaries = object : Salaries {
-        context(Raise<SalaryError.NotFound>)
-        override fun findById(salaryId: Long): Salary =
-          SALARY_DATABASE[salaryId] ?: raise(SalaryError.NotFound(salaryId))
-      }
+      operator fun invoke(): Salaries =
+        object : Salaries {
+          context(Raise<SalaryError.NotFound>)
+          override fun findById(salaryId: Long): Salary =
+            SALARY_DATABASE[salaryId] ?: raise(SalaryError.NotFound(salaryId))
+        }
     }
   }
 
@@ -62,32 +67,29 @@ object Operators {
 
     // either block for raise
     either {
-      // operator function
-      salaryOne + salaryTwo + salaryThree
-    }.map { (amount, currency) ->
-      println("The total income is: ${amount.value} ${currency.value}")
-    }.getOrElse {
-      println("The salary currencies are incompatible.")
-    }
+        // operator function
+        salaryOne + salaryTwo + salaryThree
+      }
+      .map { (amount, currency) ->
+        println("The total income is: ${amount.value} ${currency.value}")
+      }
+      .getOrElse { println("The salary currencies are incompatible.") }
 
     // either block for raise
     either {
-      // infix function
-      salaryTwo isGreaterThan salaryOne
-    }.map { isGreater ->
-      if (isGreater) println("Yes, the first is greater than the second.")
-    }.getOrElse {
-      println("The salary currencies are incompatible.")
-    }
+        // infix function
+        salaryTwo isGreaterThan salaryOne
+      }
+      .map { isGreater -> if (isGreater) println("Yes, the first is greater than the second.") }
+      .getOrElse { println("The salary currencies are incompatible.") }
 
     // invoke operator function
     val salaries = Salaries()
     val salaryOneId = 1L
 
-    either {
-      salaryOneId to salaries.findById(salaryOneId)
-    }.map { (id, salary) ->
-      println("The salary with id $id is ${salary.amount.value} ${salary.currency.value}")
-    }
+    either { salaryOneId to salaries.findById(salaryOneId) }
+      .map { (id, salary) ->
+        println("The salary with id $id is ${salary.amount.value} ${salary.currency.value}")
+      }
   }
 }
