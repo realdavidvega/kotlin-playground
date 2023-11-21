@@ -5,7 +5,7 @@ package structs
 import arrow.core.firstOrNone
 import arrow.core.getOrElse
 
-// kotlin lists and list functions
+// Kotlin lists and list functions
 
 object Lists {
   @JvmInline value class JobId(val value: Long)

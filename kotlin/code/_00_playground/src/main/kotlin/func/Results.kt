@@ -7,7 +7,7 @@ import arrow.core.raise.ensureNotNull
 import arrow.core.raise.result
 import kotlin.runCatching
 
-// 2 - kotlin results and arrow's results functions
+// 2. Kotlin's results, Arrow's results functions
 
 object Results {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
