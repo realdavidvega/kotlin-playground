@@ -4,7 +4,7 @@ package lang
 
 import kotlinx.datetime.LocalDate
 
-// data classes and data objects
+// Data classes and data objects
 
 object Objects {
   sealed class Tweet {

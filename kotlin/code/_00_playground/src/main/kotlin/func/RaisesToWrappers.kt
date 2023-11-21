@@ -25,7 +25,7 @@ import func.Raises.JobId
 import func.Raises.Role
 import func.Raises.Salary
 
-// 5 - arrow's raises to wrappers
+// 5. Arrow's raises to wrappers
 
 object RaisesToWrappers {
   interface Jobs {

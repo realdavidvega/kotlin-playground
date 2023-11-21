@@ -2,7 +2,7 @@
 
 package lang
 
-// inheritance and delegation
+// Inheritance and delegation
 
 object Delegation {
   interface Operations {

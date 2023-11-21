@@ -13,7 +13,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// 0 - structured concurrency
+// 2. Structured concurrency with coroutines
 
 // coroutine = lightweight "thread"
 // easier to start, schedule, stop...

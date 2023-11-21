@@ -12,7 +12,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// 2 - scheduling and cancellation
+// 3. Scheduling and cancellation of coroutines
 
 // cooperative scheduling - coroutines yield manually
 // expensive on threads

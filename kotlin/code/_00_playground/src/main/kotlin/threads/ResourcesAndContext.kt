@@ -9,7 +9,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// 3 - resources and context
+// 4. Resources and coroutine context
 
 object ResourcesAndContext {
   private const val SEPARATOR = "================================="

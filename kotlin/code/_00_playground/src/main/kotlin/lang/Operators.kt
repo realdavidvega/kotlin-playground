@@ -6,7 +6,7 @@ import arrow.core.getOrElse
 import arrow.core.raise.Raise
 import arrow.core.raise.either
 
-// operator overloading and invoke
+// Operator overloading and invoke
 
 object Operators {
   sealed interface SalaryError {

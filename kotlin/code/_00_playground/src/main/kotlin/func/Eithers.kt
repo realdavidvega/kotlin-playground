@@ -10,7 +10,7 @@ import arrow.core.raise.catch
 import arrow.core.raise.either
 import arrow.core.right
 
-// 3 - arrow's either
+// 3. Arrow's eithers
 
 object Eithers {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
