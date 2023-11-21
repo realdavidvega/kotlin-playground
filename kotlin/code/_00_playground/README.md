@@ -23,3 +23,4 @@
 3. SchedulingAndCancellation: Scheduling and cancellation of coroutines
 4. ResourcesAndContext: Resources and coroutine context
 5. HighLevelConcurrency: High level concurrency with Arrow Fx Coroutines
+6. Resources: Resource safety using Arrow's resources
