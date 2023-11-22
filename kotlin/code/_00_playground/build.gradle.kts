@@ -60,6 +60,8 @@ dependencies {
   implementation("org.jetbrains.kotlinx:kotlinx-datetime:$date_version")
   implementation("io.arrow-kt:arrow-core:$arrow_version")
   implementation("io.arrow-kt:arrow-fx-coroutines:$arrow_version")
+  implementation("io.arrow-kt:arrow-fx-stm:$arrow_version")
+  implementation("io.arrow-kt:arrow-atomic:$arrow_version")
   implementation("io.projectreactor:reactor-core:$reactor_version")
   implementation("io.github.oshai:kotlin-logging-jvm:$logging_version")
   testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
