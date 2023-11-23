@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import io.ktor.plugin.features.javaVersion
 
 val ktor_version: String by project
 val kotlin_version: String by project
@@ -17,8 +18,8 @@ val logging_version: String by project
 val reactor_version: String by project
 
 plugins {
-  kotlin("jvm") version "1.9.10"
-  id("io.ktor.plugin") version "2.2.3"
+  kotlin("jvm") version "1.9.21"
+  id("io.ktor.plugin") version "2.3.6"
   id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
   id("com.diffplug.spotless") version "6.22.0"
 }
@@ -27,7 +28,7 @@ group = "playground"
 
 version = "0.0.1"
 
-java.sourceCompatibility = JavaVersion.VERSION_20
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 application {
   mainClass.set("playground.MainKt")
@@ -38,7 +39,7 @@ application {
 
 ktor {
   docker {
-    jreVersion.set(io.ktor.plugin.features.JreVersion.JRE_17)
+    jreVersion.set(javaVersion)
     localImageName.set("playground-app")
     imageTag.set("0.0.1-preview")
   }
