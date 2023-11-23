@@ -71,6 +71,7 @@ object Eithers {
       JobError.Generic(e.message ?: "Unknown error").left()
     }
 
+  // Monadic style
   fun findByIdV2(id: JobId): Either<JobError, Job> =
     Either.catch { JOBS_DATABASE[id] }
       .mapLeft { JobError.Generic(it.message ?: "Unknown error") }
@@ -119,6 +120,7 @@ object Eithers {
     if (this.isEmpty()) JobError.Generic("No jobs present").left()
     else this.maxBy { it.salary.value }.salary.right()
 
+  // Monadic style
   class JobService(private val jobs: Jobs) {
     // salary gap vs max with Either type
     fun getSalaryGapVsMax(jobId: JobId): Either<JobError, Double> =

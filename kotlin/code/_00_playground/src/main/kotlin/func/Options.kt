@@ -145,7 +145,7 @@ object Options {
       job1.salary.value + job2.salary.value
     }
 
-    // nested
+    // nested / monadic style
     fun salaryGapVsMax(jobId: JobId): Option<Double> {
       val maybeJob: Option<Job> = jobs.findByIdOption(jobId)
       val maybeMaxSalary: Option<Salary> =

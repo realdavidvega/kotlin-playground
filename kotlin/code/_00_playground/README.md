@@ -26,3 +26,7 @@
 6. Resources: Resource safety using Arrow's resources
 7. Transactions: Software transactional memory, or STM, using Arrow Fx STM
 8. Atomicity: Multiplatform atomicity with Arrow Atomic
+
+## Notebooks 
+- Demo: Exploring Kotlin notebooks, charts and dataframes
+- 
