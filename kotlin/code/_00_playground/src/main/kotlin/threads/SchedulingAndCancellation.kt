@@ -4,13 +4,20 @@ package threads
 
 import io.github.oshai.KotlinLogging
 import java.util.concurrent.Executors
+import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
 
 // 3. Scheduling and cancellation of coroutines
 
@@ -18,7 +25,7 @@ import kotlinx.coroutines.launch
 // expensive on threads
 object SchedulingAndCancellation {
   private const val SEPARATOR = "================================="
-  private val logger = KotlinLogging.logger("Learning Coroutines")
+  private val logger = KotlinLogging.logger("learning Coroutines")
 
   private suspend fun workingHard() {
     logger.info { "Working" }
@@ -27,13 +34,13 @@ object SchedulingAndCancellation {
       // do some hard code
     }
     delay(100L)
-    logger.info { "Work done" }
+    logger.info { "work done" }
   }
 
   private suspend fun takeABreak() {
-    logger.info { "Taking a break" }
+    logger.info { "taking a break" }
     delay(1000L)
-    logger.info { "Break done" }
+    logger.info { "break done" }
   }
 
   // coroutine in single thread
@@ -67,13 +74,13 @@ object SchedulingAndCancellation {
 
   // for manually yield, we need a suspending point
   internal suspend fun workingNicely() {
-    logger.info { "Working" }
+    logger.info { "working..." }
     // CPU-intensive computation
     while (true) {
       delay(1000L) // give a change for the dispatcher to run another coroutine
     }
     delay(100L)
-    logger.info { "Work done" }
+    logger.info { "work done" }
   }
 
   // even though we have 1 thread with limited parallelism of 1, we can execute both at same time
@@ -117,7 +124,7 @@ object SchedulingAndCancellation {
 
         // you are sure that the coroutine has been cancelled / stopped or finished
         workingJob.join()
-        logger.info { "I forgot my friend's birthday! Buying a present now!" }
+        logger.info { "forgot my friend's birthday! buying a present now!" }
       }
     }
   }
@@ -128,29 +135,86 @@ object SchedulingAndCancellation {
       val workingJob = launch { workingHard() }
       launch {
         delay(2000L)
-        logger.info { "Trying to stop working..." }
+        logger.info { "trying to stop working..." }
 
         // cancellation happens at first yielding point (NEVER)
         workingJob.cancel()
         // semantically blocks the coroutine
         workingJob.join()
 
-        logger.info { "I forgot my friend's birthday! Buying a present now!" }
+        logger.info { "forgot my friend's birthday! buying a present now!" }
       }
     }
   }
 
+  private suspend fun forgettingUrgentMeeting() {
+    coroutineScope {
+      val workingJob = launch { workingNicely() }
+      launch {
+        delay(2000L)
+        // cancels the job and waits for its completion
+        workingJob.cancelAndJoin()
+        logger.info { "forgot I had an urgent meeting!" }
+      }
+    }
+  }
+
+  // cancel execution of a coroutine is because its execution time has exceeded some timeout
+  // withTimeout throws an exception, but instead we can use withTimeoutOrNull
+  private suspend fun sleepingRoutine(): Unit =
+    withTimeoutOrNull(1300L) {
+      repeat(1000) { i ->
+        logger.info { "sleeping $i..." }
+        delay(500L)
+      }
+      logger.info { "wake up rested" } // will get cancelled before it produces this result
+    } ?: logger.info { "wake up exhausted" }
+
+  context(CoroutineScope)
+  private suspend fun lazilyWorking(): Long = measureTimeMillis {
+    val partTimeJob =
+      async(start = CoroutineStart.LAZY) {
+        logger.info { "working on my first job..." }
+        delay(1000L)
+        10
+      }
+    val partTimeJobTwo =
+      async(start = CoroutineStart.LAZY) {
+        logger.info { "working on my second job..." }
+        delay(1000L)
+        15
+      }
+    // some computation
+    partTimeJob.start() // start the first one
+    partTimeJobTwo.start() // start the second one
+    val sum = partTimeJob.await() + partTimeJobTwo.await()
+    logger.info { "earned $sum dollars" }
+  }
+
   // add -Dkotlinx.coroutines.debug to VM options
-  suspend fun main() {
-    // workHardRoutineParallelOne()
-    // workHardRoutineParallelTwo()
-    // workNicelyRoutine()
-    logger.info { SEPARATOR }
+  @JvmStatic
+  fun main(args: Array<String>) {
+    runBlocking {
+      // workHardRoutineParallelOne()
+      // workHardRoutineParallelTwo()
+      // workNicelyRoutine()
+      // logger.info { SEPARATOR }
 
-    forgettingFriendBirthdayRoutine()
-    logger.info { SEPARATOR }
+      forgettingFriendBirthdayRoutine()
+      logger.info { SEPARATOR }
 
-    // forgettingFriendBirthdayRoutineNonCancelable()
-    logger.info { SEPARATOR }
+      // forgettingFriendBirthdayRoutineNonCancelable()
+      // logger.info { SEPARATOR }
+
+      forgettingUrgentMeeting()
+      logger.info { SEPARATOR }
+
+      sleepingRoutine()
+      logger.info { SEPARATOR }
+
+      val workTime = lazilyWorking()
+      logger.info { "completed in $workTime ms" }
+      logger.info { SEPARATOR }
+    }
   }
 }

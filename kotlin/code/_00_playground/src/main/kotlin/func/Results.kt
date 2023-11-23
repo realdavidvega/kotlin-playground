@@ -147,6 +147,7 @@ object Results {
       maxSalary.value - jobSalary.value
     }
 
+    // Monadic style
     // functionally pure, chained, dealing with errors at more high level (idiomatic)
     fun getSalaryGapVsMax(jobId: JobId): Result<Double> =
       jobs.findById(jobId).flatMap { maybeJob -> // Job? -> Result<...>
