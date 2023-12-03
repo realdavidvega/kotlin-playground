@@ -24,8 +24,12 @@ hs_err_pid*
 
 # folders
 out/*
-build/*
+*build/*
 target/*
 
 # idea
 *.iml
+*.idea
+
+# gradle
+*.gradle
