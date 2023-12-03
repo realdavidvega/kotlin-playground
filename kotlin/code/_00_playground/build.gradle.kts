@@ -20,19 +20,24 @@ val reactor_version: String by project
 plugins {
   kotlin("jvm") version "1.9.21"
   id("io.ktor.plugin") version "2.3.6"
-  id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
+  id("org.jetbrains.kotlin.plugin.serialization") version "1.9.21"
   id("com.diffplug.spotless") version "6.22.0"
 }
 
 group = "playground"
-
 version = "0.0.1"
 
-java.sourceCompatibility = JavaVersion.VERSION_21
+kotlin {
+  jvmToolchain(21)
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_21
+  targetCompatibility = JavaVersion.VERSION_21
+}
 
 application {
   mainClass.set("playground.MainKt")
-
   val isDevelopment: Boolean = project.ext.has("development")
   applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
