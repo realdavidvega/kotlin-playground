@@ -9,9 +9,13 @@ import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.r2dbc.core.awaitOneOrNull
 import org.springframework.stereotype.Repository
 
+interface UserRepository {
+    suspend fun findUserById(id: Long): UserDTO?
+}
+
 @Repository
-class ClientUserRepository(private val client: DatabaseClient) {
-  suspend fun findById(id: Long): UserDTO? =
+class ClientUserRepository(private val client: DatabaseClient) : UserRepository {
+  override suspend fun findUserById(id: Long): UserDTO? =
     this.client
       .sql("SELECT * FROM users WHERE id = $id")
       .map { row ->
@@ -25,8 +29,8 @@ class ClientUserRepository(private val client: DatabaseClient) {
 }
 
 @Repository
-class TemplateUserRepository(private val template: R2dbcEntityTemplate) {
-  suspend fun findById(id: Long): UserDTO? =
+class TemplateUserRepository(private val template: R2dbcEntityTemplate) : UserRepository{
+  override suspend fun findUserById(id: Long): UserDTO? =
     template
       .select(UserDTO::class.java)
       .from("users")
@@ -35,6 +39,6 @@ class TemplateUserRepository(private val template: R2dbcEntityTemplate) {
 }
 
 @Repository
-interface CoroutineUserRepository : CoroutineCrudRepository<UserDTO, Long> {
-  override suspend fun findById(id: Long): UserDTO?
+interface CoroutineUserRepository : UserRepository, CoroutineCrudRepository<UserDTO, Long> {
+  override suspend fun findUserById(id: Long): UserDTO? = this.findById(id)
 }
