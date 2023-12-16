@@ -16,30 +16,30 @@ import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator
 @EnableR2dbcRepositories
 class DatabaseConfig : AbstractR2dbcConfiguration() {
 
-    @Bean
-    override fun connectionFactory(): ConnectionFactory =
-        PostgresqlConnectionFactory(
-            PostgresqlConnectionConfiguration.builder()
-                .host("localhost")
-                .database("someDb")
-                .username("someUser")
-                .password("somePassword")
-                .build()
-        )
+  @Bean
+  override fun connectionFactory(): ConnectionFactory =
+    PostgresqlConnectionFactory(
+      PostgresqlConnectionConfiguration.builder()
+        .host("localhost")
+        .database("someDb")
+        .username("someUser")
+        .password("somePassword")
+        .build()
+    )
 
-    @Bean
-    fun databaseInitializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer =
-        ConnectionFactoryInitializer().apply {
-            setConnectionFactory(connectionFactory)
-            setDatabasePopulator(
-                CompositeDatabasePopulator().apply {
-                    addPopulators(
-                        ResourceDatabasePopulator(
-                            ClassPathResource("sql/schema.sql"),
-                            ClassPathResource("sql/data.sql")
-                        )
-                    )
-                }
+  @Bean
+  fun databaseInitializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer =
+    ConnectionFactoryInitializer().apply {
+      setConnectionFactory(connectionFactory)
+      setDatabasePopulator(
+        CompositeDatabasePopulator().apply {
+          addPopulators(
+            ResourceDatabasePopulator(
+              ClassPathResource("sql/schema.sql"),
+              ClassPathResource("sql/data.sql")
             )
+          )
         }
+      )
+    }
 }

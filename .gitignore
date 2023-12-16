@@ -31,5 +31,10 @@ target/*
 *.iml
 *.idea
 
-# gradle
+# build
 *.gradle
+*.mvn
+**/build/
+
+# macOS
+*.DS_Store
