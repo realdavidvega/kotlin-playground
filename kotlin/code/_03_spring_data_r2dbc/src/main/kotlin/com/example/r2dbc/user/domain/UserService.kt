@@ -10,6 +10,7 @@ interface UserService {
 
   sealed class Error(val message: String) {
     data object UserNotFound : Error("User not found.")
+
     data object Internal : Error("Internal error.")
   }
 

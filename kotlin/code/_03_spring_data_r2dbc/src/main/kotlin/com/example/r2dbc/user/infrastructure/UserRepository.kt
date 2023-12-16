@@ -10,7 +10,7 @@ import org.springframework.r2dbc.core.awaitOneOrNull
 import org.springframework.stereotype.Repository
 
 interface UserRepository {
-    suspend fun findUserById(id: Long): UserDTO?
+  suspend fun findUserById(id: Long): UserDTO?
 }
 
 @Repository
@@ -29,7 +29,7 @@ class ClientUserRepository(private val client: DatabaseClient) : UserRepository 
 }
 
 @Repository
-class TemplateUserRepository(private val template: R2dbcEntityTemplate) : UserRepository{
+class TemplateUserRepository(private val template: R2dbcEntityTemplate) : UserRepository {
   override suspend fun findUserById(id: Long): UserDTO? =
     template
       .select(UserDTO::class.java)

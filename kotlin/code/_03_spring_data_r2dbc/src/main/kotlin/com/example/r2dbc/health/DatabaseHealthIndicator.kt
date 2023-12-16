@@ -31,5 +31,7 @@ class DatabaseHealthIndicator(
       withContext(scope.coroutineContext) {
         template.select(UserDTO::class.java).from("users").awaitOneOrNull().let {}
       }
-    }) { exception -> raise(exception) }
+    }) { exception ->
+      raise(exception)
+    }
 }
