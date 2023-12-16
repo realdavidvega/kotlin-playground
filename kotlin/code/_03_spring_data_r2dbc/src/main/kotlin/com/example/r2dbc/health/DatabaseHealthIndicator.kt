@@ -1,7 +1,7 @@
 package com.example.r2dbc.health
 
 import arrow.core.Either
-import com.example.r2dbc.users.UserDTO
+import com.example.r2dbc.user.infrastructure.UserDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -13,25 +13,20 @@ import org.springframework.stereotype.Component
 
 @Component("usersDb")
 class DatabaseHealthIndicator(
-    private val template: R2dbcEntityTemplate,
-    private val scope: CoroutineScope
+  private val template: R2dbcEntityTemplate,
+  private val scope: CoroutineScope
 ) : HealthIndicator {
 
-    override fun health(): Health =
-        runBlocking {
-            doHealthCheck().fold(
-                { Health.outOfService().withException(it).build() },
-                { Health.up().build() }
-            )
-        }
+  override fun health(): Health = runBlocking {
+    doHealthCheck()
+      .fold({ Health.outOfService().withException(it).build() }, { Health.up().build() })
+  }
 
-    suspend fun doHealthCheck(): Either<Throwable, Unit> =
-        Either.catch {
-            withContext(scope.coroutineContext) {
-                template.select(UserDTO::class.java)
-                    .from("users")
-                    .awaitOneOrNull()
-                    .let { }
-            }
-        }.mapLeft { it }
+  suspend fun doHealthCheck(): Either<Throwable, Unit> =
+    Either.catch {
+        withContext(scope.coroutineContext) {
+          template.select(UserDTO::class.java).from("users").awaitOneOrNull().let {}
+        }
+      }
+      .mapLeft { it }
 }
