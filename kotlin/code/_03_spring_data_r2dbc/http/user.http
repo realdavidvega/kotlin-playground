@@ -5,3 +5,11 @@
 GET {{host}}/users/1
 Accept: application/json
 
+###
+
+###
+# GET All Users Details
+###
+
+GET {{host}}/users
+Accept: application/json
