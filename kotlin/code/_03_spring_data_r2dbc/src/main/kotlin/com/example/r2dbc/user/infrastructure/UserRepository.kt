@@ -25,6 +25,9 @@ interface UserRepository {
   }
 }
 
+/*
+ * First example of repository using DatabaseClient with Spring R2DBC Kotlin extensions
+ */
 @Repository
 class ClientUserRepository(private val client: DatabaseClient) : UserRepository {
   override suspend fun findUserById(id: Long): UserDTO? =
@@ -40,7 +43,9 @@ class ClientUserRepository(private val client: DatabaseClient) : UserRepository 
           row.get("email") as String,
       )
 }
-
+/*
+ * Second example of repository using R2dbcEntityTemplate with Spring R2DBC Kotlin extensions
+ */
 @Repository
 class TemplateUserRepository(private val template: R2dbcEntityTemplate) : UserRepository {
   override suspend fun findUserById(id: Long): UserDTO? =
@@ -54,15 +59,19 @@ class TemplateUserRepository(private val template: R2dbcEntityTemplate) : UserRe
       template.select(UserDTO::class.java).from(USERS).flow()
 }
 
+/*
+ * Third example of repository using CoroutineCrudRepository, which allows to access the DB in a
+ * reactive way using support for Kotlin coroutines.
+ *
+ * This is the default repository used in this application.
+ */
 interface CoroutineCrudUserRepository : CoroutineCrudRepository<UserDTO, Long> {
     override suspend fun findById(id: Long): UserDTO?
     override fun findAll(): Flow<UserDTO>
 }
 
 @Repository
-class CoroutineUserRepository(
-    private val repository: CoroutineCrudUserRepository
-) : UserRepository {
+class CoroutineUserRepository(private val repository: CoroutineCrudUserRepository) : UserRepository {
   override suspend fun findUserById(id: Long): UserDTO? = repository.findById(id)
   override fun findAllUsers(): Flow<UserDTO> = repository.findAll()
 }

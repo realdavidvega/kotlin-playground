@@ -20,7 +20,7 @@ interface UserService {
   context(Raise<Error>)
   suspend fun findUserById(id: Long): User
 
-  context(Raise<Error>)
+  context(Raise<Error.Internal>)
   fun findAllUsers(): Flow<User>
 }
 
