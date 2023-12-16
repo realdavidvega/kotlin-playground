@@ -1,6 +1,9 @@
 package com.example.r2dbc.health
 
-import arrow.core.Either
+import arrow.core.getOrElse
+import arrow.core.raise.Raise
+import arrow.core.raise.catch
+import arrow.core.raise.either
 import com.example.r2dbc.user.infrastructure.UserDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
@@ -18,15 +21,15 @@ class DatabaseHealthIndicator(
 ) : HealthIndicator {
 
   override fun health(): Health = runBlocking {
-    doHealthCheck()
-      .fold({ Health.outOfService().withException(it).build() }, { Health.up().build() })
+    either { doHealthCheck() }
+      .map { Health.up().build() }
+      .getOrElse { error -> Health.outOfService().withException(error).build() }
   }
 
-  suspend fun doHealthCheck(): Either<Throwable, Unit> =
-    Either.catch {
-        withContext(scope.coroutineContext) {
-          template.select(UserDTO::class.java).from("users").awaitOneOrNull().let {}
-        }
+  suspend fun Raise<Throwable>.doHealthCheck(): Unit =
+    catch({
+      withContext(scope.coroutineContext) {
+        template.select(UserDTO::class.java).from("users").awaitOneOrNull().let {}
       }
-      .mapLeft { it }
+    }) { exception -> raise(exception) }
 }

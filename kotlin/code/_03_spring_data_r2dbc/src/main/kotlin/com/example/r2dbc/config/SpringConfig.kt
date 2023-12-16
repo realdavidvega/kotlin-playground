@@ -35,5 +35,5 @@ class SpringScope(coroutineDispatcher: CoroutineDispatcher) : CoroutineScope, Di
         }
       }
 
-  override fun destroy() = runBlocking { job.cancelAndJoin() }
+  override fun destroy(): Unit = runBlocking { job.cancelAndJoin() }
 }
