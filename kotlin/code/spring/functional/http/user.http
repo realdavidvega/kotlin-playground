@@ -1,0 +1,15 @@
+###
+# GET Person Details
+###
+
+GET {{host}}/persons/1
+Accept: application/json
+
+###
+
+###
+# GET All Person Details
+###
+
+GET {{host}}/persons
+Accept: application/json
