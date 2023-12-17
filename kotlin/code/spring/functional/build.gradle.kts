@@ -5,7 +5,7 @@ plugins {
   base
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.kotlin.spring)
-  alias(libs.plugins.kotlinx.serialization)
+  alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.spring.boot)
   alias(libs.plugins.spring.dependency.management)
   alias(libs.plugins.spotless)
@@ -32,6 +32,11 @@ spotless {
 }
 
 kotlin { jvmToolchain(21) }
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_21
+  targetCompatibility = JavaVersion.VERSION_21
+}
 
 tasks.test { useJUnitPlatform() }
 
