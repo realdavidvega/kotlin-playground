@@ -6,6 +6,6 @@ services:
       - 5432:5432
     restart: always
     environment:
-      POSTGRES_DB: userDb
+      POSTGRES_DB: usersDb
       POSTGRES_USER: someUser
       POSTGRES_PASSWORD: somePassword
