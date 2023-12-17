@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
   application
   base
@@ -38,8 +36,8 @@ java {
   targetCompatibility = JavaVersion.VERSION_21
 }
 
-tasks.test { useJUnitPlatform() }
-
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers")
+tasks {
+  wrapper { gradleVersion = "8.5" }
+  compileKotlin { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
+  test { useJUnitPlatform() }
 }
