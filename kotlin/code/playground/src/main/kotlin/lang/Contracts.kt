@@ -6,13 +6,13 @@ import arrow.core.raise.catch
 import arrow.core.raise.either
 import arrow.fx.stm.TMap
 import arrow.fx.stm.atomically
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
+import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import lang.Contracts.RegisterController
 import lang.Contracts.RegisterService
 import lang.Contracts.UserRepository
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
-import kotlin.random.Random
 
 object Contracts {
 
@@ -46,16 +46,16 @@ object Contracts {
 
     companion object {
       operator fun invoke(db: TMap<UserId, User>): UserRepository =
-          UserRepository { email, password ->
-            catch({
-              val userId = UserId(value = Random.nextInt())
-              val user = User(userId, Email(email), Password(password))
-              atomically { db.insert(userId, user) }
-              userId
-            }) { e ->
-              raise(RegisterError.Generic(e.message ?: "unknown error"))
-            }
+        UserRepository { email, password ->
+          catch({
+            val userId = UserId(value = Random.nextInt())
+            val user = User(userId, Email(email), Password(password))
+            atomically { db.insert(userId, user) }
+            userId
+          }) { e ->
+            raise(RegisterError.Generic(e.message ?: "unknown error"))
           }
+        }
     }
   }
 
@@ -64,13 +64,13 @@ object Contracts {
 
     companion object {
       operator fun invoke(repository: UserRepository): RegisterService =
-          RegisterService { request ->
-            either {
-                  val userId = repository.save(request.email, request.password)
-                  RegisterResponse.Success(userId)
-                }
-                .getOrElse { error -> RegisterResponse.Failure(error) }
-          }
+        RegisterService { request ->
+          either {
+              val userId = repository.save(request.email, request.password)
+              RegisterResponse.Success(userId)
+            }
+            .getOrElse { error -> RegisterResponse.Failure(error) }
+        }
     }
   }
 
@@ -79,23 +79,23 @@ object Contracts {
 
     companion object {
       operator fun invoke(registerService: RegisterService): RegisterController =
-          RegisterController { request ->
-            val response = registerService.register(request)
+        RegisterController { request ->
+          val response = registerService.register(request)
 
-            // some logging
-            when (response) {
-              is RegisterResponse.Success -> println("registered user: ${response.userId.value}")
-              is RegisterResponse.Failure -> println("failed to register user: ${response.error}")
-            }
-
-            // alternative using contracts
-            if (isSuccessful(response)) {
-              println("registered user: ${response.userId.value}")
-            } else {
-              println("failed to register user: ${response.error}")
-            }
-            response
+          // some logging
+          when (response) {
+            is RegisterResponse.Success -> println("registered user: ${response.userId.value}")
+            is RegisterResponse.Failure -> println("failed to register user: ${response.error}")
           }
+
+          // alternative using contracts
+          if (isSuccessful(response)) {
+            println("registered user: ${response.userId.value}")
+          } else {
+            println("failed to register user: ${response.error}")
+          }
+          response
+        }
     }
   }
 

@@ -35,13 +35,16 @@ fun application(): SpringApplication =
 private fun BeanDefinitionDsl.databaseConfig(): Unit {
     with(DatabaseConfig()) {
         bean { connectionFactory() }
-        bean { databaseInitializer(ref<ConnectionFactory>()) }
+        bean {
+            val connectionFactory = ref<ConnectionFactory>()
+            databaseInitializer(connectionFactory)
+        }
     }
 }
 
 private fun BeanDefinitionDsl.personController(): Unit =
     bean {
-        val template = ref<PersonRepository>()
-        val handler = PersonHandler(template)
+        val repository = ref<PersonRepository>()
+        val handler = PersonHandler(repository)
         PersonController(handler)
     }

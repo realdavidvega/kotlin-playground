@@ -14,7 +14,7 @@ import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
 import org.springframework.data.r2dbc.core.awaitOneOrNull
 import org.springframework.stereotype.Component
 
-@Component("userDB")
+@Component("usersDb")
 class DatabaseHealthIndicator(
   private val template: R2dbcEntityTemplate,
   private val scope: CoroutineScope

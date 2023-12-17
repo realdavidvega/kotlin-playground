@@ -23,8 +23,8 @@ interface PersonController {
                         either {
                             val persons = handler.readAll()
                             ok().contentType(APPLICATION_JSON).bodyAndAwait(persons)
-                        }.getOrElse {
-                            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).buildAndAwait()
+                        }.getOrElse { error ->
+                            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValueAndAwait(error.message)
                         }
                     }
                     GET("/{id}") { request ->
@@ -34,10 +34,11 @@ interface PersonController {
                             ok().contentType(APPLICATION_JSON).bodyValueAndAwait(person)
                         }.getOrElse { error ->
                             when (error) {
-                                is PersonHandler.Error.GenericError ->
-                                    ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).buildAndAwait()
+                                is PersonHandler.Error.Internal ->
+                                    ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                        .bodyValueAndAwait(error.message)
 
-                                is PersonHandler.Error.PersonNotFound ->
+                                is PersonHandler.Error.NotFound ->
                                     ServerResponse.notFound().buildAndAwait()
                             }
                         }
