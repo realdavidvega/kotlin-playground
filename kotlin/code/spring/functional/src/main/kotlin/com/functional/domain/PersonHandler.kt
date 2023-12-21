@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 
 interface PersonHandler {
     context(Raise<Error.Internal>)
-    suspend fun readAll(): Flow<Person>
+    fun readAll(): Flow<Person>
 
     context(Raise<Error>)
     suspend fun readOne(id: Long): Person
@@ -22,7 +22,7 @@ interface PersonHandler {
     companion object {
         operator fun invoke(personRepository: PersonRepository): PersonHandler = object : PersonHandler {
             context(Raise<Error.Internal>)
-            override suspend fun readAll(): Flow<Person> =
+            override fun readAll(): Flow<Person> =
                 catch({ personRepository.findAll().map(::toDomain) }) {
                     raise(Error.Internal)
                 }

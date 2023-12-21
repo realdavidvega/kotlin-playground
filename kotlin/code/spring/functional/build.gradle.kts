@@ -1,11 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
   application
   base
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.kotlin.spring)
-  alias(libs.plugins.kotlinx.serialization)
+  alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.spring.boot)
   alias(libs.plugins.spring.dependency.management)
   alias(libs.plugins.spotless)
@@ -33,8 +31,13 @@ spotless {
 
 kotlin { jvmToolchain(21) }
 
-tasks.test { useJUnitPlatform() }
+java {
+  sourceCompatibility = JavaVersion.VERSION_21
+  targetCompatibility = JavaVersion.VERSION_21
+}
 
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers")
+tasks {
+  wrapper { gradleVersion = "8.5" }
+  compileKotlin { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
+  test { useJUnitPlatform() }
 }

@@ -1,7 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import io.ktor.plugin.features.javaVersion
+import io.ktor.plugin.features.*
 
 val ktor_version: String by project
 val kotlin_version: String by project
@@ -25,11 +24,10 @@ plugins {
 }
 
 group = "playground"
+
 version = "0.0.1"
 
-kotlin {
-  jvmToolchain(21)
-}
+kotlin { jvmToolchain(21) }
 
 java {
   sourceCompatibility = JavaVersion.VERSION_21
@@ -80,16 +78,13 @@ dependencies {
 spotless {
   kotlin {
     target("**/*.kt")
+    target("**/*.kts")
     ktfmt("0.46").googleStyle()
   }
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions {
-    freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
-  }
+tasks {
+  wrapper { gradleVersion = "8.5" }
+  compileKotlin { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
+  test { useJUnitPlatform() }
 }
-
-// tasks.withType<Test>().configureEach {
-//    useJUnitPlatform()
-// }
