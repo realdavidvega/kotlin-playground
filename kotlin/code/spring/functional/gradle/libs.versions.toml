@@ -1,4 +1,7 @@
 [versions]
+# Gradle
+gradle = "8.5"
+
 # Kotlin
 kotlin = "1.9.21"
 kotlin-serialization-json = "1.6.2"
@@ -16,8 +19,15 @@ reactor-test = "3.6.1"
 # Arrow
 arrow = "1.2.0"
 
-# Other
+# Spotless
 spotless = "6.22.0"
+ktfmt = "0.46"
+
+# Ktlint
+ktlint = "1.1.0"
+ktlint-gradle = "12.0.3"
+
+# Other
 r2dbc-postgresql = "1.0.3.RELEASE"
 
 [libraries]
@@ -83,5 +93,8 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 spring-boot = { id = "org.springframework.boot", version.ref = "spring" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
 
-# Other
+# Spotless
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+
+# Ktlint
+ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }

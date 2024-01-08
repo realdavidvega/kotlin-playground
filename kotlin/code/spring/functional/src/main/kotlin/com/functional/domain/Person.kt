@@ -8,5 +8,5 @@ data class Person(
     val id: Long,
     val firstName: String,
     val lastName: String,
-    val birthdate: LocalDate? = null
+    val birthdate: LocalDate?
 )

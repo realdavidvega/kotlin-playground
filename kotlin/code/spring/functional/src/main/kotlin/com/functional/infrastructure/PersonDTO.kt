@@ -10,5 +10,5 @@ data class PersonDTO(
     @Id val id: Long,
     @Column("firstName") val firstName: String,
     @Column("lastName") val lastName: String,
-    @Column("birthdate") val birthdate: LocalDate? = null,
+    @Column("birthdate") val birthdate: LocalDate?,
 )

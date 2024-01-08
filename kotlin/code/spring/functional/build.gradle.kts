@@ -1,12 +1,19 @@
+<<<<<<< Updated upstream
+||||||| constructed merge base
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+=======
+
+>>>>>>> Stashed changes
 plugins {
   application
-  base
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.kotlin.spring)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.spring.boot)
   alias(libs.plugins.spring.dependency.management)
   alias(libs.plugins.spotless)
+  alias(libs.plugins.ktlint.gradle)
 }
 
 repositories { mavenCentral() }
@@ -25,8 +32,12 @@ spotless {
   kotlin {
     target("**/*.kt")
     target("**/*.kts")
-    ktfmt("0.46").googleStyle()
+    ktfmt(libs.versions.ktfmt.get()).googleStyle()
   }
+}
+
+ktlint{
+  version.set(libs.versions.ktfmt.get())
 }
 
 kotlin { jvmToolchain(21) }
@@ -37,7 +48,10 @@ java {
 }
 
 tasks {
-  wrapper { gradleVersion = "8.5" }
-  compileKotlin { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
+  wrapper {
+    gradleVersion = libs.versions.gradle.get()
+    distributionType = Wrapper.DistributionType.ALL
+  }
+  compileKotlin { kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers") }
   test { useJUnitPlatform() }
 }
