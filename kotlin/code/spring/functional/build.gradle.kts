@@ -1,10 +1,4 @@
-<<<<<<< Updated upstream
-||||||| constructed merge base
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-=======
-
->>>>>>> Stashed changes
 plugins {
   application
   alias(libs.plugins.kotlin.jvm)
@@ -36,7 +30,7 @@ spotless {
   }
 }
 
-ktlint{
+ktlint {
   version.set(libs.versions.ktfmt.get())
 }
 
