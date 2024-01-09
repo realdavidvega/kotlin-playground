@@ -17,6 +17,21 @@ typealias Router = RouterFunction<ServerResponse>
 interface PersonController {
   companion object {
     operator fun invoke(handler: PersonHandler): Router = coRouter {
+      GET("/{id}") { request ->
+        either {
+            val id = request.pathVariable("id").toLong()
+            val person = handler.readOne(id)
+            ok().contentType(APPLICATION_JSON).bodyValueAndAwait(person)
+          }
+          .getOrElse { error ->
+            when (error) {
+              is PersonHandler.Error.Internal ->
+                ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                  .bodyValueAndAwait("${error.message}: ${error.detail}")
+              is PersonHandler.Error.NotFound -> ServerResponse.notFound().buildAndAwait()
+            }
+          }
+      }
       "/persons"
         .nest {
           GET("") {
@@ -26,22 +41,7 @@ interface PersonController {
               }
               .getOrElse { error ->
                 ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                  .bodyValueAndAwait(error.message)
-              }
-          }
-          GET("/{id}") { request ->
-            either {
-                val id = request.pathVariable("id").toLong()
-                val person = handler.readOne(id)
-                ok().contentType(APPLICATION_JSON).bodyValueAndAwait(person)
-              }
-              .getOrElse { error ->
-                when (error) {
-                  is PersonHandler.Error.Internal ->
-                    ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                      .bodyValueAndAwait(error.message)
-                  is PersonHandler.Error.NotFound -> ServerResponse.notFound().buildAndAwait()
-                }
+                  .bodyValueAndAwait("${error.message}: ${error.detail}")
               }
           }
         }

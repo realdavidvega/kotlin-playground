@@ -8,29 +8,31 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 interface PersonHandler {
-  context(Raise<Error.Internal>)
-  fun readAll(): Flow<Person>
-
   context(Raise<Error>)
   suspend fun readOne(id: Long): Person
+
+  context(Raise<Error.Internal>)
+  fun readAll(): Flow<Person>
 
   sealed class Error(val message: String) {
     data class NotFound(val id: Long) : Error("Person with id $id not found")
 
-    data object Internal : Error("Something went wrong")
+    data class Internal(val detail: String) : Error("Something went wrong")
   }
 
   companion object {
-    operator fun invoke(personRepository: PersonRepository): PersonHandler =
+    operator fun invoke(repository: PersonRepository): PersonHandler =
       object : PersonHandler {
-        context(Raise<Error.Internal>)
-        override fun readAll(): Flow<Person> =
-          catch({ personRepository.findAll().map(::toDomain) }) { raise(Error.Internal) }
-
         context(Raise<Error>)
         override suspend fun readOne(id: Long): Person =
-          catch({ personRepository.findById(id)?.let(::toDomain) ?: raise(Error.NotFound(id)) }) {
-            raise(Error.Internal)
+          catch({ repository.findById(id)?.let(::toDomain) ?: raise(Error.NotFound(id)) }) { e ->
+            raise(Error.Internal(e.message ?: "Unknown error"))
+          }
+
+        context(Raise<Error.Internal>)
+        override fun readAll(): Flow<Person> =
+          catch({ repository.findAll().map(::toDomain) }) { e ->
+            raise(Error.Internal(e.message ?: "Unknown error"))
           }
 
         private fun toDomain(person: PersonDTO): Person =
