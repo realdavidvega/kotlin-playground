@@ -24,8 +24,9 @@ dependencies {
 
 spotless {
   kotlin {
-    target("**/*.kt")
-    target("**/*.kts")
+    ktfmt(libs.versions.ktfmt.get()).googleStyle()
+  }
+  kotlinGradle {
     ktfmt(libs.versions.ktfmt.get()).googleStyle()
   }
 }
