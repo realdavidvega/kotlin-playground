@@ -15,35 +15,36 @@ import org.springframework.web.reactive.function.server.coRouter
 typealias Router = RouterFunction<ServerResponse>
 
 interface PersonController {
-    companion object {
-        operator fun invoke(handler: PersonHandler): Router =
-            coRouter {
-                "/persons".nest {
-                    GET("") {
-                        either {
-                            val persons = handler.readAll()
-                            ok().contentType(APPLICATION_JSON).bodyAndAwait(persons)
-                        }.getOrElse { error ->
-                            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValueAndAwait(error.message)
-                        }
-                    }
-                    GET("/{id}") { request ->
-                        either {
-                            val id = request.pathVariable("id").toLong()
-                            val person = handler.readOne(id)
-                            ok().contentType(APPLICATION_JSON).bodyValueAndAwait(person)
-                        }.getOrElse { error ->
-                            when (error) {
-                                is PersonHandler.Error.Internal ->
-                                    ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .bodyValueAndAwait(error.message)
-
-                                is PersonHandler.Error.NotFound ->
-                                    ServerResponse.notFound().buildAndAwait()
-                            }
-                        }
-                    }
+  companion object {
+    operator fun invoke(handler: PersonHandler): Router = coRouter {
+      "/persons"
+        .nest {
+          GET("") {
+            either {
+                val persons = handler.readAll()
+                ok().contentType(APPLICATION_JSON).bodyAndAwait(persons)
+              }
+              .getOrElse { error ->
+                ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                  .bodyValueAndAwait(error.message)
+              }
+          }
+          GET("/{id}") { request ->
+            either {
+                val id = request.pathVariable("id").toLong()
+                val person = handler.readOne(id)
+                ok().contentType(APPLICATION_JSON).bodyValueAndAwait(person)
+              }
+              .getOrElse { error ->
+                when (error) {
+                  is PersonHandler.Error.Internal ->
+                    ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                      .bodyValueAndAwait(error.message)
+                  is PersonHandler.Error.NotFound -> ServerResponse.notFound().buildAndAwait()
                 }
-            }
+              }
+          }
+        }
     }
+  }
 }

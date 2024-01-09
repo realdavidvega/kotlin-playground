@@ -8,38 +8,38 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 interface PersonHandler {
-    context(Raise<Error.Internal>)
-    fun readAll(): Flow<Person>
+  context(Raise<Error.Internal>)
+  fun readAll(): Flow<Person>
 
-    context(Raise<Error>)
-    suspend fun readOne(id: Long): Person
+  context(Raise<Error>)
+  suspend fun readOne(id: Long): Person
 
-    sealed class Error(val message: String) {
-        data class NotFound(val id: Long) : Error("Person with id $id not found")
-        data object Internal : Error("Something went wrong")
-    }
+  sealed class Error(val message: String) {
+    data class NotFound(val id: Long) : Error("Person with id $id not found")
 
-    companion object {
-        operator fun invoke(personRepository: PersonRepository): PersonHandler = object : PersonHandler {
-            context(Raise<Error.Internal>)
-            override fun readAll(): Flow<Person> =
-                catch({ personRepository.findAll().map(::toDomain) }) {
-                    raise(Error.Internal)
-                }
+    data object Internal : Error("Something went wrong")
+  }
 
-            context(Raise<Error>)
-            override suspend fun readOne(id: Long): Person =
-                catch({ personRepository.findById(id)?.let(::toDomain) ?: raise(Error.NotFound(id)) }) {
-                    raise(Error.Internal)
-                }
+  companion object {
+    operator fun invoke(personRepository: PersonRepository): PersonHandler =
+      object : PersonHandler {
+        context(Raise<Error.Internal>)
+        override fun readAll(): Flow<Person> =
+          catch({ personRepository.findAll().map(::toDomain) }) { raise(Error.Internal) }
 
-            private fun toDomain(person: PersonDTO): Person =
-                Person(
-                    id = person.id,
-                    firstName = person.firstName,
-                    lastName = person.lastName,
-                    birthdate = person.birthdate
-                )
-        }
-    }
+        context(Raise<Error>)
+        override suspend fun readOne(id: Long): Person =
+          catch({ personRepository.findById(id)?.let(::toDomain) ?: raise(Error.NotFound(id)) }) {
+            raise(Error.Internal)
+          }
+
+        private fun toDomain(person: PersonDTO): Person =
+          Person(
+            id = person.id,
+            firstName = person.firstName,
+            lastName = person.lastName,
+            birthdate = person.birthdate
+          )
+      }
+  }
 }

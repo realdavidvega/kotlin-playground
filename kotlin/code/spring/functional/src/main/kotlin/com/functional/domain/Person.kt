@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Person(
-    val id: Long,
-    val firstName: String,
-    val lastName: String,
-    val birthdate: LocalDate?
+  val id: Long,
+  val firstName: String,
+  val lastName: String,
+  val birthdate: LocalDate?
 )

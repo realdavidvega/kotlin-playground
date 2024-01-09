@@ -1,4 +1,3 @@
-
 plugins {
   application
   alias(libs.plugins.kotlin.jvm)
@@ -7,7 +6,7 @@ plugins {
   alias(libs.plugins.spring.boot)
   alias(libs.plugins.spring.dependency.management)
   alias(libs.plugins.spotless)
-  alias(libs.plugins.ktlint.gradle)
+  alias(libs.plugins.gradle.ktlint)
 }
 
 repositories { mavenCentral() }
@@ -23,17 +22,11 @@ dependencies {
 }
 
 spotless {
-  kotlin {
-    ktfmt(libs.versions.ktfmt.get()).googleStyle()
-  }
-  kotlinGradle {
-    ktfmt(libs.versions.ktfmt.get()).googleStyle()
-  }
+  kotlin { ktfmt(libs.versions.ktfmt.get()).googleStyle() }
+  kotlinGradle { ktfmt(libs.versions.ktfmt.get()).googleStyle() }
 }
 
-ktlint {
-  version.set(libs.versions.ktfmt.get())
-}
+ktlint { version.set(libs.versions.ktlint.get()) }
 
 kotlin { jvmToolchain(21) }
 
@@ -44,8 +37,8 @@ java {
 
 tasks {
   wrapper {
-    gradleVersion = libs.versions.gradle.get()
-    distributionType = Wrapper.DistributionType.ALL
+    gradleVersion = libs.versions.gradle.wrapper.get()
+    distributionType = Wrapper.DistributionType.BIN
   }
   compileKotlin { kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers") }
   test { useJUnitPlatform() }
