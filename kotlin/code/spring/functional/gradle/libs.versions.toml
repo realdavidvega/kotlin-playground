@@ -1,6 +1,6 @@
 [versions]
 # Gradle
-gradle = "8.5"
+gradle-wrapper = "8.4"
 
 # Kotlin
 kotlin = "1.9.21"
@@ -25,7 +25,7 @@ ktfmt = "0.46"
 
 # Ktlint
 ktlint = "1.1.0"
-ktlint-gradle = "12.0.3"
+gradle-ktlint = "12.0.3"
 
 # Other
 r2dbc-postgresql = "1.0.3.RELEASE"
@@ -36,6 +36,7 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 # Spring
 spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
@@ -97,4 +98,4 @@ spring-dependency-management = { id = "io.spring.dependency-management", version
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 # Ktlint
-ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
+gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradle-ktlint" }
