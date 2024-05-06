@@ -13,38 +13,35 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories
 
 @Suppress("SpreadOperator")
 fun main(args: Array<String>) {
-    application().run(*args)
+  application().run(*args)
 }
 
-@SpringBootApplication
-@EnableR2dbcRepositories
-class SpringFunctionalApp
+@SpringBootApplication @EnableR2dbcRepositories class SpringFunctionalApp
 
 fun application(): SpringApplication =
-    springApplication<SpringFunctionalApp> {
-        addInitializers {
-            listOf(
-                beans {
-                    databaseConfig()
-                    personController()
-                }
-            )
+  springApplication<SpringFunctionalApp> {
+    addInitializers {
+      listOf(
+        beans {
+          databaseConfig()
+          personController()
         }
+      )
     }
+  }
 
 private fun BeanDefinitionDsl.databaseConfig(): Unit {
-    with(DatabaseConfig()) {
-        bean { connectionFactory() }
-        bean {
-            val connectionFactory = ref<ConnectionFactory>()
-            databaseInitializer(connectionFactory)
-        }
+  with(DatabaseConfig()) {
+    bean { connectionFactory() }
+    bean {
+      val connectionFactory = ref<ConnectionFactory>()
+      databaseInitializer(connectionFactory)
     }
+  }
 }
 
-private fun BeanDefinitionDsl.personController(): Unit =
-    bean {
-        val repository = ref<PersonRepository>()
-        val handler = PersonHandler(repository)
-        PersonController(handler)
-    }
+private fun BeanDefinitionDsl.personController(): Unit = bean {
+  val repository = ref<PersonRepository>()
+  val handler = PersonHandler(repository)
+  PersonController(handler)
+}

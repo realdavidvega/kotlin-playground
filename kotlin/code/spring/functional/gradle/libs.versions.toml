@@ -1,4 +1,7 @@
 [versions]
+# Gradle
+gradle-wrapper = "8.4"
+
 # Kotlin
 kotlin = "1.9.21"
 kotlin-serialization-json = "1.6.2"
@@ -16,8 +19,15 @@ reactor-test = "3.6.1"
 # Arrow
 arrow = "1.2.0"
 
-# Other
+# Spotless
 spotless = "6.22.0"
+ktfmt = "0.46"
+
+# Ktlint
+ktlint = "1.1.0"
+gradle-ktlint = "12.0.3"
+
+# Other
 r2dbc-postgresql = "1.0.3.RELEASE"
 
 [libraries]
@@ -26,6 +36,7 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 # Spring
 spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
@@ -83,5 +94,8 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 spring-boot = { id = "org.springframework.boot", version.ref = "spring" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
 
-# Other
+# Spotless
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+
+# Ktlint
+gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradle-ktlint" }
