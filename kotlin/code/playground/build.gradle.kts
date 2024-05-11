@@ -15,6 +15,7 @@ val dotenv_version: String by project
 val arrow_version: String by project
 val logging_version: String by project
 val reactor_version: String by project
+val coroutines_version: String by project
 
 plugins {
   kotlin("jvm") version "1.9.21"
@@ -54,6 +55,7 @@ repositories {
 }
 
 dependencies {
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
   implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
   implementation("io.ktor:ktor-server-resources:$ktor_version")
   implementation("io.ktor:ktor-server-default-headers:$ktor_version")
