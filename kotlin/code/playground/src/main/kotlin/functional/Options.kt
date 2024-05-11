@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber", "SwallowedException", "TooGenericExceptionCaught", "Unused")
 
-package func
+package functional
 
 import arrow.core.Option
 import arrow.core.none

@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package lang
+package language
 
 import kotlin.math.max
 import kotlin.random.Random

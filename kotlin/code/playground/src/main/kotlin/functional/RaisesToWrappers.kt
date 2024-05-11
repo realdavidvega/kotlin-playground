@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber", "UnusedPrivateProperty")
 
-package func
+package functional
 
 import arrow.core.Either
 import arrow.core.None
@@ -16,14 +16,14 @@ import arrow.core.raise.fold
 import arrow.core.raise.nullable
 import arrow.core.raise.option
 import arrow.core.raise.result
-import func.Raises.Company
-import func.Raises.CurrencyConverter
-import func.Raises.JOBS_DATABASE
-import func.Raises.Job
-import func.Raises.JobError
-import func.Raises.JobId
-import func.Raises.Role
-import func.Raises.Salary
+import functional.Raises.Company
+import functional.Raises.CurrencyConverter
+import functional.Raises.JOBS_DATABASE
+import functional.Raises.Job
+import functional.Raises.JobError
+import functional.Raises.JobId
+import functional.Raises.Role
+import functional.Raises.Salary
 
 // 5. Arrow's raises to wrappers
 

@@ -1,29 +1,29 @@
-package flow
+package flows
 
+import flows.Flows.andrewGarfield
+import flows.Flows.benAffleck
+import flows.Flows.chrisEvans
+import flows.Flows.chrisHemsworth
+import flows.Flows.ezraMiller
+import flows.Flows.galGadot
+import flows.Flows.henryCavill
+import flows.Flows.jasonMomoa
+import flows.Flows.jeremyRenner
+import flows.Flows.markRuffalo
+import flows.Flows.rayFisher
+import flows.Flows.robertDowneyJr
+import flows.Flows.scarlettJohansson
+import flows.Flows.tobeyMaguire
+import flows.Flows.tomHolland
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import flow.Flows.andrewGarfield
-import flow.Flows.benAffleck
-import flow.Flows.chrisEvans
-import flow.Flows.chrisHemsworth
-import flow.Flows.ezraMiller
-import flow.Flows.galGadot
-import flow.Flows.henryCavill
-import flow.Flows.jasonMomoa
-import flow.Flows.jeremyRenner
-import flow.Flows.markRuffalo
-import flow.Flows.rayFisher
-import flow.Flows.robertDowneyJr
-import flow.Flows.scarlettJohansson
-import flow.Flows.tobeyMaguire
-import flow.Flows.tomHolland
 
 // 8. Flows and Coroutines
 
@@ -69,14 +69,7 @@ suspend fun main() {
   // Or create a flow from a list, a set, and so on using the asFlow extension function
   // Again, we are emitting values
   val avengers: Flow<Flows.Actor> =
-    listOf(
-      robertDowneyJr,
-      chrisEvans,
-      markRuffalo,
-      chrisHemsworth,
-      scarlettJohansson,
-      jeremyRenner,
-    )
+    listOf(robertDowneyJr, chrisEvans, markRuffalo, chrisHemsworth, scarlettJohansson, jeremyRenner)
       .asFlow()
 
   // If we have a function that returns a value, we can create a flow from it using the
@@ -112,7 +105,7 @@ suspend fun main() {
 
   // The collect method is a suspending function since it has to wait and suspend for consuming
   // the emitted values without blocking a thread.
-  suspend fun <T> Flow<T>.collect(collector: FlowCollector<T>): Unit = TODO()
+  // suspend fun <T> Flow<T>.collect(collector: FlowCollector<T>): Unit = TODO()
 
   // These emit are not necessarily immediate or synchronous, they can take a while
   val slowerSpiderMen: Flow<Flows.Actor> = flow {
@@ -128,7 +121,7 @@ suspend fun main() {
   // which is a fundamental difference with collections, sequences, and iterables
 
   // We can listen when the item is created or when the flow start emitting things
-  // And do some stuff!
+  // And do some stuff like this:
   slowerSpiderMen
     .onStart { println("started") }
     .onEach { delay(100) }
@@ -136,9 +129,49 @@ suspend fun main() {
     .collect { println(it) }
 
   // The onStart function lets us add operations to be executed when the flow is started.
-  fun <T> Flow<T>.onStart(
-    action: suspend FlowCollector<T>.() -> Unit
-  ): Flow<T> = TODO()
+  // fun <T> Flow<T>.onStart(action: suspend FlowCollector<T>.() -> Unit): Flow<T> = TODO()
+
+  // When does a flow start to emit values? A flow is started when a terminal operation is
+  // called on it. So far, we’ve seen the collect function as a terminal operation.
+  val spiderMenWithLatency: Flow<Flows.Actor> = flow {
+    delay(1000)
+    emit(tobeyMaguire)
+    emit(andrewGarfield)
+    emit(tomHolland)
+  }
+
+  //  The lambda of the onStart function is executed immediately after the terminal operation.
+  //  It does not wait for the first element to be emitted
+  spiderMenWithLatency
+    .onStart { println("Starting Spider-Men flow") }
+    .collect { println(it) }
+
+  // The exciting thing is that the action lambda has a FlowCollector<T> as the receiver,
+  // meaning we can emit values inside it
+  spiderMenWithLatency
+    .onStart { emit(Flows.Actor(Flows.Id(15), Flows.FirstName("Paul"), Flows.LastName("Soles"))) }
+    .collect { println(it) }
+
+  // The onEach function is used to apply a lambda to each value emitted by the flow
+  spiderMen
+    .onEach { delay(1000) }
+    .collect { println(it) }
+
+  // We can even use the onEach function as a surrogate of the collect function.
+  // We can pass to the lambda we would have passed to the collect function to the onEach function.
+  // At this point, calling collect will trigger the effective execution of the flow.
+  spiderMen.onEach {
+    delay(1000)
+    println(it)
+  }.collect()
+
+  // We can use the onCompletion function to add a lambda to be executed when the flow is completed
+  spiderMen
+    .onEach {
+      println(it)
+    }
+    .onCompletion { println("End of the Spider Men flow") }
+    .collect()
 
   // Infinite flow, does not emit values during creation
   val infiniteJLFlowActors: Flow<Flows.Actor> = flow {
@@ -152,5 +185,4 @@ suspend fun main() {
       emit(jasonMomoa)
     }
   }
-
 }

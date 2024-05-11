@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package lang
+package language
 
 import kotlinx.coroutines.runBlocking
 

@@ -1,6 +1,6 @@
 @file:Suppress("Unused")
 
-package lang
+package language
 
 // Inheritance and delegation
 

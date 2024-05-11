@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package threads
+package coroutines
 
 import io.github.oshai.KotlinLogging
 import java.util.concurrent.Executors

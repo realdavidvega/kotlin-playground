@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package lang
+package language
 
 import io.ktor.http.ContentType
 import io.ktor.http.content.OutgoingContent

@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MatchingDeclarationName", "MagicNumber")
 
-package threads
+package coroutines
 
 import io.github.oshai.KotlinLogging
 import kotlinx.coroutines.CoroutineName
