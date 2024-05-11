@@ -43,58 +43,57 @@ object Flows {
   val tobeyMaguire: Actor = Actor(Id(13), FirstName("Tobey"), LastName("Maguire"))
   val andrewGarfield: Actor = Actor(Id(14), FirstName("Andrew"), LastName("Garfield"))
 
+  // A Flow<T> is a reactive data structure that emits a sequence of type T values
+
+  // We can create a flow from a finite list of values using the flowOf function
+  // Actually is not a data structure, but a concurrent data structure
+  val zackSnyderJusticeLeague: Flow<Actor> =
+    flowOf(henryCavill, galGadot, ezraMiller, rayFisher, benAffleck, jasonMomoa)
+
+  // Or create a flow from a list, a set, and so on using the asFlow extension function
+  // Again, we are emitting values
+  val avengers: Flow<Actor> =
+    listOf(
+      robertDowneyJr,
+      chrisEvans,
+      markRuffalo,
+      chrisHemsworth,
+      scarlettJohansson,
+      jeremyRenner,
+    )
+      .asFlow()
+
+  // If we have a function that returns a value, we can create a flow from it using the
+  // asFlow function as well
+  val theMostRecentSpiderManFun: () -> Actor = { tomHolland }
+
+  // Emits the value returned by the function
+  val theMostRecentSpiderMan: Flow<Actor> = theMostRecentSpiderManFun.asFlow()
+
+  // Flows are consumed, and will emit values at the time
+
+  // The flow function is the most general way to create a flow, and emit the values
+  // All the above Flow constructors are in fact built with the flow function
+  val spiderMen: Flow<Actor> = flow {
+    emit(tobeyMaguire)
+    emit(andrewGarfield)
+    emit(tomHolland)
+  }
+
+  // The lambda passed as an input parameter to the flow function defines an instance
+  // of a functional interface called FlowCollector as its receiver. And gives some
+  // functions like emit
+
+  // It’s easy to define the previous factory methods in terms of the flow function
+  fun <T> flowOf(vararg values: T): Flow<T> = flow {
+    for (value in values) {
+      emit(value)
+    }
+  }
+
   @JvmStatic
   fun main(args: Array<String>) {
     runBlocking {
-
-      // A Flow<T> is a reactive data structure that emits a sequence of type T values
-
-      // We can create a flow from a finite list of values using the flowOf function
-      // Actually is not a data structure, but a concurrent data structure
-      val zackSnyderJusticeLeague: Flow<Actor> =
-        flowOf(henryCavill, galGadot, ezraMiller, rayFisher, benAffleck, jasonMomoa)
-
-      // Or create a flow from a list, a set, and so on using the asFlow extension function
-      // Again, we are emitting values
-      val avengers: Flow<Actor> =
-        listOf(
-            robertDowneyJr,
-            chrisEvans,
-            markRuffalo,
-            chrisHemsworth,
-            scarlettJohansson,
-            jeremyRenner,
-          )
-          .asFlow()
-
-      // If we have a function that returns a value, we can create a flow from it using the
-      // asFlow function as well
-      val theMostRecentSpiderManFun: () -> Actor = { tomHolland }
-
-      // Emits the value returned by the function
-      val theMostRecentSpiderMan: Flow<Actor> = theMostRecentSpiderManFun.asFlow()
-
-      // Flows are consumed, and will emit values at the time
-
-      // The flow function is the most general way to create a flow, and emit the values
-      // All the above Flow constructors are in fact built with the flow function
-      val spiderMen: Flow<Actor> = flow {
-        emit(tobeyMaguire)
-        emit(andrewGarfield)
-        emit(tomHolland)
-      }
-
-      // The lambda passed as an input parameter to the flow function defines an instance
-      // of a functional interface called FlowCollector as its receiver. And gives some
-      // functions like emit
-
-      // It’s easy to define the previous factory methods in terms of the flow function
-      fun <T> flowOf(vararg values: T): Flow<T> = flow {
-        for (value in values) {
-          emit(value)
-        }
-      }
-
       // Needs to be called from a coroutine as it's a suspend function
       spiderMen.collect { println(it) }
 
@@ -181,19 +180,6 @@ object Flows {
         .collect()
 
       println("-------------------")
-
-      // Infinite flow, does not emit values during creation
-      val infiniteJLFlowActors: Flow<Actor> = flow {
-        // It won't block the application, they run in their separate coroutines
-        while (true) {
-          emit(henryCavill)
-          emit(galGadot)
-          emit(ezraMiller)
-          emit(rayFisher)
-          emit(benAffleck)
-          emit(jasonMomoa)
-        }
-      }
     }
   }
 }
