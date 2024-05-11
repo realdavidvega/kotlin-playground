@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package threads
+package coroutines
 
 import java.lang.Thread.sleep
 import java.time.Duration

@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber", "UnusedPrivateProperty")
 
-package lang
+package language
 
 import arrow.core.getOrElse
 import arrow.core.raise.Raise

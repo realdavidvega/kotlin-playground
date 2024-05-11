@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber", "UnusedPrivateProperty")
 
-package threads
+package coroutines
 
 import arrow.core.Either
 import arrow.core.NonEmptyList

@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "TooGenericExceptionThrown", "MagicNumber", "UnusedPrivateProperty")
 
-package threads
+package coroutines
 
 import arrow.core.getOrElse
 import arrow.core.raise.catch

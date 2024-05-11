@@ -1,4 +1,4 @@
-package lang
+package language
 
 import arrow.core.getOrElse
 import arrow.core.raise.Raise
@@ -10,9 +10,9 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
-import lang.Contracts.RegisterController
-import lang.Contracts.RegisterService
-import lang.Contracts.UserRepository
+import language.Contracts.RegisterController
+import language.Contracts.RegisterService
+import language.Contracts.UserRepository
 
 object Contracts {
 

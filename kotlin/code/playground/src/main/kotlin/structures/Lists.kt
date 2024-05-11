@@ -1,6 +1,6 @@
 @file:Suppress("Unused", "MagicNumber")
 
-package structs
+package structures
 
 import arrow.core.firstOrNone
 import arrow.core.getOrElse

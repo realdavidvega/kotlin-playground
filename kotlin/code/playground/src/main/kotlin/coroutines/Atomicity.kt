@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber")
 
-package threads
+package coroutines
 
 import arrow.atomic.AtomicBoolean
 import arrow.atomic.AtomicInt

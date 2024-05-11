@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber")
 
-package threads
+package coroutines
 
 import arrow.core.getOrElse
 import arrow.core.raise.Raise
