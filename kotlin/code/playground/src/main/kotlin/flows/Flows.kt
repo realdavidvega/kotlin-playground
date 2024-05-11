@@ -16,9 +16,9 @@ import kotlinx.coroutines.runBlocking
 object Flows {
   @JvmInline value class Id(val id: Int)
 
-  @JvmInline value class FirstName(val firstName: String)
+  @JvmInline value class FirstName(val value: String)
 
-  @JvmInline value class LastName(val lastName: String)
+  @JvmInline value class LastName(val value: String)
 
   data class Actor(val id: Id, val firstName: FirstName, val lastName: LastName)
 

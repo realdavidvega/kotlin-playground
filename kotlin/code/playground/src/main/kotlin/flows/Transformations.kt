@@ -40,7 +40,7 @@ object Transformations {
 
       // filter
       val lastNameOfJLActors5CharsLong: Flow<Flows.LastName> =
-        lastNameOfJLActors.filter { it.lastName.length == 5 }
+        lastNameOfJLActors.filter { it.value.length == 5 }
 
       lastNameOfJLActors5CharsLong.collect { println(it) }
       println("-------------------")
@@ -48,7 +48,7 @@ object Transformations {
       // map not null
       val lastNameOfJLActors5CharsLong_v2: Flow<Flows.LastName> =
         zackSnyderJusticeLeague.mapNotNull {
-          if (it.lastName.lastName.length == 5) {
+          if (it.lastName.value.length == 5) {
             it.lastName
           } else {
             null
@@ -101,6 +101,7 @@ object Transformations {
 
       infiniteJLFlowActors
         .onEach { delay(1000) }
+        .map { "${it.firstName.value.uppercase() } ${it.lastName.value.uppercase()}" }
         .scan(0) { currentNumOfActors, actor -> currentNumOfActors + 1 }
         .catch { println(it) }
         .collect { println(it) }

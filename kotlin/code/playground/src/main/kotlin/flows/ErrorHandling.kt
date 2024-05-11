@@ -127,7 +127,7 @@ object ErrorHandling {
             if (it.firstName == Flows.FirstName("Tom")) {
               throw RuntimeException("Ooops")
             } else {
-              "${it.firstName.firstName} ${it.lastName.lastName}"
+              "${it.firstName.value} ${it.lastName.value}"
             }
           }.catch { ex -> emit("Tom Holland") }
           .map { it.uppercase(Locale.getDefault()) }
@@ -145,7 +145,7 @@ object ErrorHandling {
             emit(andrewGarfield)
             emit(tomHolland)
           }
-            .map { "${it.firstName.firstName} ${it.lastName.lastName}" }
+            .map { "${it.firstName.value} ${it.lastName.value}" }
             .catch { ex -> emit("Tom Holland") }
             .map {
               if (it == "Tom Holland") {
