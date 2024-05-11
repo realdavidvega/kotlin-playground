@@ -34,6 +34,24 @@ object ErrorHandling {
     suspend fun findJLAActors(): Flow<Flows.Actor>
   }
 
+  // default implementation we can use
+  val actorRepository: ActorRepository =
+    object : ActorRepository {
+      var retries = 0
+      override suspend fun findJLAActors(): Flow<Flows.Actor> = flow {
+        emit(henryCavill)
+        emit(galGadot)
+        emit(ezraMiller)
+        if (retries == 0) {
+          retries++
+          throw RuntimeException("Oooops")
+        }
+        emit(rayFisher)
+        emit(benAffleck)
+        emit(jasonMomoa)
+      }
+    }
+
   @JvmStatic
   fun main(args: Array<String>) {
     runBlocking {
@@ -233,24 +251,6 @@ object ErrorHandling {
       //    retries: Long = Long.MAX_VALUE,
       //    predicate: suspend (cause: Throwable) -> Boolean = { true }
       //  ): Flow<T>
-
-      // If we implement the repository we defined above
-      val actorRepository: ActorRepository =
-        object : ActorRepository {
-          var retries = 0
-          override suspend fun findJLAActors(): Flow<Flows.Actor> = flow {
-            emit(henryCavill)
-            emit(galGadot)
-            emit(ezraMiller)
-            if (retries == 0) {
-              retries++
-              throw RuntimeException("Oooops")
-            }
-            emit(rayFisher)
-            emit(benAffleck)
-            emit(jasonMomoa)
-          }
-        }
 
       // Executing the findJLAActors function will throw an exception the first time it’s called.
       // The second time, it will emit all the actors playing in the “Zack Snyder’s Justice League”

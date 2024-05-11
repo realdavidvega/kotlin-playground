@@ -13,6 +13,13 @@ import kotlinx.coroutines.runBlocking
 // 8. Flows and Coroutines - Part. I - Introduction
 
 object Flows {
+
+  // Flows represent a cold data source, which means that values are calculated on demand.
+  // In detail, flows start emitting values when the first terminal operation is reached, i.e.,
+  // the collect function is called. However, we often have to deal with hot data sources,
+  // where the values are emitted independently of the presence of a collector.
+  // For example, think about a Kafka consumer or a WebSocket server.
+
   @JvmInline value class Id(val id: Int)
 
   @JvmInline value class FirstName(val value: String)
