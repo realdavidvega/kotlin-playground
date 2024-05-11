@@ -22,9 +22,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-object Coroutines {
+// 8. Flows and Coroutines - Part. IV - Coroutines
 
-  // 8. Flows and Coroutines - Part. IV - Coroutines
+object Coroutines {
 
   @JvmStatic
   fun main(args: Array<String>) {
