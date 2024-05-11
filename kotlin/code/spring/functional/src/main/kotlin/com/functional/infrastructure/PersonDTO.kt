@@ -7,8 +7,8 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table("persons")
 data class PersonDTO(
-    @Id val id: Long,
-    @Column("firstName") val firstName: String,
-    @Column("lastName") val lastName: String,
-    @Column("birthdate") val birthdate: LocalDate? = null,
+  @Id val id: Long,
+  @Column("firstName") val firstName: String,
+  @Column("lastName") val lastName: String,
+  @Column("birthdate") val birthdate: LocalDate?,
 )
