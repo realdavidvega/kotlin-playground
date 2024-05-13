@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.runBlocking
 
-// 8. Flows and Coroutines - Part. V - Racing/Merging and Concurrent Transformers
+// 6. Flows - Racing/Merging and Concurrent Transformers
 
 object Racing {
 

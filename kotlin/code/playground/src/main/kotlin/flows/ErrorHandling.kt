@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
-// 8. Flows and Coroutines - Part. II - Error handling
+// 3. Flows - Error handling
 
 object ErrorHandling {
 

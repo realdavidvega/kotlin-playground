@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.runBlocking
 
-// 8. Flows and Coroutines - Part. I - Introduction
+// 2. Flows - Introduction
 
 object Flows {
 

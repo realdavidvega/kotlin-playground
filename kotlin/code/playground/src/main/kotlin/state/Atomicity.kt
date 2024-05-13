@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber")
 
-package coroutines
+package state
 
 import arrow.atomic.AtomicBoolean
 import arrow.atomic.AtomicInt
@@ -9,7 +9,7 @@ import arrow.atomic.value
 import arrow.fx.coroutines.parMap
 import kotlinx.coroutines.runBlocking
 
-// 8. Multiplatform atomicity with Arrow Atomic
+// 4. Multiplatform atomicity with Arrow Atomic
 
 object Atomicity {
   data class User(val id: UserId, val name: UserName, var age: UserAge, val status: UserStatus)
