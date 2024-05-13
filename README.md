@@ -12,6 +12,7 @@
    - Functional: result, optional, either, raise
    - Language: context receivers, contracts, delegation, ADTs, serialization, operators...
    - State: atomicity, transactions
+   - Other: Notebooks, Gradle
      
 ## JS
 ### Learning
