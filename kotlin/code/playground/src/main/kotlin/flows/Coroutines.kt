@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-// 8. Flows and Coroutines - Part. IV - Coroutines
+// 5. Flows - Coroutines
 
 object Coroutines {
 

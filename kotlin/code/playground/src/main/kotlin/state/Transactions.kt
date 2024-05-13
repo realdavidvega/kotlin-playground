@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber")
 
-package coroutines
+package state
 
 import arrow.core.getOrElse
 import arrow.core.raise.Raise
@@ -18,7 +18,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-// 7. Software transactional memory, or STM, using Arrow Fx STM
+// 3. Software transactional memory, or STM, using Arrow Fx STM
 
 object Transactions {
 

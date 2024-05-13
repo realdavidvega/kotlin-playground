@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
 
-// 8. Flows and Coroutines - Part. III - Transformations
+// 4. Flows - Transformations
 
 object Transformations {
   @JvmStatic

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-// 8. Flows and Coroutines - Part. 0 - Prologue
+// 1. Flows - Prologue
 
 object Async {
   @JvmStatic
