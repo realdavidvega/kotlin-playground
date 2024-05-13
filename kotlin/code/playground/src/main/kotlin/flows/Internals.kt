@@ -9,7 +9,7 @@ import flows.Flows.rayFisher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
-// 7. Flows - Appendix
+// 7. Flows - Flows Appendix
 
 object Internals {
 

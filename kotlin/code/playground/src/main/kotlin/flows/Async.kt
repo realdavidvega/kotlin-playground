@@ -82,7 +82,6 @@ object Async {
 
       // Collect the flow
       numbersFlow().collect { println(it) }
-
       println("-------------------")
 
       // This code waits 100ms before printing each number without blocking the main thread.
