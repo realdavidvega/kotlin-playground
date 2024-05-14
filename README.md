@@ -6,8 +6,14 @@
 2. FP in Kotlin and Arrow: code and exercises for learning functional programming with Arrow.
 
 ### Code
-1. Playground: playground with random Kotlin code, including functional programming, typeclases, coroutines...
-
+1. Playground: playground with random Kotlin code and libraries:
+   - Coroutines: continuations, scheduling, cancellation, structured concurrency, resources, high-level concurrency...
+   - Flows: basics, internals, transformations, error handling, coroutines, channels...
+   - Functional: result, optional, either, raise
+   - Language: context receivers, contracts, delegation, ADTs, serialization, operators...
+   - State: atomicity, transactions
+   - Other: notebooks, gradle
+     
 ## JS
 ### Learning
 1. React Example: simple web app, built on Kotlin/JS + React
