@@ -11,7 +11,8 @@
    - Flows: basics, internals, transformations, error handling, coroutines, channels...
    - Functional: result, optional, either, raise
    - Language: context receivers, contracts, delegation, ADTs, serialization, operators...
-   - Resilience: sagas
+   - Patterns: visitor
+   - Resilience: sagas, retry/repeat
    - State: atomicity, transactions
    - Other: notebooks, gradle
      
