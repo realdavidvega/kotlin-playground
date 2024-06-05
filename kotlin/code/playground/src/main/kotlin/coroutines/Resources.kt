@@ -64,9 +64,7 @@ object Resources {
     val userProcessorCloseable: UserProcessorAutoCloseable,
   ) {
     suspend fun processData(): List<String> =
-      withContext(Dispatchers.IO) {
-        throw RuntimeException("I'm going to do some stuff")
-      }
+      withContext(Dispatchers.IO) { throw RuntimeException("I'm going to do some stuff") }
   }
 
   // resource scope to the rescue!
@@ -222,9 +220,7 @@ object Resources {
       suspend fun callServiceResource() {
         resourceScope {
           // with use, we can use the resource in the scope
-          serviceResource2.use {
-            it.processData()
-          }
+          serviceResource2.use { it.processData() }
           // imperative style
           serviceResource2.bind().processData()
         }

@@ -105,9 +105,7 @@ object Coroutines {
           println("The playground.getCoroutine finished at ${LocalDateTime.now()}")
         }
 
-      println(
-        "Start playground.getCoroutine at playground.main at ${LocalDateTime.now()}"
-      )
+      println("Start playground.getCoroutine at playground.main at ${LocalDateTime.now()}")
       someCoroutine.start()
 
       println("Delay at playground.main at ${LocalDateTime.now()}")

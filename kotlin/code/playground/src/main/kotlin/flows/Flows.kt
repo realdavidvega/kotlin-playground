@@ -60,13 +60,13 @@ object Flows {
   // Again, we are emitting values
   val avengers: Flow<Actor> =
     listOf(
-      robertDowneyJr,
-      chrisEvans,
-      markRuffalo,
-      chrisHemsworth,
-      scarlettJohansson,
-      jeremyRenner,
-    )
+        robertDowneyJr,
+        chrisEvans,
+        markRuffalo,
+        chrisHemsworth,
+        scarlettJohansson,
+        jeremyRenner,
+      )
       .asFlow()
 
   // If we have a function that returns a value, we can create a flow from it using the
@@ -153,9 +153,7 @@ object Flows {
       // The exciting thing is that the action lambda has a FlowCollector<T> as the receiver,
       // meaning we can emit values inside it
       spiderMenWithLatency
-        .onStart {
-          emit(Actor(Id(15), FirstName("Paul"), LastName("Soles")))
-        }
+        .onStart { emit(Actor(Id(15), FirstName("Paul"), LastName("Soles"))) }
         .collect { println(it) }
 
       println("-------------------")

@@ -12,6 +12,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 // 2. Structured concurrency with coroutines
 
@@ -153,33 +154,37 @@ object StructuredConcurrency {
   }
 
   // add -Dkotlinx.coroutines.debug to VM options
-  suspend fun main() {
-    // won't work without suspend
-    bathTime()
-    logger.info { SEPARATOR }
 
-    sequentialMorningRoutine()
-    logger.info { SEPARATOR }
+  @JvmStatic
+  fun main(args: Array<String>) {
+    runBlocking {
+      // won't work without suspend
+      bathTime()
+      logger.info { SEPARATOR }
 
-    concurrentMorningRoutine()
-    logger.info { SEPARATOR }
+      sequentialMorningRoutine()
+      logger.info { SEPARATOR }
 
-    noStructConcurrencyMorningRoutine()
+      concurrentMorningRoutine()
+      logger.info { SEPARATOR }
 
-    // the main thread exists before it finishes, so we need to block the main thread in the main
-    Thread.sleep(2000)
-    logger.info { SEPARATOR }
+      noStructConcurrencyMorningRoutine()
 
-    morningRoutineWithCoffee()
-    logger.info { SEPARATOR }
+      // the main thread exists before it finishes, so we need to block the main thread in the main
+      Thread.sleep(2000)
+      logger.info { SEPARATOR }
 
-    morningRoutineWithCoffeeStructured()
-    logger.info { SEPARATOR }
+      morningRoutineWithCoffee()
+      logger.info { SEPARATOR }
 
-    prepareBreakfast()
-    logger.info { SEPARATOR }
+      morningRoutineWithCoffeeStructured()
+      logger.info { SEPARATOR }
 
-    prepareBreakfastAwaitAll()
-    logger.info { SEPARATOR }
+      prepareBreakfast()
+      logger.info { SEPARATOR }
+
+      prepareBreakfastAwaitAll()
+      logger.info { SEPARATOR }
+    }
   }
 }

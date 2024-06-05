@@ -1,8 +1,8 @@
 package resilience
 
 import arrow.resilience.Schedule
-import kotlinx.coroutines.runBlocking
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.runBlocking
 
 object RetryAndRepeat {
 
@@ -12,8 +12,10 @@ object RetryAndRepeat {
   fun main(args: Array<String>) {
     runBlocking {
       // The Retry and Repeat Pattern addresses the need to retry or repeat actions under certain
-      // circumstances, typically based on a defined policy. For example, when making network requests,
-      // we might want to retry failed requests using an exponential backoff algorithm for a maximum of
+      // circumstances, typically based on a defined policy. For example, when making network
+      // requests,
+      // we might want to retry failed requests using an exponential backoff algorithm for a maximum
+      // of
       // 15 seconds or 5 attempts, whichever comes first.
 
       // Schedule allows defining and composing powerful yet simple policies.
@@ -26,7 +28,8 @@ object RetryAndRepeat {
       // There are two steps involved in using Schedule:
       // 1. Constructing a policy specifying the amount and delay in repetition.
       // 2. Running this schedule with a specified action. There are two ways to do so:
-      // - retry executes the action once, and if it fails, it is reattempted based on the scheduling
+      // - retry executes the action once, and if it fails, it is reattempted based on the
+      // scheduling
       // policy. It stops when the action succeeds or when the policy determines it should not be
       // reattempted again.
       // - repeat executes the action, and if it succeeds, keeps executing it again based on the

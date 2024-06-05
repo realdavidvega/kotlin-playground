@@ -32,14 +32,7 @@ object Coroutines {
       // Collect function is inherently synchronous despite being a suspending function.
       // No new coroutine is started under the hood
       val zackSnyderJusticeLeague: Flow<Flows.Actor> =
-        flowOf(
-          henryCavill,
-          galGadot,
-          ezraMiller,
-          rayFisher,
-          benAffleck,
-          jasonMomoa
-        )
+        flowOf(henryCavill, galGadot, ezraMiller, rayFisher, benAffleck, jasonMomoa)
       println("Before Zack Snyder's Justice League")
       zackSnyderJusticeLeague.collect { println(it) }
       println("After Zack Snyder's Justice League")
@@ -48,30 +41,28 @@ object Coroutines {
 
       // To kick in asynchronous behavior, we must use the launch function from
       // the CoroutineScope interface
-      val delayedJusticeLeague: Flow<Flows.Actor> =
-        flow {
-          delay(250)
-          emit(henryCavill)
-          delay(250)
-          emit(galGadot)
-          delay(250)
-          emit(ezraMiller)
-          delay(250)
-          emit(rayFisher)
-          delay(250)
-          emit(benAffleck)
-          delay(250)
-          emit(jasonMomoa)
-        }
+      val delayedJusticeLeague: Flow<Flows.Actor> = flow {
+        delay(250)
+        emit(henryCavill)
+        delay(250)
+        emit(galGadot)
+        delay(250)
+        emit(ezraMiller)
+        delay(250)
+        emit(rayFisher)
+        delay(250)
+        emit(benAffleck)
+        delay(250)
+        emit(jasonMomoa)
+      }
 
       // Now, the flow is collected inside a dedicated coroutine spawned by the launch coroutine
       // builder, the program will not wait for the whole collection of the flow to complete before
       // printing the last string
       coroutineScope {
         println("Before Zack Snyder's Justice League")
-        launch { delayedJusticeLeague.collect { println(it) } }.invokeOnCompletion {
-          println("-------------------")
-        }
+        launch { delayedJusticeLeague.collect { println(it) } }
+          .invokeOnCompletion { println("-------------------") }
         println("After Zack Snyder's Justice League")
       }
 
@@ -80,9 +71,10 @@ object Coroutines {
       // that: the launchIn function
       coroutineScope {
         println("Before Zack Snyder's Justice League V2")
-        delayedJusticeLeague.onEach { println(it) }.launchIn(this).invokeOnCompletion {
-          println("-------------------")
-        }
+        delayedJusticeLeague
+          .onEach { println(it) }
+          .launchIn(this)
+          .invokeOnCompletion { println("-------------------") }
         println("After Zack Snyder's Justice League V2")
       }
 
@@ -91,14 +83,15 @@ object Coroutines {
       // of the coroutine that calls the collect function.
       val delayedJusticeLeague_v2: Flow<Flows.Actor> =
         flow {
-          println("${currentCoroutineContext()[CoroutineName]?.name} - In the flow")
-          emit(henryCavill)
-          emit(galGadot)
-          emit(ezraMiller)
-          emit(rayFisher)
-          emit(benAffleck)
-          emit(jasonMomoa)
-        }.onEach { delay(250) }
+            println("${currentCoroutineContext()[CoroutineName]?.name} - In the flow")
+            emit(henryCavill)
+            emit(galGadot)
+            emit(ezraMiller)
+            emit(rayFisher)
+            emit(benAffleck)
+            emit(jasonMomoa)
+          }
+          .onEach { delay(250) }
 
       withContext(CoroutineName("Main")) {
         coroutineScope {
@@ -157,20 +150,20 @@ object Coroutines {
         object : ErrorHandling.ActorRepository {
           override suspend fun findJLAActors(): Flow<Flows.Actor> =
             flowOf(
-              henryCavill,
-              galGadot,
-              ezraMiller,
-              rayFisher,
-              benAffleck,
-              jasonMomoa,
-            ).onEach {
-              delay(250)
-            }
+                henryCavill,
+                galGadot,
+                ezraMiller,
+                rayFisher,
+                benAffleck,
+                jasonMomoa,
+              )
+              .onEach { delay(250) }
         }
-      actorRepository.findJLAActors()
-        .flowOn(CoroutineName("Main") + Dispatchers.IO).onEach { actor ->
-          println("${currentCoroutineContext()[CoroutineName]?.name} - $actor")
-        }.collect()
+      actorRepository
+        .findJLAActors()
+        .flowOn(CoroutineName("Main") + Dispatchers.IO)
+        .onEach { actor -> println("${currentCoroutineContext()[CoroutineName]?.name} - $actor") }
+        .collect()
     }
   }
 }

@@ -35,15 +35,11 @@ object Async {
       // in the sequence scope. E.g. we cannot do `delay(100)` inside the sequence scope
 
       // This code the same numbers, but it waits 100ms before printing each one.
-      consumingNumbers().forEach {
-        println(it)
-      }
+      consumingNumbers().forEach { println(it) }
       println("-------------------")
 
       // We can also use the `take` function to limit the number of elements
-      consumingNumbers().take(5).forEach {
-        println(it)
-      }
+      consumingNumbers().take(5).forEach { println(it) }
       println("-------------------")
 
       // However, this computation blocks the main thread that is running the code.
@@ -56,9 +52,7 @@ object Async {
         return listOf(1, 2, 3)
       }
 
-      consumingNumbersSuspend().forEach {
-        println(it)
-      }
+      consumingNumbersSuspend().forEach { println(it) }
       println("-------------------")
 
       // Using the List<Int> result type, means we can only return all the values at once.
