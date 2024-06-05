@@ -43,6 +43,6 @@ tasks {
     gradleVersion = libs.versions.gradle.wrapper.get()
     distributionType = Wrapper.DistributionType.BIN
   }
-  compileKotlin { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
+  compileKotlin { compilerOptions { freeCompilerArgs.add("-Xcontext-receivers") } }
   test { useJUnitPlatform() }
 }
