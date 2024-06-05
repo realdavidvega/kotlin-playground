@@ -97,9 +97,7 @@ object Channels {
       sender.cancel() // cancel sender coroutine
       bufferedActors.close() // close channel to indicate that no more values will be sent
 
-      bufferedActors.consumeEach {
-        println("Received $it")
-      }
+      bufferedActors.consumeEach { println("Received $it") }
       println("Done!")
       println("------------------------------")
 
@@ -153,9 +151,7 @@ object Channels {
           }
         }
       }
-      actorsChannelFlow_v2.collect {
-        println("All actors: $it")
-      }
+      actorsChannelFlow_v2.collect { println("All actors: $it") }
       println("My favorite actor: ${myFavoriteActor.receive()}")
       println("------------------------------")
 

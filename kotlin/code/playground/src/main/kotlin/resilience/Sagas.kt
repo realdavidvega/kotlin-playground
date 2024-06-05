@@ -171,18 +171,27 @@ object Sagas {
                 // The saga function creates a new scope where compensating actions can be declared
                 // alongside the action to perform.
                 val transaction = saga {
+                  // if it returns, means the saga was successful, so no compensation actions
                   val user =
                     saga({ userService.createUser(username) }) {
                       // will execute if next steps in the saga fails
+                      // won't be executed if this step fails, as we consider the create was not
+                      // successful
                       userService.rollbackCreateUser(request.username)
                     }
+                  // if it returns, means the saga was successful, so no compensation actions
                   saga({ accountService.createAccount(user.id) }) {
                     // will execute if next steps in the saga fails
+                    // won't be executed if this step fails, as we consider the create was not
+                    // successful
                     accountService.rollbackCreateAccount(user.id)
                   }
 
                   // no compensation actions here needed, just throw an exception
                   saga({ BOOM() }) {}
+
+                  // Could be an exception, too:
+                  // throw RuntimeException("BOOM!")
                 }
                 // The resulting Saga<A> doesn't perform any actions, we need to use transact to
                 // keep the chain going. Also, the exceptions raised bubbles up to the caller of

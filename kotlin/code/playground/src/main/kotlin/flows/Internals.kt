@@ -100,11 +100,12 @@ object Internals {
     emit(jasonMomoa)
   }
 
-  val myNiceFlow: MyFlow = object : MyFlow {
-    override suspend fun collect(collector: MyFlowCollector) {
-      builder(collector)
+  val myNiceFlow: MyFlow =
+    object : MyFlow {
+      override suspend fun collect(collector: MyFlowCollector) {
+        builder(collector)
+      }
     }
-  }
 
   // Here, we use the fact that calling a function or lambda with a receiver is equal to passing
   // the receiver as the function’s first argument. Last but not least, we miss the original
@@ -137,13 +138,15 @@ object Internals {
   @JvmStatic
   fun main(args: Array<String>) {
     runBlocking {
-      val myFinalFlow = myFinalFlow {
-        emit(1)
-        delay(200)
-        emit(2)
-        delay(200)
-        emit(3)
-      }.collect { println(it) }
+      val myFinalFlow =
+        myFinalFlow {
+            emit(1)
+            delay(200)
+            emit(2)
+            delay(200)
+            emit(3)
+          }
+          .collect { println(it) }
     }
   }
 }

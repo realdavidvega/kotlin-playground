@@ -39,7 +39,8 @@ object Delegation {
     fun divide(a: Double, b: Double): Double = a / b
   }
 
-  fun main() {
+  @JvmStatic
+  fun main(args: Array<String>) {
     println("Extends:")
     val extends = OperationsExtends()
     println(extends.sum(1.0, 2.0))

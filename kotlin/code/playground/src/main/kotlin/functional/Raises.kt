@@ -34,26 +34,10 @@ object Raises {
   val JOBS_DATABASE: Map<JobId, Job> =
     mapOf(
       JobId(1) to
-        Job(
-          JobId(1),
-          Company("Apple, Inc."),
-          Role("Software Engineer"),
-          Salary(100_000.00),
-        ),
+        Job(JobId(1), Company("Apple, Inc."), Role("Software Engineer"), Salary(100_000.00)),
       JobId(2) to
-        Job(
-          JobId(2),
-          Company("Microsoft"),
-          Role("Software Engineer"),
-          Salary(101_000.00),
-        ),
-      JobId(3) to
-        Job(
-          JobId(3),
-          Company("Google"),
-          Role("Software Engineer"),
-          Salary(102_000.00),
-        ),
+        Job(JobId(2), Company("Microsoft"), Role("Software Engineer"), Salary(101_000.00)),
+      JobId(3) to Job(JobId(3), Company("Google"), Role("Software Engineer"), Salary(102_000.00)),
     )
 
   sealed interface JobError
@@ -318,56 +302,56 @@ object Raises {
     fold(
       { jobService.getSalaryGapWithMax(JobId(1)) },
       { error -> println("An error was raised: $error") },
-      { salaryGap -> println("The salary gap is $salaryGap") }
+      { salaryGap -> println("The salary gap is $salaryGap") },
     )
 
     // same but with errors
     fold(
       { jobService.getSalaryGapWithMax(JobId(42)) },
       { error -> println("An error was raised: $error") },
-      { salaryGap -> println("The salary gap is $salaryGap") }
+      { salaryGap -> println("The salary gap is $salaryGap") },
     )
 
     // composition with logic errors from different hierarchies
     fold(
       { jobService.getSalaryGapWithMaxInEur(JobId(1)) },
       { error -> println("An error was raised: $error") },
-      { salaryGap -> println("The salary gap in EUR is $salaryGap") }
+      { salaryGap -> println("The salary gap in EUR is $salaryGap") },
     )
 
     // same but with the errors
     fold(
       { jobService.getSalaryGapWithMaxInEur(JobId(42)) },
       { error -> println("An error was raised: $error") },
-      { salaryGap -> println("The salary gap in EUR is $salaryGap") }
+      { salaryGap -> println("The salary gap in EUR is $salaryGap") },
     )
 
     // accumulating errors
     fold(
       { jobService.getSalaryGapWithMax(listOf(JobId(1), JobId(2))) },
       { error -> println("The risen errors are: $error") },
-      { salaryGap -> println("The list of salary gaps is $salaryGap") }
+      { salaryGap -> println("The list of salary gaps is $salaryGap") },
     )
 
     // same but with the errors
     fold(
       { jobService.getSalaryGapWithMax(listOf(JobId(1), JobId(42), JobId(-1))) },
       { error -> println("The risen errors are: $error") },
-      { salaryGap -> println("The list of salary gaps is $salaryGap") }
+      { salaryGap -> println("The list of salary gaps is $salaryGap") },
     )
 
     // combining errors into a custom type
     fold(
       { jobService.getSalaryGapWithMaxJobErrors(listOf(JobId(-1), JobId(42))) },
       { error -> println("The risen errors are: $error") },
-      { salaryGaps -> println("The salary gaps are $salaryGaps") }
+      { salaryGaps -> println("The salary gaps are $salaryGaps") },
     )
 
     // zipping errors
     fold(
       { SalaryWithCurrency(-1.0, "EU") },
       { error -> println("The risen errors are: $error") },
-      { salary -> println("The valid salary is $salary") }
+      { salary -> println("The valid salary is $salary") },
     )
   }
 }

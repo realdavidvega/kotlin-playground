@@ -31,22 +31,22 @@ object Results {
           JobId(1),
           Company("Apple Inc."),
           Role("Senior Software Engineer II"),
-          Salary(1000000.0)
+          Salary(1000000.0),
         ),
       JobId(2) to
         Job(
           JobId(2),
           Company("Microsoft Corporation"),
           Role("Software Engineer"),
-          Salary(1000001.0)
+          Salary(1000001.0),
         ),
       JobId(3) to
         Job(
           JobId(3),
           Company("Google LLC"),
           Role("Junior Software Engineer III"),
-          Salary(1000002.0)
-        )
+          Salary(1000002.0),
+        ),
     )
 
   // potentially FAILED computations
@@ -56,7 +56,7 @@ object Results {
         JobId(2),
         Company("Microsoft Corporation"),
         Role("Software Engineer II"),
-        Salary(100001.0)
+        Salary(100001.0),
       )
     )
 
@@ -70,7 +70,7 @@ object Results {
         JobId(1),
         Company("Microsoft Corporation"),
         Role("Director of Engineering"),
-        Salary(10000000.0)
+        Salary(10000000.0),
       )
       .toResult()
 
@@ -218,7 +218,7 @@ object Results {
             else -> println("Some other error occurred: ${it.message}")
           }
           "Job not found so we have 0.0"
-        }
+        },
       )
     println(finalStatement)
 

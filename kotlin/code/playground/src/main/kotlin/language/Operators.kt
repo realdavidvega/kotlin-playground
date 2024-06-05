@@ -42,7 +42,7 @@ object Operators {
     mapOf(
       1L to Salary(Amount(500.0), Currency("EUR")),
       2L to Salary(Amount(1500.0), Currency("EUR")),
-      3L to Salary(Amount(2000.0), Currency("USD"))
+      3L to Salary(Amount(2000.0), Currency("USD")),
     )
 
   interface Salaries {

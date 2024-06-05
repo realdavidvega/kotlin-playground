@@ -1,0 +1,131 @@
+[versions]
+# Gradle
+gradle-wrapper = "8.5"
+
+# Kotlin
+kotlin = "1.9.22"
+kotlin-logging = "5.1.1"
+kotlinx-datetime = "0.4.0"
+kotlinx-serialization = "1.6.3"
+kotlinx-coroutines = "1.8.1"
+
+# Arrow
+arrow = "1.2.1"
+suspendapp = "0.4.0"
+
+# Reactor
+reactor-extensions = "1.2.2"
+reactor-coroutines = "1.7.3"
+
+# Ktor
+ktor = "2.3.11"
+
+# Xef
+xef = "0.0.5-alpha.88"
+
+# Spotless
+spotless = "6.23.3"
+ktfmt = "0.49"
+
+# Ktlint
+ktlint = "1.1.0"
+gradle-ktlint = "12.0.3"
+
+# Other
+logback = "1.5.6"
+
+[libraries]
+# Kotlin
+kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlin-logging" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# Arrow
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-atomic = { module = "io.arrow-kt:arrow-atomic", version.ref = "arrow" }
+arrow-resilience = { module = "io.arrow-kt:arrow-resilience", version.ref = "arrow" }
+arrow-fx-stm = { module = "io.arrow-kt:arrow-fx-stm", version.ref = "arrow" }
+arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
+suspendapp = { module = "io.arrow-kt:suspendapp", version.ref = "suspendapp" }
+suspendapp-ktor = { module = "io.arrow-kt:suspendapp-ktor", version.ref = "suspendapp" }
+
+# Reactor
+reactor-extensions = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions", version.ref = "reactor-extensions" }
+reactor-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "reactor-coroutines" }
+
+# Ktor
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-resources = { module = "io.ktor:ktor-server-resources", version.ref = "ktor" }
+ktor-server-default-headers = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
+
+# Xef
+xef-core = { module = "com.xebia:xef-core", version.ref = "xef" }
+xef-reasoning = { module = "com.xebia:xef-reasoning", version.ref = "xef" }
+xef-server = { module = "com.xebia:xef-server", version.ref = "xef" }
+xef-evaluator = { module = "com.xebia:xef-evaluator", version.ref = "xef" }
+xef-postgresql = { module = "com.xebia:xef-postgresql", version.ref = "xef" }
+
+# Other
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+[bundles]
+kotlin = [
+    "kotlin-logging",
+    "kotlinx-datetime",
+    "kotlinx-coroutines",
+    "kotlinx-serialization-json",
+]
+
+arrow = [
+    "arrow-core",
+    "arrow-atomic",
+    "arrow-resilience",
+    "arrow-fx-stm",
+    "arrow-fx-coroutines",
+    "suspendapp",
+    "suspendapp-ktor"
+]
+
+reactor = [
+    "reactor-extensions",
+    "reactor-coroutines"
+]
+
+ktor = [
+    "ktor-server-core",
+    "ktor-server-resources",
+    "ktor-server-default-headers",
+    "ktor-server-content-negotiation",
+    "ktor-server-netty",
+    "ktor-client-core",
+    "ktor-client-cio",
+    "ktor-client-serialization",
+]
+
+xef = [
+    "xef-core",
+    "xef-reasoning",
+    "xef-server",
+    "xef-evaluator",
+    "xef-postgresql"
+]
+
+[plugins]
+# Kotlin
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# Ktor
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+
+# Spotless
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+
+# Ktlint
+gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradle-ktlint" }

@@ -148,7 +148,7 @@ object HighLevelConcurrency {
             parZip(
               { users.getUserName(userId) },
               { tweets.getTweets(userId) },
-              { userName, tweets -> Pair(userName, tweets) }
+              { userName, tweets -> Pair(userName, tweets) },
             )
 
           context(Raise<Error>)
@@ -261,7 +261,7 @@ object HighLevelConcurrency {
             raise("Error")
           }
         },
-        { either<String, Unit> { logCancellation() } }
+        { either<String, Unit> { logCancellation() } },
       ) { a, b, c ->
         Triple(a, b, c)
       }
@@ -276,7 +276,7 @@ object HighLevelConcurrency {
               delay(100)
               raise("Error!")
             }, // early cancellation
-            { logCancellation() }
+            { logCancellation() },
           ) { a, b, c ->
             Triple(a, b, c)
           } // unreachable

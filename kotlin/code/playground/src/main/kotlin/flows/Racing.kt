@@ -7,8 +7,6 @@ import flows.Flows.galGadot
 import flows.Flows.henryCavill
 import flows.Flows.zackSnyderJusticeLeague
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -54,6 +52,7 @@ object Racing {
               "Argo, The Town, Good Will Hunting, Justice League",
             ),
         )
+
       override suspend fun findBio(actor: Flows.Actor): Flow<String> =
         biosByActor[actor]?.asFlow() ?: emptyFlow()
     }
@@ -68,6 +67,7 @@ object Racing {
           benAffleck to listOf("Argo", "The Town", "Good Will Hunting", "Justice League"),
           galGadot to listOf("Fast & Furious", "Justice League", "Wonder Woman 1984"),
         )
+
       override suspend fun findMovies(actor: Flows.Actor): Flow<String> =
         filmsByActor[actor]?.asFlow() ?: emptyFlow()
     }
@@ -159,7 +159,7 @@ object Racing {
         .findJLAActors()
         .retry(2)
         .filter { it == benAffleck || it == henryCavill }
-        .flatMapConcat { actor -> biographyRepository.findBio(actor)}
+        .flatMapConcat { actor -> biographyRepository.findBio(actor) }
         .collect { println(it) }
 
       println("-------------------")
@@ -174,9 +174,7 @@ object Racing {
       actorRepository
         .findJLAActors()
         .filter { it == benAffleck || it == henryCavill || it == galGadot }
-        .flatMapMerge { actor ->
-          movieRepository.findMovies(actor).onEach { delay(1000) }
-        }
+        .flatMapMerge { actor -> movieRepository.findMovies(actor).onEach { delay(1000) } }
         .collect { println(it) }
     }
   }

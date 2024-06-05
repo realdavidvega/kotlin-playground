@@ -10,6 +10,7 @@ import flows.Flows.jasonMomoa
 import flows.Flows.rayFisher
 import flows.Flows.tobeyMaguire
 import flows.Flows.tomHolland
+import java.util.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -24,7 +25,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.runBlocking
-import java.util.*
 
 // 3. Flows - Error handling
 
@@ -38,6 +38,7 @@ object ErrorHandling {
   val actorRepository: ActorRepository =
     object : ActorRepository {
       var retries = 0
+
       override suspend fun findJLAActors(): Flow<Flows.Actor> = flow {
         emit(henryCavill)
         emit(galGadot)
@@ -89,11 +90,11 @@ object ErrorHandling {
       val spiderMenActorsFlowWithException =
         catch({
           flow {
-            emit(tobeyMaguire)
-            emit(andrewGarfield)
-            throw RuntimeException("An exception occurred")
-            emit(tomHolland) // Not executed
-          }
+              emit(tobeyMaguire)
+              emit(andrewGarfield)
+              throw RuntimeException("An exception occurred")
+              emit(tomHolland) // Not executed
+            }
             .onStart { println("The Spider Men flow is starting") }
             .onCompletion { println("The Spider Men flow is completed") }
             .collect { println(it) }
@@ -112,17 +113,19 @@ object ErrorHandling {
       // We can think about it as a 'finally' block.
 
       // The library provides a catch method that we can chain to the flow to handle exceptions
-      // fun <T> Flow<T>.catch(action: suspend FlowCollector<T>.(cause: Throwable) -> Unit): Flow<T> = TODO()
+      // fun <T> Flow<T>.catch(action: suspend FlowCollector<T>.(cause: Throwable) -> Unit): Flow<T>
+      // = TODO()
 
-      // It takes a lambda that is called when an exception is thrown during the execution of the flow
+      // It takes a lambda that is called when an exception is thrown during the execution of the
+      // flow
       val spiderMenActorsFlowWithException_v3 =
         catch({
           flow {
-            emit(tobeyMaguire)
-            emit(andrewGarfield)
-            throw RuntimeException("An exception occurred")
-            emit(tomHolland) // Not executed
-          }
+              emit(tobeyMaguire)
+              emit(andrewGarfield)
+              throw RuntimeException("An exception occurred")
+              emit(tomHolland) // Not executed
+            }
             .catch { ex -> emit(tomHolland) } // capture the exception and emit the value
             .onStart { println("The Spider Men flow is starting") }
             .onCompletion { println("The Spider Men flow is completed") }
@@ -137,17 +140,18 @@ object ErrorHandling {
       // thrown during the executions of the transformations chained to the flow before it
       val spiderMenNames =
         flow {
-          emit(tobeyMaguire)
-          emit(andrewGarfield)
-          emit(tomHolland)
-        }
+            emit(tobeyMaguire)
+            emit(andrewGarfield)
+            emit(tomHolland)
+          }
           .map { // map each value
             if (it.firstName == Flows.FirstName("Tom")) {
               throw RuntimeException("Ooops")
             } else {
               "${it.firstName.value} ${it.lastName.value}"
             }
-          }.catch { ex -> emit("Tom Holland") }
+          }
+          .catch { ex -> emit("Tom Holland") }
           .map { it.uppercase(Locale.getDefault()) }
           .collect { println(it) }
 
@@ -159,10 +163,10 @@ object ErrorHandling {
       val spiderMenNames_v2 =
         catch({
           flow {
-            emit(tobeyMaguire)
-            emit(andrewGarfield)
-            emit(tomHolland)
-          }
+              emit(tobeyMaguire)
+              emit(andrewGarfield)
+              emit(tomHolland)
+            }
             .map { "${it.firstName.value} ${it.lastName.value}" }
             .catch { ex -> emit("Tom Holland") }
             .map {
@@ -180,15 +184,16 @@ object ErrorHandling {
       println("-------------------")
 
       // So, we can think about the catch function as a catch block that handles all the exceptions
-      // thrown before it in the chain. For this reason, the catch function can’t catch the exceptions
+      // thrown before it in the chain. For this reason, the catch function can’t catch the
+      // exceptions
       // thrown by the collect function since it’s the terminal operation of the flow.
       val spiderMenActorsFlowWithException_v4 =
         catch({
           flow {
-            emit(tobeyMaguire)
-            emit(andrewGarfield)
-            emit(tomHolland)
-          }
+              emit(tobeyMaguire)
+              emit(andrewGarfield)
+              emit(tomHolland)
+            }
             .catch { ex -> println("I caught an exception!") }
             .onStart { println("The Spider Men flow is starting") }
             .onCompletion { println("The Spider Men flow is completed") }
@@ -206,10 +211,10 @@ object ErrorHandling {
       // onEach function and put a catch in the chain after the onEach function
       val spiderMenActorsFlowWithException_v5 =
         flow {
-          emit(tobeyMaguire)
-          emit(andrewGarfield)
-          emit(tomHolland)
-        }
+            emit(tobeyMaguire)
+            emit(andrewGarfield)
+            emit(tomHolland)
+          }
           .onEach {
             if (true) throw RuntimeException("Oooops")
             println(it)
@@ -223,21 +228,20 @@ object ErrorHandling {
 
       // Also, if an exception is thrown in the catch function, it will be needed to be caught again
       val spiderMenActorsFlowWithException_v6 =
-        catch(
-          {
-            flow {
+        catch({
+          flow {
               emit(tobeyMaguire)
               emit(andrewGarfield)
               emit(tomHolland)
               throw RuntimeException("Oooops")
             }
-              .catch { ex ->
-                println("I caught an exception!")
-                throw RuntimeException("Another oooops")
-              }
-              .catch { ex -> println("I caught another exception!") }
-              .collect()
-          }) {
+            .catch { ex ->
+              println("I caught an exception!")
+              throw RuntimeException("Another oooops")
+            }
+            .catch { ex -> println("I caught another exception!") }
+            .collect()
+        }) {
           println("Exception: $it")
         }
 
@@ -255,11 +259,7 @@ object ErrorHandling {
       // Executing the findJLAActors function will throw an exception the first time it’s called.
       // The second time, it will emit all the actors playing in the “Zack Snyder’s Justice League”
       // movie. The above example mimics a temporary network glitch.
-      catch({
-        actorRepository
-          .findJLAActors()
-          .collect { println(it) }
-      }) {
+      catch({ actorRepository.findJLAActors().collect { println(it) } }) {
         println("An error occurred during the execution: $it")
       }
 
@@ -267,10 +267,7 @@ object ErrorHandling {
 
       // We can now use the retry function to retry the execution of the findJLAActors
       // function and print all the actors playing in the movie
-      actorRepository
-        .findJLAActors()
-        .retry(2)
-        .collect { println(it) }
+      actorRepository.findJLAActors().retry(2).collect { println(it) }
 
       println("-------------------")
 

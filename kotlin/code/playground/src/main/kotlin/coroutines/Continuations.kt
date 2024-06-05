@@ -59,7 +59,8 @@ object Continuations {
     println("Suspend finished at ${LocalDateTime.now()}")
   }
 
-  fun main() {
+  @JvmStatic
+  fun main(args: Array<String>) {
     println("Blocking started at ${LocalDateTime.now()}").also { blocking() }
     println("Reactor started at ${LocalDateTime.now()}").also { reactive().block() }
     runBlocking { println("Suspend started at ${LocalDateTime.now()}").also { suspending() } }
@@ -83,31 +84,34 @@ object Coroutines {
 
   private fun <T> (suspend () -> T).createCoroutine(
     coroutineContext: CoroutineContext,
-    lambda: (Result<T>) -> Unit
+    lambda: (Result<T>) -> Unit,
   ): Coroutine = createCoroutine(Continuation(coroutineContext, lambda))
 
   private fun Coroutine.start(): Unit = resume(Unit)
 
-  suspend fun main() {
-    println("Start rockthejvm.playground.main at ${LocalDateTime.now()}")
-    // some other playground.suspending block
-    val someBlock: suspend () -> Unit = {
-      println("Some block started at ${LocalDateTime.now()}")
-      delay(1000L)
-      println("Some block finished at ${LocalDateTime.now()}")
-    }
-
-    val someCoroutine: Coroutine =
-      someBlock.createCoroutine(EmptyCoroutineContext) {
-        println("The playground.getCoroutine finished at ${LocalDateTime.now()}")
+  @JvmStatic
+  fun main(args: Array<String>) {
+    runBlocking {
+      println("Start rockthejvm.playground.main at ${LocalDateTime.now()}")
+      // some other playground.suspending block
+      val someBlock: suspend () -> Unit = {
+        println("Some block started at ${LocalDateTime.now()}")
+        delay(1000L)
+        println("Some block finished at ${LocalDateTime.now()}")
       }
 
-    println("Start playground.getCoroutine at rockthejvm.playground.main at ${LocalDateTime.now()}")
-    someCoroutine.start()
+      val someCoroutine: Coroutine =
+        someBlock.createCoroutine(EmptyCoroutineContext) {
+          println("The playground.getCoroutine finished at ${LocalDateTime.now()}")
+        }
 
-    println("Delay at rockthejvm.playground.main at ${LocalDateTime.now()}")
-    delay(1000L)
-    println("Finish rockthejvm.playground.main at ${LocalDateTime.now()}")
+      println("Start playground.getCoroutine at playground.main at ${LocalDateTime.now()}")
+      someCoroutine.start()
+
+      println("Delay at playground.main at ${LocalDateTime.now()}")
+      delay(1000L)
+      println("Finish playground.main at ${LocalDateTime.now()}")
+    }
   }
 }
 

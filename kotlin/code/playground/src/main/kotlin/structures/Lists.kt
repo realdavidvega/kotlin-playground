@@ -23,13 +23,14 @@ object Lists {
     operator fun compareTo(other: Salary): Int = value.compareTo(other.value)
   }
 
-  fun main() {
+  @JvmStatic
+  fun main(args: Array<String>) {
     val jobs: List<Job> =
       listOf(
         Job(JobId(1), Company("Apple"), Role("Data Engineer"), Salary(100000.0)),
         Job(JobId(2), Company("Microsoft"), Role("Software Engineer"), Salary(100001.0)),
         Job(JobId(3), Company("Google"), Role("Site Reliability Engineer"), Salary(100002.0)),
-        Job(JobId(3), Company("Apple"), Role("Product Owner"), Salary(60000.0))
+        Job(JobId(3), Company("Apple"), Role("Product Owner"), Salary(60000.0)),
       )
 
     val aggregatedEngineerSalary: Double =

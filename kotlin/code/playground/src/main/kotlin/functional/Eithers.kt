@@ -34,22 +34,22 @@ object Eithers {
           JobId(1),
           Company("Apple Inc."),
           Role("Senior Software Engineer IV"),
-          Salary(1000000.0)
+          Salary(1000000.0),
         ),
       JobId(2) to
         Job(
           JobId(2),
           Company("Microsoft Corporation"),
           Role("Software Engineer"),
-          Salary(1000001.0)
+          Salary(1000001.0),
         ),
       JobId(3) to
         Job(
           JobId(3),
           Company("Google LLC"),
           Role("Junior Software Engineer VII"),
-          Salary(1000002.0)
-        )
+          Salary(1000002.0),
+        ),
     )
 
   interface Jobs {
@@ -109,7 +109,7 @@ object Eithers {
         JobId(0),
         Company("Default Company"),
         Role("Default Software Engineer Role"),
-        Salary(1000000.0)
+        Salary(1000000.0),
       )
     }
 
