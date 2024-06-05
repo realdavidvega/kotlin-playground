@@ -1,4 +1,7 @@
 [versions]
+# Gradle
+gradle-wrapper = "8.5"
+
 # Kotlin
 kotlin = "1.9.21"
 kotlin-serialization-json = "1.6.2"
@@ -15,8 +18,11 @@ reactor-test = "3.6.1"
 # Arrow
 arrow = "1.2.0"
 
-# Other
+# Spotless
 spotless = "6.22.0"
+ktfmt = "0.46"
+
+# Other
 r2dbc-postgresql = "1.0.3.RELEASE"
 
 [libraries]

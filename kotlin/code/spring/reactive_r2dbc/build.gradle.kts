@@ -22,11 +22,8 @@ dependencies {
 }
 
 spotless {
-  kotlin {
-    target("**/*.kt")
-    target("**/*.kts")
-    ktfmt("0.46").googleStyle()
-  }
+  kotlin { ktfmt(libs.versions.ktfmt.get()).googleStyle() }
+  kotlinGradle { ktfmt(libs.versions.ktfmt.get()).googleStyle() }
 }
 
 kotlin { jvmToolchain(21) }
@@ -37,7 +34,10 @@ java {
 }
 
 tasks {
-  wrapper { gradleVersion = "8.5" }
+  wrapper {
+    gradleVersion = libs.versions.gradle.wrapper.get()
+    distributionType = Wrapper.DistributionType.BIN
+  }
   compileKotlin { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
   test { useJUnitPlatform() }
 }
