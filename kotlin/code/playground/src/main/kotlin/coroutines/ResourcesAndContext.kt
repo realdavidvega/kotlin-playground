@@ -2,12 +2,13 @@
 
 package coroutines
 
-import io.github.oshai.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 // 4. Resources and coroutine context
 
@@ -110,17 +111,20 @@ object ResourcesAndContext {
   }
 
   // add -Dkotlinx.coroutines.debug to VM options
-  suspend fun main() {
-    forgettingFriendBirthdayRoutineWithResource()
-    logger.info { SEPARATOR }
+  @JvmStatic
+  fun main(args: Array<String>) {
+    runBlocking {
+      forgettingFriendBirthdayRoutineWithResource()
+      logger.info { SEPARATOR }
 
-    forgettingFriendBirthdayRoutineStayHydrated()
-    logger.info { SEPARATOR }
+      forgettingFriendBirthdayRoutineStayHydrated()
+      logger.info { SEPARATOR }
 
-    asynchronousGreeting()
-    logger.info { SEPARATOR }
+      asynchronousGreeting()
+      logger.info { SEPARATOR }
 
-    demoContextInheritance()
-    logger.info { SEPARATOR }
+      demoContextInheritance()
+      logger.info { SEPARATOR }
+    }
   }
 }

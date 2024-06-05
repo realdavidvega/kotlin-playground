@@ -2,7 +2,7 @@
 
 package coroutines
 
-import io.github.oshai.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import java.util.concurrent.Executors
 import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.CoroutineDispatcher

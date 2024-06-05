@@ -30,7 +30,8 @@ object Objects {
     fun rollWithAdvantage(sides: Int): Int = max(roll(sides), roll(sides))
   }
 
-  fun main() {
+  @JvmStatic
+  fun main(args: Array<String>) {
     val tweet = Tweet.Normal("Love Kotlin!")
     println(tweet)
 

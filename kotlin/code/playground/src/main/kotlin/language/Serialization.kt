@@ -71,30 +71,33 @@ object Serialization {
     }
   }
 
-  fun main(): Unit = runBlocking {
-    val user = User.StandardUser(1, "David", "Associate")
-    println(user)
+  @JvmStatic
+  fun main(args: Array<String>) {
+    runBlocking {
+      val user = User.StandardUser(1, "David", "Associate")
+      println(user)
 
-    val converter = GenericConverter(User.StandardUser.serializer())
-    val json = converter.toContent(user, ContentType.Application.Json)
-    println(json)
+      val converter = GenericConverter(User.StandardUser.serializer())
+      val json = converter.toContent(user, ContentType.Application.Json)
+      println(json)
 
-    // more type-safe way
-    val standardUserConverter = UserConverter(User.StandardUser.serializer())
-    val standard = standardUserConverter.toContent(user, ContentType.Application.Json)
-    println(standard)
+      // more type-safe way
+      val standardUserConverter = UserConverter(User.StandardUser.serializer())
+      val standard = standardUserConverter.toContent(user, ContentType.Application.Json)
+      println(standard)
 
-    val premiumUserConverter = UserConverter(User.PremiumUser.serializer())
-    val premiumUser = user.promote("Silver", 100.0)
-    val premium = premiumUserConverter.toContent(premiumUser, ContentType.Application.Json)
-    println(premium)
+      val premiumUserConverter = UserConverter(User.PremiumUser.serializer())
+      val premiumUser = user.promote("Silver", 100.0)
+      val premium = premiumUserConverter.toContent(premiumUser, ContentType.Application.Json)
+      println(premium)
 
-    // won't work
-    // val bookConverter = UserConverter(Book.serializer())
+      // won't work
+      // val bookConverter = UserConverter(Book.serializer())
 
-    val bookConverter = GenericConverter(Textbook.serializer())
-    val textbook = Textbook("The fantastic adventures of a Kotliner")
-    val book = bookConverter.toContent(textbook, ContentType.Application.Json)
-    println(book)
+      val bookConverter = GenericConverter(Textbook.serializer())
+      val textbook = Textbook("The fantastic adventures of a Kotliner")
+      val book = bookConverter.toContent(textbook, ContentType.Application.Json)
+      println(book)
+    }
   }
 }
