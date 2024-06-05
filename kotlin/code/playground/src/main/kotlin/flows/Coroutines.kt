@@ -132,13 +132,13 @@ object Coroutines {
       withContext(CoroutineName("Main")) {
         coroutineScope {
           println(
-            "${currentCoroutineContext()[CoroutineName]?.name} - Before Zack Snyder's Justice League",
+            "${currentCoroutineContext()[CoroutineName]?.name} - Before Zack Snyder's Justice League"
           )
           delayedJusticeLeague_v2.flowOn(CoroutineName("Zack Snyder's Justice League")).collect {
             println(it)
           }
           println(
-            "${currentCoroutineContext()[CoroutineName]?.name} - After Zack Snyder's Justice League",
+            "${currentCoroutineContext()[CoroutineName]?.name} - After Zack Snyder's Justice League"
           )
         }
       }
@@ -149,15 +149,9 @@ object Coroutines {
       val actorRepository: ErrorHandling.ActorRepository =
         object : ErrorHandling.ActorRepository {
           override suspend fun findJLAActors(): Flow<Flows.Actor> =
-            flowOf(
-                henryCavill,
-                galGadot,
-                ezraMiller,
-                rayFisher,
-                benAffleck,
-                jasonMomoa,
-              )
-              .onEach { delay(250) }
+            flowOf(henryCavill, galGadot, ezraMiller, rayFisher, benAffleck, jasonMomoa).onEach {
+              delay(250)
+            }
         }
       actorRepository
         .findJLAActors()

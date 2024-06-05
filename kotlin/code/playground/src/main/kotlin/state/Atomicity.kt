@@ -32,7 +32,7 @@ object Atomicity {
           UserId("1"),
           UserName("John Doe"),
           UserAge(AtomicInt(30)),
-          UserStatus(LoggedIn(AtomicBoolean(false)))
+          UserStatus(LoggedIn(AtomicBoolean(false))),
         )
 
       // extension value access
@@ -56,10 +56,10 @@ object Atomicity {
           UserId("1"),
           UserName("John Doe"),
           UserAge(AtomicInt(30)),
-          UserStatus(LoggedIn(AtomicBoolean(false)))
+          UserStatus(LoggedIn(AtomicBoolean(false))),
         )
 
-      (0 ..< 1000).parMap {
+      (0..<1000).parMap {
         otherUser.status.loggedIn.atomic.update { currentStatus -> !currentStatus }
       }
       println("Final login status: ${otherUser.status.loggedIn.atomic.value}") // false

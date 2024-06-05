@@ -33,22 +33,22 @@ object Options {
           JobId(1),
           Company("Apple Inc."),
           Role("Senior Software Engineer II"),
-          Salary(1000000.0)
+          Salary(1000000.0),
         ),
       JobId(2) to
         Job(
           JobId(2),
           Company("Microsoft Corporation"),
           Role("Software Engineer II"),
-          Salary(1000001.0)
+          Salary(1000001.0),
         ),
       JobId(3) to
         Job(
           JobId(3),
           Company("Google LLC"),
           Role("Junior Software Engineer IV"),
-          Salary(10000002.0)
-        )
+          Salary(10000002.0),
+        ),
     )
 
   interface Jobs {

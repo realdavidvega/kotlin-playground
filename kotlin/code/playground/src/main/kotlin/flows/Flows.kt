@@ -59,14 +59,7 @@ object Flows {
   // Or create a flow from a list, a set, and so on using the asFlow extension function
   // Again, we are emitting values
   val avengers: Flow<Actor> =
-    listOf(
-        robertDowneyJr,
-        chrisEvans,
-        markRuffalo,
-        chrisHemsworth,
-        scarlettJohansson,
-        jeremyRenner,
-      )
+    listOf(robertDowneyJr, chrisEvans, markRuffalo, chrisHemsworth, scarlettJohansson, jeremyRenner)
       .asFlow()
 
   // If we have a function that returns a value, we can create a flow from it using the

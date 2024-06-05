@@ -110,7 +110,7 @@ object Transactions {
           override fun withdrawOrElse(
             acc: TVar<Account>,
             amount: BigDecimal,
-            fallback: STM.() -> Unit
+            fallback: STM.() -> Unit,
           ): Unit =
             // orElse allows detecting if a branch has called retry and then use a fallback instead
             stm {
@@ -233,8 +233,8 @@ object Transactions {
                 Account(
                   AccountId(3),
                   Balance(BigDecimal(1000)),
-                  Person(PersonId(3), PersonName("John"))
-                )
+                  Person(PersonId(3), PersonName("John")),
+                ),
               )
               // throw an exception, the transaction will be rolled back
               throw RuntimeException("BOOM!")

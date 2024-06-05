@@ -36,7 +36,7 @@ object Serialization {
       override val id: Int,
       override val name: String,
       val level: String,
-      val credit: Double
+      val credit: Double,
     ) : User()
   }
 
