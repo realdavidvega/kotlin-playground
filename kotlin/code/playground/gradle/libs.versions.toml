@@ -3,14 +3,14 @@
 gradle-wrapper = "8.5"
 
 # Kotlin
-kotlin = "1.9.21"
+kotlin = "2.0.0"
 kotlin-logging = "5.1.1"
 kotlinx-datetime = "0.4.0"
-kotlinx-serialization = "1.6.2"
-kotlinx-coroutines = "1.7.3"
+kotlinx-serialization = "1.6.3"
+kotlinx-coroutines = "1.8.1"
 
 # Arrow
-arrow = "1.2.1"
+arrow = "1.2.4"
 suspendapp = "0.4.0"
 
 # Reactor
@@ -18,14 +18,14 @@ reactor-extensions = "1.2.2"
 reactor-coroutines = "1.7.3"
 
 # Ktor
-ktor = "2.3.7"
+ktor = "2.3.11"
 
 # Xef
-xef = "0.0.5-alpha.87"
+xef = "0.0.5-alpha.88"
 
 # Spotless
 spotless = "6.23.3"
-ktfmt = "0.46"
+ktfmt = "0.49"
 
 # Ktlint
 ktlint = "1.1.0"
