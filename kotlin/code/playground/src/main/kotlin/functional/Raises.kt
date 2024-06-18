@@ -169,9 +169,9 @@ object Raises {
 
     // what if we want directly to use the RaiseAccumulate<A> context?
     // now we can use directly the extension function over the Iterable<A> type
-    context(RaiseAccumulate<JobError>)
-    fun getSalaryGapWithMax(jobIdList: List<JobId>): List<Double> =
-      jobIdList.mapOrAccumulate { getSalaryGapWithMax(it) }
+    // context(RaiseAccumulate<JobError>)
+    // fun getSalaryGapWithMax(jobIdList: List<JobId>): List<Double> =
+    //  jobIdList.mapOrAccumulate { getSalaryGapWithMax(it) }
 
     // we could even get an Either<Nel<E>, List<B>> instead or Raise<E> context
     fun getSalaryGapWithMaxEither(

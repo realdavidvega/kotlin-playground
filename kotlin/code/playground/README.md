@@ -29,4 +29,3 @@
 
 ## Notebooks 
 - Demo: Exploring Kotlin notebooks, charts and dataframes
-- 
