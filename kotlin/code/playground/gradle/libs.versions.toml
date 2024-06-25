@@ -22,7 +22,17 @@ reactor-coroutines = "1.8.1"
 ktor = "2.3.11"
 
 # Xef
-xef = "0.0.5-alpha.96"
+xef = "0.0.5-alpha.97"
+
+# Langchain4j
+langchain4j = "0.31.0"
+
+# Kotest
+kotest = "5.9.1"
+kotest-testcontainers = "2.0.2"
+
+# Testcontainers
+testcontainers = "1.19.8"
 
 # Spotless
 spotless = "6.25.0"
@@ -73,6 +83,21 @@ xef-server = { module = "com.xebia:xef-server", version.ref = "xef" }
 xef-evaluator = { module = "com.xebia:xef-evaluator", version.ref = "xef" }
 xef-postgresql = { module = "com.xebia:xef-postgresql", version.ref = "xef" }
 
+# Langchain4j
+langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
+langchain4j-ollama = { module = "dev.langchain4j:langchain4j-ollama", version.ref = "langchain4j" }
+langchain4j-open-ai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
+
+# Kotest
+kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-testcontainers = { module = "io.kotest.extensions:kotest-extensions-testcontainers", version.ref = "kotest-testcontainers" }
+
+# Testcontainers
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers-ollama = { module = "org.testcontainers:ollama", version.ref = "testcontainers" }
+
 # Other
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
@@ -117,6 +142,24 @@ xef = [
     "xef-server",
     "xef-evaluator",
     "xef-postgresql"
+]
+
+langchain4j = [
+    "langchain4j",
+    "langchain4j-ollama",
+    "langchain4j-open-ai"
+]
+
+kotest = [
+    "kotest-junit5",
+    "kotest-assertions",
+    "kotest-property",
+    "kotest-testcontainers"
+]
+
+testcontainers = [
+    "testcontainers",
+    "testcontainers-ollama"
 ]
 
 [plugins]
