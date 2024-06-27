@@ -20,7 +20,10 @@ dependencies {
   implementation(libs.bundles.reactor)
   implementation(libs.bundles.ktor)
   implementation(libs.bundles.xef)
+  implementation(libs.bundles.langchain4j)
   implementation(libs.logback)
+  testImplementation(libs.bundles.kotest)
+  testImplementation(libs.bundles.testcontainers)
 }
 
 kotlin { jvmToolchain(21) }
@@ -43,5 +46,6 @@ tasks {
     distributionType = Wrapper.DistributionType.BIN
   }
   compileKotlin { compilerOptions { freeCompilerArgs.add("-Xcontext-receivers") } }
+  compileTestKotlin { compilerOptions { freeCompilerArgs.add("-Xcontext-receivers") } }
   test { useJUnitPlatform() }
 }
