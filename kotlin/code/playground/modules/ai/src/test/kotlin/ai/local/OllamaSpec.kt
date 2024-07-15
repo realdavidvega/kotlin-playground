@@ -8,8 +8,10 @@ import org.testcontainers.ollama.OllamaContainer
 import org.testcontainers.utility.DockerImageName
 
 class OllamaSpecScope(private val model: OllamaChatModel) {
-  fun String.generates(block: (String) -> String?) {
-    block(model.generate(this))
+  fun String.generates(verbose: Boolean = true, block: (String) -> String?) {
+    val msg = model.generate(this)
+    if (verbose) println(msg)
+    block(msg)
   }
 }
 
