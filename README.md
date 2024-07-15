@@ -10,6 +10,9 @@
    - Language: Kotlin's language features and companion libraries.
    - AI: Exploring AI in Kotlin.
    - Trading: Exploring algorithmic trading in Kotlin.
+2. Spring
+   - Functional: Example of Functional-like Spring application in Kotlin.
+   - Reactive R2DBC: Example of reactive Spring Webflux application powered by Kotlin Coroutines.
      
 ## JS
 ### Learning
