@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-  java
+  base
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.spotless)
   alias(libs.plugins.gradle.ktlint)
