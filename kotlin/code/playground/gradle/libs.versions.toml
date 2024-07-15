@@ -27,6 +27,9 @@ xef = "0.0.5-alpha.97"
 # Langchain4j
 langchain4j = "0.31.0"
 
+# Roboquant
+roboquant = "2.2.0"
+
 # Kotest
 kotest = "5.9.1"
 kotest-testcontainers = "2.0.2"
@@ -87,6 +90,14 @@ xef-postgresql = { module = "com.xebia:xef-postgresql", version.ref = "xef" }
 langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
 langchain4j-ollama = { module = "dev.langchain4j:langchain4j-ollama", version.ref = "langchain4j" }
 langchain4j-open-ai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
+langchain4j-local-ai = { module = "dev.langchain4j:langchain4j-local-ai", version.ref = "langchain4j" }
+
+# roboquant
+roboquant = { module = "org.roboquant:roboquant", version.ref = "roboquant" }
+roboquant-ta = { module = "org.roboquant:roboquant-ta", version.ref = "roboquant" }
+roboquant-avro = { module = "org.roboquant:roboquant-avro", version.ref = "roboquant" }
+roboquant-charts = { module = "org.roboquant:roboquant-charts", version.ref = "roboquant" }
+roboquant-jupyter = { module = "org.roboquant:roboquant-jupyter", version.ref = "roboquant" }
 
 # Kotest
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
@@ -147,7 +158,16 @@ xef = [
 langchain4j = [
     "langchain4j",
     "langchain4j-ollama",
-    "langchain4j-open-ai"
+    "langchain4j-open-ai",
+    "langchain4j-local-ai"
+]
+
+roboquant = [
+    "roboquant",
+    "roboquant-ta",
+    "roboquant-avro",
+    "roboquant-charts",
+    "roboquant-jupyter"
 ]
 
 kotest = [

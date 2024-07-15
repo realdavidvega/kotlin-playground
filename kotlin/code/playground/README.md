@@ -1,31 +1,90 @@
 # Playground Project
 
-## Functional
-1. Options: Kotlin's nullables, Arrow's options and option functions
-2. Results: Kotlin's results, Arrow's results functions
-3. Eithers: Arrow's eithers
-4. Raises: Arrow's raise context
-5. RaisesToWrappers: Arrow's raises to wrappers
+Playground project for playing around with Kotlin and some libraries.
 
 ## Lang
-- ContextReceivers: Kotlin's context receivers
-- Delegation: Inheritance and delegation
-- Objects: Data classes and data objects
-- Operators: Operator overloading and invoke
-- Serialization: Kotlinx serialization
 
-## Structs
-- Lists: Kotlin lists and list functions
+Exploring Kotlin and main companion libraries.
 
-## Threads
-1. Continuations: Continuations and coroutines basics
-2. StructuredConcurrency: Structured concurrency with coroutines
-3. SchedulingAndCancellation: Scheduling and cancellation of coroutines
-4. ResourcesAndContext: Resources and coroutine context
-5. HighLevelConcurrency: High level concurrency with Arrow Fx Coroutines
-6. Resources: Resource safety using Arrow's resources
-7. Transactions: Software transactional memory, or STM, using Arrow Fx STM
-8. Atomicity: Multiplatform atomicity with Arrow Atomic
+### Coroutines
+
+Exploring Kotlin Coroutines, and Arrow Coroutines:
+1. Continuations
+2. StructuredConcurrency
+3. SchedulingAndCancellation
+4. ResourcesAndContext
+5. HighLevelConcurrency
+6. Resources
+
+### Flows
+
+Exploring Flows and Channels:
+1. Async
+2. Flows
+3. ErrorHandling
+4. Transformations
+5. Coroutines
+6. Racing
+7. Internals
+8. Channels
+
+### Functional
+
+Exploring Functional programming in Kotlin and Arrow:
+1. Options
+2. Results
+3. Eithers
+4. Raises
+5. RaisesToWrappers
+
+### Language
+
+Exploring Kotlin's language features:
+1. ContextReceivers
+2. Delegation
+3. Objects
+4. Operators
+5. Serialization
+6. Contracts
+
+### Patterns
+
+Exploring design patterns in Kotlin:
+1. Visitor
+
+### Resilience
+
+Exploring resilience in Kotlin:
+1. RetryAndRepeat
+2. Sagas
+
+### State
+
+Exploring state management and transactions in Kotlin:
+1. Atomicity
+2. Transactions
+
+### Structures
+
+Exploring Kotlin's data structures:
+1. Lists
+
+## AI
+
+Exploring AI in Kotlin.
+
+### Local Testing
+
+Exploring local AI testing in Kotlin:
+1. GemmaSpec
+
+## Trading
+
+Exploring algorithmic trading in Kotlin:
+1. SimBrokerTest
 
 ## Notebooks 
-- Demo: Exploring Kotlin notebooks, charts and dataframes
+
+Exploring Kotlin Notebooks:
+- Demo: Exploring Kotlin notebooks, charts and dataframes.
+- Roboquant: Exploring algorithmic trading.
