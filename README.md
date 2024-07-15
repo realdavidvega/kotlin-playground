@@ -1,6 +1,6 @@
 # Kotlin Playground Monorepo
 
-## Multiplatform and JVM
+## JVM
 ### Learning
 1. Spring Boot in Kotlin: Code and exercises for learning Kotlin with Spring.
 2. FP in Kotlin and Arrow: Code and exercises for learning functional programming with Arrow.
