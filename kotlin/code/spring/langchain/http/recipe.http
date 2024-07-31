@@ -1,0 +1,8 @@
+# Create Recipe
+POST http://localhost:8080/graphql
+Accept: application/json, multipart/mixed
+Content-Type: application/json
+
+{
+  "query": "mutation {\n  createRecipe(input: {title: \"test\", ingredients: \"test\", instructions: \"test\"}) {\n    title\n    ingredients\n    instructions\n  }\n}"
+}

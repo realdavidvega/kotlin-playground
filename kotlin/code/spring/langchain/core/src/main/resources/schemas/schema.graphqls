@@ -1,0 +1,28 @@
+type Query {
+    """Allows to get a recipe by id"""
+    recipe(id: ID!): Recipe
+
+    """Allows to get all recipes"""
+    recipes: [Recipe]
+}
+
+type Mutation {
+    """Allows to create a new recipe"""
+    createRecipe(input: RecipeInput!): Recipe!
+
+    """Allows to create a new recipe from a dish name or description"""
+    createRecipeFor(dishName: String!): Recipe!
+}
+
+type Recipe {
+    id: ID!
+    title: String!
+    ingredients: String!
+    instructions: String!
+}
+
+input RecipeInput {
+    title: String!
+    ingredients: String!
+    instructions: String!
+}
