@@ -12,7 +12,8 @@
    - Trading: Exploring algorithmic trading in Kotlin.
 2. Spring
    - Functional: Example of Functional-like Spring application in Kotlin.
-   - Reactive R2DBC: Example of reactive Spring Webflux application powered by Kotlin Coroutines.
+   - Reactive R2DBC: Example of reactive Spring Webflux application, using R2DBC for non-blocking DB operations and powered by Kotlin Coroutines.
+   - Langchain: Example of Spring Webflux application, using R2DBC for non-blocking DB operations, DGS for GraphQL API and Langchain for AI.
      
 ## JS
 ### Learning
