@@ -1,6 +1,6 @@
 # Kotlin Playground Monorepo
 
-## Multiplatform and JVM
+## JVM
 ### Learning
 1. Spring Boot in Kotlin: Code and exercises for learning Kotlin with Spring.
 2. FP in Kotlin and Arrow: Code and exercises for learning functional programming with Arrow.
@@ -10,6 +10,9 @@
    - Language: Kotlin's language features and companion libraries.
    - AI: Exploring AI in Kotlin.
    - Trading: Exploring algorithmic trading in Kotlin.
+2. Spring
+   - Functional: Example of Functional-like Spring application in Kotlin.
+   - Reactive R2DBC: Example of reactive Spring Webflux application powered by Kotlin Coroutines.
      
 ## JS
 ### Learning

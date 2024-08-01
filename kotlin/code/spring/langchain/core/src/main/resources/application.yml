@@ -1,0 +1,22 @@
+spring:
+    r2dbc:
+        username: user
+        password: pwd
+        url: r2dbc:postgresql://localhost:5434/db
+    flyway:
+        user: user
+        password: pwd
+        url: jdbc:postgresql://localhost:5434/db
+        locations: classpath:migrations
+langchain4j:
+    open-ai:
+        chat-model:
+            api-key: ${OPENAI_TOKEN}
+            model-name: gpt-4o
+            log-requests: true
+            log-responses: true
+            response-format: json_object
+dgs:
+    graphql:
+        schema-locations:
+            - classpath*:schemas/**/*.graphql*
