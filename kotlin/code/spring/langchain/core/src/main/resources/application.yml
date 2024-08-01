@@ -2,11 +2,11 @@ spring:
     r2dbc:
         username: user
         password: pwd
-        url: r2dbc:postgresql://localhost:5432/db
+        url: r2dbc:postgresql://localhost:5434/db
     flyway:
         user: user
         password: pwd
-        url: jdbc:postgresql://localhost:5432/db
+        url: jdbc:postgresql://localhost:5434/db
         locations: classpath:migrations
 langchain4j:
     open-ai:

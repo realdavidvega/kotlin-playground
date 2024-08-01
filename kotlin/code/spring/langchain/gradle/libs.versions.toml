@@ -18,7 +18,6 @@ arrow = "1.2.4"
 
 # Spring
 spring = "3.3.2"
-spring-dependency-management = "1.1.6"
 
 # DGS
 dgs = "9.0.4"

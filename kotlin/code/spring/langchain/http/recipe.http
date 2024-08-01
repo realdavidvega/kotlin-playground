@@ -1,8 +1,30 @@
+###
 # Create Recipe
+
 POST http://localhost:8080/graphql
 Accept: application/json, multipart/mixed
 Content-Type: application/json
 
 {
-  "query": "mutation {\n  createRecipe(input: {title: \"test\", ingredients: \"test\", instructions: \"test\"}) {\n    title\n    ingredients\n    instructions\n  }\n}"
+  "query": "mutation { createRecipe(input: {title: \"test\", ingredients: \"test\", instructions: \"test\"}) { title ingredients instructions } }"
+}
+
+###
+# Create Recipe for dish
+POST http://localhost:8080/graphql
+Accept: application/json, multipart/mixed
+Content-Type: application/json
+
+{
+  "query": "mutation { createRecipeFor(dishName: \"blue cheese omelette\") { title ingredients instructions } }"
+}
+
+###
+# Get Recipes
+POST http://localhost:8080/graphql
+Accept: application/json, multipart/mixed
+Content-Type: application/json
+
+{
+  "query": "{ recipes { title ingredients instructions } }"
 }
