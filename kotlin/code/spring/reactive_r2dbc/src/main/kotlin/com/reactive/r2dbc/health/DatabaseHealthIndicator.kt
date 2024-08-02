@@ -1,9 +1,6 @@
 package com.reactive.r2dbc.health
 
-import arrow.core.getOrElse
-import arrow.core.raise.Raise
 import arrow.core.raise.catch
-import arrow.core.raise.either
 import com.reactive.r2dbc.user.infrastructure.UserDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
@@ -17,21 +14,20 @@ import org.springframework.stereotype.Component
 @Component("usersDb")
 class DatabaseHealthIndicator(
   private val template: R2dbcEntityTemplate,
-  private val scope: CoroutineScope
+  private val scope: CoroutineScope,
 ) : HealthIndicator {
 
   override fun health(): Health = runBlocking {
-    either { doHealthCheck() }
-      .map { Health.up().build() }
-      .getOrElse { error -> Health.outOfService().withException(error).build() }
+    catch({
+      doHealthCheck()
+      Health.up().build()
+    }) { error ->
+      Health.outOfService().withException(error).build()
+    }
   }
 
-  suspend fun Raise<Throwable>.doHealthCheck(): Unit =
-    catch({
-      withContext(scope.coroutineContext) {
-        template.select(UserDTO::class.java).from("users").awaitOneOrNull().let {}
-      }
-    }) { exception ->
-      raise(exception)
+  suspend fun doHealthCheck(): Unit =
+    withContext(scope.coroutineContext) {
+      template.select(UserDTO::class.java).from("users").awaitOneOrNull()
     }
 }
