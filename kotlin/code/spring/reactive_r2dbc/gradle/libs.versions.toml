@@ -51,9 +51,6 @@ reactor-test = { module = "io.projectreactor:reactor-test", version.ref = "react
 
 # Arrow
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
-arrow-atomic = { module = "io.arrow-kt:arrow-atomic", version.ref = "arrow" }
-arrow-resilience = { module = "io.arrow-kt:arrow-resilience", version.ref = "arrow" }
-arrow-fx-stm = { module = "io.arrow-kt:arrow-fx-stm", version.ref = "arrow" }
 arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 
 # Postgres
@@ -76,9 +73,6 @@ spring = [
 
 arrow = [
     "arrow-core",
-    "arrow-atomic",
-    "arrow-resilience",
-    "arrow-fx-stm",
     "arrow-fx-coroutines",
 ]
 
