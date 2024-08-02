@@ -32,8 +32,6 @@ dependencies {
 }
 
 java {
-  sourceCompatibility = JavaVersion.toVersion(java)
-  targetCompatibility = JavaVersion.toVersion(java)
   toolchain { languageVersion(java) }
 }
 
