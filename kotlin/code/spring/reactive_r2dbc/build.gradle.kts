@@ -24,9 +24,7 @@ dependencies {
   testImplementation(libs.reactor.test)
 }
 
-java {
-  toolchain { languageVersion(java) }
-}
+java { toolchain { languageVersion(java) } }
 
 kotlin { jvmToolchain { languageVersion(java) } }
 

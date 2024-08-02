@@ -37,7 +37,7 @@ class DatabaseConfig : AbstractR2dbcConfiguration() {
           addPopulators(
             ResourceDatabasePopulator(
               ClassPathResource("sql/schema.sql"),
-              ClassPathResource("sql/data.sql")
+              ClassPathResource("sql/data.sql"),
             )
           )
         }

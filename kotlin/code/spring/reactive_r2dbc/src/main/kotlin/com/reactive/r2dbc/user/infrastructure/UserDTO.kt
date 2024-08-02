@@ -6,7 +6,7 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table("users")
 data class UserDTO(
-  @Id val id: Long,
+  @Id val id: Long? = null,
   @Column("username") val username: String,
   @Column("email") val email: String,
 )

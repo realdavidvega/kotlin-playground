@@ -1,4 +1,16 @@
 ###
+# POST User
+###
+
+POST {{host}}/users
+Accept: application/json
+Content-Type: application/json
+
+{ "username": "admin", "email": "admin@example.com" }
+
+###
+
+###
 # GET User Details
 ###
 
@@ -12,4 +24,4 @@ Accept: application/json
 ###
 
 GET {{host}}/users
-Accept: application/json
+Accept: text/event-stream
