@@ -60,7 +60,7 @@ class ClientUserRepository(private val client: DatabaseClient) : UserRepository 
 }
 
 /*
- * Second example of repository using R2dbcEntityTemplate with Spring R2DBC Kotlin extensions
+ * Second example of repository using R2dbcEntityTemplate with Spring R2DBC coroutines extensions + reactor extensions
  */
 class TemplateUserRepository(private val template: R2dbcEntityTemplate) : UserRepository {
   override suspend fun save(user: UserDTO): Long? = template.insert(user).awaitSingleOrNull()?.id
