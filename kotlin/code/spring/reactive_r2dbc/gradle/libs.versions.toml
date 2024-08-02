@@ -1,34 +1,42 @@
 [versions]
+# Java
+java = "21"
+
 # Gradle
-gradle-wrapper = "8.5"
+gradle-wrapper = "8.8"
 
 # Kotlin
-kotlin = "1.9.21"
+kotlin = "2.0.0"
+kotlin-coroutines = "1.8.1"
 kotlin-serialization-json = "1.6.2"
 
 # Spring
-spring = "3.2.0"
-spring-dependency-management = "1.1.4"
+spring = "3.3.2"
 
 # Reactor
 reactor-extensions = "1.2.2"
-reactor-coroutines = "1.7.3"
 reactor-test = "3.6.1"
 
 # Arrow
-arrow = "1.2.0"
+arrow = "1.2.4"
 
 # Spotless
-spotless = "6.22.0"
-ktfmt = "0.46"
+spotless = "6.25.0"
+ktfmt = "0.51"
 
-# Other
-r2dbc-postgresql = "1.0.3.RELEASE"
+# Ktlint
+ktlint = "1.3.0"
+gradle-ktlint = "12.1.1"
+
+# Postgres
+r2dbc-postgresql = "1.0.5.RELEASE"
 
 [libraries]
 # Kotlin
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlin-coroutines" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
 
 # Spring
@@ -39,7 +47,6 @@ spring-test = { module = "org.springframework.boot:spring-boot-starter-test", ve
 
 # Reactor
 reactor-extensions = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions", version.ref = "reactor-extensions" }
-reactor-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "reactor-coroutines" }
 reactor-test = { module = "io.projectreactor:reactor-test", version.ref = "reactor-test" }
 
 # Arrow
@@ -49,13 +56,15 @@ arrow-resilience = { module = "io.arrow-kt:arrow-resilience", version.ref = "arr
 arrow-fx-stm = { module = "io.arrow-kt:arrow-fx-stm", version.ref = "arrow" }
 arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 
-# Other
+# Postgres
 r2dbc-postgresql = { module = "org.postgresql:r2dbc-postgresql", version.ref = "r2dbc-postgresql" }
 
 [bundles]
 kotlin = [
     "kotlin-reflect",
     "kotlin-stdlib-jdk8",
+    "kotlin-coroutines",
+    "kotlin-coroutines-reactor",
     "kotlin-serialization-json"
 ]
 
@@ -63,11 +72,6 @@ spring = [
     "spring-webflux",
     "spring-r2dbc",
     "spring-actuator",
-]
-
-reactor = [
-    "reactor-extensions",
-    "reactor-coroutines",
 ]
 
 arrow = [
@@ -86,7 +90,9 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 # Spring
 spring-boot = { id = "org.springframework.boot", version.ref = "spring" }
-spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
 
-# Other
+# Spotless
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+
+# Ktlint
+gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradle-ktlint" }

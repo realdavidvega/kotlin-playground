@@ -1,12 +1,15 @@
+val java: String = libs.versions.java.version
+val ktfmt: String = libs.versions.ktfmt.version
+val ktlint: String = libs.versions.ktlint.version
+
 plugins {
-  application
   base
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.kotlin.spring)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.spring.boot)
-  alias(libs.plugins.spring.dependency.management)
   alias(libs.plugins.spotless)
+  alias(libs.plugins.gradle.ktlint)
 }
 
 repositories { mavenCentral() }
@@ -15,29 +18,33 @@ dependencies {
   implementation(libs.bundles.kotlin)
   implementation(libs.bundles.spring)
   implementation(libs.bundles.arrow)
-  implementation(libs.bundles.reactor)
   implementation(libs.r2dbc.postgresql)
+  implementation(libs.reactor.extensions)
   testImplementation(libs.spring.test)
   testImplementation(libs.reactor.test)
 }
 
-spotless {
-  kotlin { ktfmt(libs.versions.ktfmt.get()).googleStyle() }
-  kotlinGradle { ktfmt(libs.versions.ktfmt.get()).googleStyle() }
-}
-
-kotlin { jvmToolchain(21) }
-
 java {
-  sourceCompatibility = JavaVersion.VERSION_21
-  targetCompatibility = JavaVersion.VERSION_21
+  toolchain { languageVersion(java) }
 }
+
+kotlin { jvmToolchain { languageVersion(java) } }
+
+spotless {
+  kotlin { ktfmt(ktfmt).googleStyle() }
+  kotlinGradle { ktfmt(ktfmt).googleStyle() }
+}
+
+ktlint { version.set(ktlint) }
 
 tasks {
+  val args = listOf("-Xjsr305=strict", "-Xcontext-receivers")
+  compileKotlin { compilerOptions { freeCompilerArgs.addAll(args) } }
+  compileTestKotlin { compilerOptions { freeCompilerArgs.addAll(args) } }
+  test { useJUnitPlatform() }
+
   wrapper {
-    gradleVersion = libs.versions.gradle.wrapper.get()
+    gradleVersion = libs.versions.gradle.wrapper.version
     distributionType = Wrapper.DistributionType.BIN
   }
-  compileKotlin { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
-  test { useJUnitPlatform() }
 }

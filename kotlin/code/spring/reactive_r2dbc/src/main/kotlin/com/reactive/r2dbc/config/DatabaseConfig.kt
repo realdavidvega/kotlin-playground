@@ -21,6 +21,7 @@ class DatabaseConfig : AbstractR2dbcConfiguration() {
     PostgresqlConnectionFactory(
       PostgresqlConnectionConfiguration.builder()
         .host("localhost")
+        .port(5434)
         .database("usersDb")
         .username("someUser")
         .password("somePassword")
