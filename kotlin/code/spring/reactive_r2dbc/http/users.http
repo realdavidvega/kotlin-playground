@@ -6,7 +6,7 @@ POST {{host}}/users
 Accept: application/json
 Content-Type: application/json
 
-{ "username": "admin", "email": "admin@example.com" }
+{ "username": "admin2", "email": "admin@example.com" }
 
 ###
 

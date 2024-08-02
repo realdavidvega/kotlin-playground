@@ -28,6 +28,7 @@ interface UserRepository {
   }
 }
 
+/** Implementation using the actual Repository */
 @Repository
 class DefaultUserRepository(private val repository: CoroutineCrudUserRepository) : UserRepository {
   override suspend fun save(user: UserDTO): Long? = repository.save(user).id
