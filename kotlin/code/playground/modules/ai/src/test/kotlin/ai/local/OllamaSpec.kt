@@ -15,17 +15,12 @@ class OllamaSpecScope(private val model: OllamaChatModel) {
   }
 }
 
-fun createOrUseOllamaImage(
-  modelName: String
-): OllamaContainer {
-  val dockerImageName = modelName.split(":").let { (prefix, version) ->
-    "tc-ollama-gemma-$prefix-$version"
-  }
+fun createOrUseOllamaImage(modelName: String): OllamaContainer {
+  val dockerImageName =
+    modelName.split(":").let { (prefix, version) -> "tc-ollama-gemma-$prefix-$version" }
 
-  val listImagesCmd: List<Image> = DockerClientFactory.lazyClient()
-    .listImagesCmd()
-    .withImageNameFilter(dockerImageName)
-    .exec()
+  val listImagesCmd: List<Image> =
+    DockerClientFactory.lazyClient().listImagesCmd().withImageNameFilter(dockerImageName).exec()
 
   return if (listImagesCmd.isEmpty()) {
     println("Creating a new Ollama container with $modelName image...")
@@ -36,20 +31,26 @@ fun createOrUseOllamaImage(
     ollama
   } else {
     println("Using existing Ollama container with $modelName image...")
-    val ollama = OllamaContainer(
-      DockerImageName.parse(dockerImageName)
-        .asCompatibleSubstituteFor("ollama/ollama")
-    )
+    val ollama =
+      OllamaContainer(
+        DockerImageName.parse(dockerImageName).asCompatibleSubstituteFor("ollama/ollama")
+      )
     ollama.start()
     ollama
   }
 }
 
-fun ollamaTest(modelName: String, body: context (OllamaSpecScope, StringSpec) () -> Unit): StringSpec.() -> Unit = {
+fun ollamaTest(
+  modelName: String,
+  body:
+    context(OllamaSpecScope, StringSpec)
+    () -> Unit,
+): StringSpec.() -> Unit = {
   val container = createOrUseOllamaImage(modelName)
-  val model: OllamaChatModel = OllamaChatModel.builder()
-    .baseUrl(String.format("http://%s:%d", container.host, container.firstMappedPort))
-    .modelName(modelName)
-    .build()
+  val model: OllamaChatModel =
+    OllamaChatModel.builder()
+      .baseUrl(String.format("http://%s:%d", container.host, container.firstMappedPort))
+      .modelName(modelName)
+      .build()
   body(OllamaSpecScope(model), this)
 }
