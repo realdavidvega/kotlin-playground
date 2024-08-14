@@ -6,9 +6,14 @@ Playground project for playing around with Kotlin and some libraries.
 
 Exploring Kotlin and main companion libraries.
 
+### Cache
+
+Exploring cache and caching strategies in Kotlin, and libraries like `cache4k`:
+1. Caching
+
 ### Coroutines
 
-Exploring Kotlin Coroutines, and Arrow Coroutines:
+Exploring Kotlin Coroutines, and libraries like `arrow-fx-coroutines`:
 1. Continuations
 2. StructuredConcurrency
 3. SchedulingAndCancellation
@@ -30,7 +35,7 @@ Exploring Flows and Channels:
 
 ### Functional
 
-Exploring Functional programming in Kotlin and Arrow:
+Exploring Functional programming in Kotlin, and libraries like `arrow-core`:
 1. Options
 2. Results
 3. Eithers
@@ -54,13 +59,13 @@ Exploring design patterns in Kotlin:
 
 ### Resilience
 
-Exploring resilience in Kotlin:
+Exploring resilience in Kotlin, and libraries like `arrow-resilience`:
 1. RetryAndRepeat
 2. Sagas
 
 ### State
 
-Exploring state management and transactions in Kotlin:
+Exploring state management and transactions in Kotlin, and libraries like `arrow-atomic` or `arrow-stm`:
 1. Atomicity
 2. Transactions
 
@@ -71,16 +76,16 @@ Exploring Kotlin's data structures:
 
 ## AI
 
-Exploring AI in Kotlin.
+Exploring AI in Kotlin, and libraries like `langchain` or `xef`
 
 ### Local Testing
 
-Exploring local AI testing in Kotlin:
+Exploring local AI testing in Kotlin.:
 1. GemmaSpec
 
 ## Trading
 
-Exploring algorithmic trading in Kotlin:
+Exploring algorithmic trading in Kotlin, and libraries like `roboquant`:
 1. SimBrokerTest
 
 ## Notebooks 
