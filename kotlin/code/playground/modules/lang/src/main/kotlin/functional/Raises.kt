@@ -6,7 +6,6 @@ import arrow.core.Either
 import arrow.core.NonEmptyList
 import arrow.core.mapOrAccumulate
 import arrow.core.raise.Raise
-import arrow.core.raise.RaiseAccumulate
 import arrow.core.raise.catch
 import arrow.core.raise.ensure
 import arrow.core.raise.fold

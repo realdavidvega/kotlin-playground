@@ -64,7 +64,7 @@ object SimBrokerTest {
       baseCurrency = baseCurrency,
       feeModel = feeModel,
       accountModel = accountModel,
-      pricingEngine = pricingEngine
+      pricingEngine = pricingEngine,
     )
   }
 
@@ -91,18 +91,17 @@ object SimBrokerTest {
       metrics = metrics,
       policy = policy,
       broker = broker,
-      logger = logger
+      logger = logger,
     )
   }
 
-  private fun setupPolicy(): Policy =
-    FlexPolicy {
-      orderPercentage = 0.01
-      shorting = true
-      priceType = "OPEN"
-      fractions = 4
-      oneOrderOnly = false
-      safetyMargin = 0.1
-      minPrice = 10.USD
-    }
+  private fun setupPolicy(): Policy = FlexPolicy {
+    orderPercentage = 0.01
+    shorting = true
+    priceType = "OPEN"
+    fractions = 4
+    oneOrderOnly = false
+    safetyMargin = 0.1
+    minPrice = 10.USD
+  }
 }

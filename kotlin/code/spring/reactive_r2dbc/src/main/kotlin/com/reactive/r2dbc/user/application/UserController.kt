@@ -60,12 +60,16 @@ class UserController(private val service: UserService) {
     }
 }
 
-/** Second example of routes using Spring Coroutines Router + Controller Handler */
+/**
+ * Second example of routes using Spring Coroutines Router + Controller Handler
+ *
+ * This is the default controller used in this application.
+ */
 @Configuration
 class UserRouter {
 
   @Bean
-  fun mainRouter(userHandler: UserHandler) = coRouter {
+  fun userRoutes(userHandler: UserHandler) = coRouter {
     accept(APPLICATION_JSON).nest {
       POST("/users", userHandler::createUser)
       GET("/users/{id}", userHandler::getUserById)
@@ -74,6 +78,7 @@ class UserRouter {
   }
 }
 
+/** Controller Handler with suspend functions + coroutines reactor extensions */
 @Controller
 class UserHandler(private val service: UserService) {
 
