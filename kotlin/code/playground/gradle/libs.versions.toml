@@ -30,6 +30,9 @@ langchain4j = "0.31.0"
 # Roboquant
 roboquant = "2.2.0"
 
+# Cache4k
+cache4k = "0.13.0"
+
 # Kotest
 kotest = "5.9.1"
 kotest-testcontainers = "2.0.2"
@@ -98,6 +101,9 @@ roboquant-ta = { module = "org.roboquant:roboquant-ta", version.ref = "roboquant
 roboquant-avro = { module = "org.roboquant:roboquant-avro", version.ref = "roboquant" }
 roboquant-charts = { module = "org.roboquant:roboquant-charts", version.ref = "roboquant" }
 roboquant-jupyter = { module = "org.roboquant:roboquant-jupyter", version.ref = "roboquant" }
+
+# Cache4k
+cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 
 # Kotest
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }

@@ -21,6 +21,7 @@ dependencies {
   implementation(libs.bundles.ktor)
   implementation(libs.bundles.xef)
   implementation(libs.bundles.langchain4j)
+  implementation(libs.cache4k)
   implementation(libs.logback)
   testImplementation(libs.bundles.kotest)
   testImplementation(libs.bundles.testcontainers)
