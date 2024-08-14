@@ -22,8 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-// 5. High level concurrency with Arrow Fx Coroutines
-
+/** 5. High level concurrency with Arrow Fx Coroutines using `arrow.fx.coroutines`. */
 object HighLevelConcurrency {
   @JvmInline value class UserId(val value: Long)
 

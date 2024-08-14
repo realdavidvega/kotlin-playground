@@ -16,9 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import reactor.core.publisher.Mono
 
-// 1. Continuations and coroutines basics
-
-// continuations
+/** 1. Continuations and coroutines basics using `kotlinx.coroutines`. */
 object Continuations {
 
   // continuation example
