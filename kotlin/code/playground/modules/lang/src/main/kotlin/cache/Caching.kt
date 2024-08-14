@@ -1,5 +1,7 @@
 package cache
 
+import arrow.atomic.Atomic
+import arrow.atomic.update
 import arrow.continuations.SuspendApp
 import arrow.core.raise.Raise
 import arrow.core.raise.ensureNotNull
@@ -48,6 +50,53 @@ object Caching {
 
   // Cache entry with timestamp
   data class UserEntry(val user: User, val timestamp: Instant)
+
+  /** Manual caching using [Atomic] and [timePolicy]. */
+  class AtomicCacheService(
+    private val usersDB: UsersDB = UsersDB(),
+    private val cache: Atomic<MutableMap<Long, UserEntry>> = Atomic(mutableMapOf()),
+    private val timePolicy: Duration = 4.seconds,
+  ) {
+    context(Raise<NotFound>)
+    suspend fun findUserById(id: Long): User {
+      val instant: Instant = Clock.System.now()
+      println("$SERVICE_NAME Finding user with id: $id...")
+      val cachedUser =
+        cache
+          .updateAndGet { map ->
+            val entry = map[id]
+            if (entry != null) {
+              if (entry.timestamp.plus(timePolicy) < Clock.System.now()) {
+                println(
+                  "$SERVICE_NAME User with id: $id found in cache, but expired, invalidating..."
+                )
+                map.remove(id)
+                map
+              } else map
+            } else map
+          }[id]
+          ?.user
+
+      return if (cachedUser != null) {
+        println("$SERVICE_NAME User with id: $id found in cache, returning...")
+        cachedUser
+      } else {
+        println("$SERVICE_NAME User with id: $id not found in cache, fetching from database...")
+        val user = ensureNotNull(usersDB.findById(id)) { NotFound }
+
+        // update cache
+        cache.update { map ->
+          map[user.id.value] = UserEntry(user, instant)
+          map
+        }
+        user
+      }
+    }
+
+    companion object {
+      const val SERVICE_NAME = "[all-manual-cache]"
+    }
+  }
 
   /** Base service with [usersDB], [cache] and [timePolicy]. */
   abstract class CachedService {
@@ -151,23 +200,31 @@ object Caching {
 
   @JvmStatic
   fun main(args: Array<String>) = SuspendApp {
+    val atomicCacheService = AtomicCacheService()
     val manualInvalidationService = ManualInvalidationService()
     val expirationService = ExpirationService()
 
     recover({
+      println("---------------- ATOMIC CACHE SERVICE ----------------")
+      atomicCacheService.findUserById(1L) // not cached
+      println("--------------------------")
+      atomicCacheService.findUserById(1L) // cached if fast
+      delay(6.seconds.inWholeMilliseconds)
+      println("--------------------------")
+      atomicCacheService.findUserById(1L) // cached if fast
+
+      println("---------------- MANUAL INVALIDATION SERVICE ----------------")
       manualInvalidationService.findUserById(1L) // not cached, added to cache
       println("--------------------------")
       manualInvalidationService.findUserById(1L) // cached if fast
-
       delay(6.seconds.inWholeMilliseconds)
       println("--------------------------")
       manualInvalidationService.findUserById(1L) // expired, but added to cache
 
-      println("--------------------------")
+      println("---------------- EXPIRATION SERVICE ----------------")
       expirationService.findUserById(1L) // not cached, added to cache
       println("--------------------------")
       expirationService.findUserById(1L) // cached if fast
-
       delay(6.seconds.inWholeMilliseconds)
       println("--------------------------")
       expirationService.findUserById(1L) // expired, but added to cache
