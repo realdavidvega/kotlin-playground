@@ -111,6 +111,9 @@ object Caching {
     suspend fun invalidateAll() {
       cache.invalidateAll()
     }
+
+    /** Expose cache as a map. Could be used for more complex use cases. */
+    fun getCache(): Map<in Long, UserEntry> = cache.asMap()
   }
 
   /** Cached service, with [cache] and manual invalidation using [timePolicy]. */
