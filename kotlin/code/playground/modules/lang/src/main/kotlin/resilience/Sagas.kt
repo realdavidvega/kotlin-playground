@@ -13,8 +13,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-// 3. Arrow's Sagas and SagaScope
-
+/**
+ * Sagas and SagaScope In a distributed system, sometimes you need a concept similar to a
+ * transaction in a database. That is, several operations spanning different microservices must
+ * succeed or fail as a unit; otherwise, we may end up in an inconsistent state. A saga implements
+ * this concept by providing for each action a corresponding compensating action, which is executed
+ * if any of the following steps fail. The role of the compensating action is to undo any changes
+ * performed by the action, hence taking the system to the state before the entire operation
+ * beginning its execution.
+ */
 object Sagas {
 
   // Sagas implement transactional logic in distributed systems

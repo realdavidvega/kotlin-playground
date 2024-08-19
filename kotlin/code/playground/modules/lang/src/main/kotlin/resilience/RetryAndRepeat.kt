@@ -8,6 +8,13 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
+/**
+ * 1. Retry and Repeat Patterns A common demand when working with actions is to retry or repeat them
+ *    when (adverse) certain circumstances happen. Usually, the retrial or repetition does not occur
+ *    immediately; instead, it is done based on a policy. For instance, when fetching content from a
+ *    network request, we may want to retry it when it fails using an exponential backoff algorithm
+ *    for a maximum of 15 seconds or 5 attempts, whatever happens first.
+ */
 object RetryAndRepeat {
 
   data object MyCustomException : RuntimeException("")

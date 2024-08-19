@@ -62,6 +62,7 @@ Exploring design patterns in Kotlin:
 Exploring resilience in Kotlin, and libraries like `arrow-resilience`:
 1. RetryAndRepeat
 2. Sagas
+3. CircuitBreakers
 
 ### State
 
