@@ -18,7 +18,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-/** 6. Resource and closeable using `arrow.fx.coroutines`. */
+/**
+ * Resources
+ *
+ * Resource and closeable using `arrow.fx.coroutines`.
+ */
 object Resources {
   // not safe, prone to leak dataSource and userProcessor when an exception or cancellation signals
   class UserProcessor {

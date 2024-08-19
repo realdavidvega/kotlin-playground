@@ -10,7 +10,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-/** 4. Resources and coroutine context using `kotlinx.coroutines`. */
+/**
+ * Resources and Coroutine Context
+ *
+ * Resources and coroutine context using `kotlinx.coroutines`.
+ */
 object ResourcesAndContext {
   private const val SEPARATOR = "================================="
   private val logger = KotlinLogging.logger("Learning Coroutines")

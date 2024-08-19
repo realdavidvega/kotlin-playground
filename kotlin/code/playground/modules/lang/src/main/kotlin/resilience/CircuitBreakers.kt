@@ -10,12 +10,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 /**
- * 3. Circuit Breakers When a service is overloaded, additional interaction may only worsen its
- *    overloaded state. This is especially true when combined with retry mechanisms such as
- *    Schedule. Sometimes, simply using a back-off retry policy might not be sufficient during peak
- *    traffic. To prevent such overloaded resources from overloading, a circuit breaker protects the
- *    service by failing fast. This helps us achieve stability and prevents cascading failures in
- *    distributed systems.
+ * Circuit Breakers
+ *
+ * When a service is overloaded, additional interaction may only worsen its overloaded state. This
+ * is especially true when combined with retry mechanisms such as Schedule. Sometimes, simply using
+ * a back-off retry policy might not be sufficient during peak traffic. To prevent such overloaded
+ * resources from overloading, a circuit breaker protects the service by failing fast. This helps us
+ * achieve stability and prevents cascading failures in distributed systems.
  */
 object CircuitBreakers {
 

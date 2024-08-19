@@ -15,7 +15,11 @@ import kotlinx.coroutines.delay
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
-/** Examples of caching using manual strategies vs. `cache4k`. */
+/**
+ * Caching
+ *
+ * Examples of caching using manual strategies vs. `cache4k`.
+ */
 object Caching {
   data class User(val id: Id, val name: String, var age: Int, val status: Status) {
     enum class Status {
