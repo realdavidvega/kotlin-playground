@@ -14,13 +14,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-// 2. Structured concurrency with coroutines
-
-// coroutine = lightweight "thread"
-// easier to start, schedule, stop...
-
-// best for parallel + concurrent apps
-
+/**
+ * Structured Concurrency
+ *
+ * Structured concurrency with coroutines, using `kotlinx.coroutines`.
+ *
+ * coroutine = lightweight "thread" easier to start, schedule, stop...
+ *
+ * best for parallel + concurrent apps
+ */
 object StructuredConcurrency {
   private const val SEPARATOR = "================================="
   private val logger = KotlinLogging.logger("Learning Coroutines")

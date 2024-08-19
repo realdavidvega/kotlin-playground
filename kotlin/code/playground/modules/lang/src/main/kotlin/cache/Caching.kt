@@ -15,6 +15,11 @@ import kotlinx.coroutines.delay
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
+/**
+ * Caching
+ *
+ * Examples of caching using manual strategies vs. `cache4k`.
+ */
 object Caching {
   data class User(val id: Id, val name: String, var age: Int, val status: Status) {
     enum class Status {
@@ -111,6 +116,9 @@ object Caching {
     suspend fun invalidateAll() {
       cache.invalidateAll()
     }
+
+    /** Expose cache as a map. Could be used for more complex use cases. */
+    fun getCache(): Map<in Long, UserEntry> = cache.asMap()
   }
 
   /** Cached service, with [cache] and manual invalidation using [timePolicy]. */

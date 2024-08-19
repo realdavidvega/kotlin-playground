@@ -19,10 +19,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeoutOrNull
 
-// 3. Scheduling and cancellation of coroutines
-
-// cooperative scheduling - coroutines yield manually
-// expensive on threads
+/**
+ * Scheduling and Cancellation
+ *
+ * Scheduling and cancellation of coroutines using `kotlinx.coroutines`.
+ *
+ * Cooperative scheduling - coroutines yield manually.
+ *
+ * Expensive on threads.
+ */
 object SchedulingAndCancellation {
   private const val SEPARATOR = "================================="
   private val logger = KotlinLogging.logger("learning Coroutines")
