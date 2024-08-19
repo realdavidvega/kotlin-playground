@@ -89,8 +89,16 @@ object CircuitBreakers {
       onRejected = { println("Circuit breaker is rejected!") },
     )
 
+  /** Singleton service to get fruits */
   class FruitsService {
     var counter = 0
+
+    /**
+     * Additionally, it's important to note that if several (concurrent) threads access the same
+     * service, hey should be protected by the same circuit breaker. That is, not circuit breakers
+     * created with the same parameters, but literally the same instance.
+     */
+    val myCircuitBreaker = slidingWindowWithPrints()
 
     /** Simulate four consecutive failures */
     suspend fun getFruitsFailFour(): List<String> {
