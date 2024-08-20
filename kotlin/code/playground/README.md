@@ -20,6 +20,13 @@ Exploring Kotlin Coroutines, and libraries like `arrow-fx-coroutines`:
 4. ResourcesAndContext
 5. HighLevelConcurrency
 6. Resources
+7. Primitives
+
+### Extensions
+
+Adding extensions to Kotlin and libraries like `arrow-core`:
+1. Arrow
+2. Kotlin
 
 ### Flows
 
