@@ -18,8 +18,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-// 3. Software transactional memory, or STM, using Arrow Fx STM
-
+/**
+ * Transactions and Software Transactional Memory (STM)
+ *
+ * Software transactional memory using `arrow-fx-stm`.
+ */
 object Transactions {
 
   @JvmInline value class PersonId(val value: Long)
