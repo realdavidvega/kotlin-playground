@@ -78,7 +78,7 @@ object Primitives {
       // we launch 5 coroutines that will do some concurrently work
       (1..5).forEach { _ -> launch { Worker(workLog, latch).work() } }
 
-      // we wait for the work to be done
+      // we wait for the work to be done using the latch
       println("Awaiting for work to be done...")
       latch.await()
 
@@ -88,6 +88,7 @@ object Primitives {
       println("----------------------")
 
       // we launch 10 coroutines that will do some work concurrently
+      // but only 5 can work at the same time, rest will await the barrier
       (1..10).forEach { _ -> launch { Ant().work() } }
     }
   }
