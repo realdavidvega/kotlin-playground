@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 /**
- * Concurrency Primitives
+ * (6) Concurrency Primitives
  *
  * Concurrency primitives like [CountDownLatch] and [CyclicBarrier] on coroutines using
  * `kotlinx.coroutines` and `arrow.fx.coroutines`.

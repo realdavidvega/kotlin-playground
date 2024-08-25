@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 /**
- * Resources and Coroutine Context
+ * (1) Resources and Coroutine Context
  *
  * Resources and coroutine context using `kotlinx.coroutines`.
  */

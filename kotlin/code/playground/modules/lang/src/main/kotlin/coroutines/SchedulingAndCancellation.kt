@@ -20,7 +20,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeoutOrNull
 
 /**
- * Scheduling and Cancellation
+ * (2) Scheduling and Cancellation
  *
  * Scheduling and cancellation of coroutines using `kotlinx.coroutines`.
  *

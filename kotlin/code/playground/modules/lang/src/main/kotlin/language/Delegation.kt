@@ -2,8 +2,9 @@
 
 package language
 
-// Inheritance and delegation
-
+/**
+ * Kotlin's inheritance and delegation
+ */
 object Delegation {
   interface Operations {
     fun sum(a: Double, b: Double): Double

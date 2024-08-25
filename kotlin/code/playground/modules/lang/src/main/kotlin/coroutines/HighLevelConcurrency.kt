@@ -23,7 +23,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 /**
- * High level concurrency
+ * (4) High level concurrency
  *
  * With Arrow Fx Coroutines using `arrow.fx.coroutines`.
  */

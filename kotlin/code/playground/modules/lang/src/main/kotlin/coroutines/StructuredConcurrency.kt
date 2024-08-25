@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 /**
- * Structured Concurrency
+ * (3) Structured Concurrency
  *
  * Structured concurrency with coroutines, using `kotlinx.coroutines`.
  *

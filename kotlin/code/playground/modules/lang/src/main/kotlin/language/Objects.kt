@@ -7,8 +7,9 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 import kotlinx.datetime.LocalDate
 
-// Data classes and data objects
-
+/**
+ * Kotlin's ADTs, data classes and data objects
+ */
 object Objects {
   sealed class Tweet {
     data class Normal(val content: String) : Tweet()
