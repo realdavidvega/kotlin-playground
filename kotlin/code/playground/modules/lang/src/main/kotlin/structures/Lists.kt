@@ -74,6 +74,5 @@ object Lists {
       jobs.firstOrNone { it.role.name == "Product Owner" }.map { it.salary.value }.getOrElse { 1.0 }
 
     println("Product owner salary or one 2: $productOwnerSalaryValueOrOne2")
-    }
   }
 }
