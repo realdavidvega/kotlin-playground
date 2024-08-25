@@ -11,11 +11,14 @@ import arrow.core.getOrElse
  * Kotlin's list type and list functions
  */
 object Lists {
-  @JvmInline value class JobId(val value: Long)
+  @JvmInline
+  value class JobId(val value: Long)
 
-  @JvmInline value class Company(val name: String)
+  @JvmInline
+  value class Company(val name: String)
 
-  @JvmInline value class Role(val name: String)
+  @JvmInline
+  value class Role(val name: String)
 
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
 
@@ -71,6 +74,5 @@ object Lists {
       jobs.firstOrNone { it.role.name == "Product Owner" }.map { it.salary.value }.getOrElse { 1.0 }
 
     println("Product owner salary or one 2: $productOwnerSalaryValueOrOne2")
-    }
   }
 }
