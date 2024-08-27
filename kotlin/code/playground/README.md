@@ -11,6 +11,11 @@ Exploring Kotlin and main companion libraries.
 Exploring cache and caching strategies in Kotlin, and libraries like `cache4k`:
 1. Caching
 
+### Channels
+
+Exploring Channels using `arrow-fx-coroutines`:
+1. Channels
+
 ### Coroutines
 
 Exploring Kotlin Coroutines, and libraries like `arrow-fx-coroutines`:
@@ -30,7 +35,7 @@ Adding extensions to Kotlin and libraries like `arrow-core`:
 
 ### Flows
 
-Exploring Flows and Channels:
+Exploring Flows using `arrow-fx-coroutines`:
 1. Async
 2. Flows
 3. ErrorHandling
@@ -38,7 +43,6 @@ Exploring Flows and Channels:
 5. Coroutines
 6. Racing
 7. Internals
-8. Channels
 
 ### Functional
 

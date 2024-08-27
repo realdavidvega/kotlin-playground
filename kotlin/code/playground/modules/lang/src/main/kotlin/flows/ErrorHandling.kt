@@ -26,8 +26,9 @@ import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.runBlocking
 
-// 3. Flows - Error handling
-
+/**
+ * (3) Flows - Error handling
+ */
 object ErrorHandling {
 
   interface ActorRepository {

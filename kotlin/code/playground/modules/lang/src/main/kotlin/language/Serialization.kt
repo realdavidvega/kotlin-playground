@@ -14,8 +14,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.Json.Default.decodeFromString
 import kotlinx.serialization.json.Json.Default.encodeToString
 
-// Kotlinx serialization
-
+/**
+ * Kotlin serialization using `kotlinx.serialization`
+ */
 object Serialization {
   @Serializable abstract class Book
 

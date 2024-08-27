@@ -10,8 +10,9 @@ import arrow.core.raise.catch
 import arrow.core.raise.either
 import arrow.core.right
 
-// 3. Arrow's eithers
-
+/**
+ * (3) Either using the arrow library
+ */
 object Eithers {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
 

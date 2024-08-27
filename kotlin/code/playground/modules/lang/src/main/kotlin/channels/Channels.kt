@@ -16,8 +16,9 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-// 8. Channels
-
+/**
+ * (1) Channels - Introduction
+ */
 object Channels {
   @OptIn(ExperimentalCoroutinesApi::class)
   @JvmStatic

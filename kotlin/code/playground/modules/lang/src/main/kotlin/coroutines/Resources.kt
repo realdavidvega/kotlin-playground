@@ -19,7 +19,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 /**
- * Resources
+ * (5) Resources
  *
  * Resource and closeable using `arrow.fx.coroutines`.
  */

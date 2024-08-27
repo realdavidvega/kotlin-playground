@@ -22,8 +22,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-// 5. Flows - Coroutines
-
+/**
+ * (5) Flows - Coroutines
+ */
 object Coroutines {
 
   @JvmStatic
