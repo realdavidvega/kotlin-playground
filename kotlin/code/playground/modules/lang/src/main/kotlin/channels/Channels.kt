@@ -1,5 +1,6 @@
-package flows
+package channels
 
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -15,11 +16,47 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.rx3.collect
+import kotlinx.coroutines.rx3.rxObservable
+import kotlinx.coroutines.withTimeoutOrNull
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * (1) Channels - Introduction
+ *
+ * Channels are a mechanism for sending and receiving values across coroutines.
+ *
+ * In Flow, after emitting values we need to collect them from the same coroutine, so we cannot
+ * use different dispatchers for emitting and collecting. Channels solve this problem.
  */
 object Channels {
+
+  @JvmInline value class Id(val id: Int)
+
+  @JvmInline value class FirstName(val value: String)
+
+  @JvmInline value class LastName(val value: String)
+
+  data class Actor(val id: Id, val firstName: FirstName, val lastName: LastName)
+
+  // Superman & Batman
+  val henryCavill = Actor(Id(1), FirstName("Henry"), LastName("Cavill"))
+  val benAffleck: Actor = Actor(Id(4), FirstName("Ben"), LastName("Affleck"))
+
+  // The Avengers
+  val robertDowneyJr: Actor = Actor(Id(6), FirstName("Robert"), LastName("Downey Jr."))
+  val chrisEvans: Actor = Actor(Id(7), FirstName("Chris"), LastName("Evans"))
+  val chrisHemsworth: Actor = Actor(Id(9), FirstName("Chris"), LastName("Hemsworth"))
+
+  val favoriteHeroes: List<Actor> =
+    listOf(
+      henryCavill,
+      benAffleck,
+      robertDowneyJr,
+      chrisEvans,
+      chrisHemsworth
+    )
+  
   @OptIn(ExperimentalCoroutinesApi::class)
   @JvmStatic
   fun main(args: Array<String>) {
@@ -30,9 +67,9 @@ object Channels {
       // A Channel is conceptually very similar to BlockingQueue. One key difference is that
       // instead of a blocking put operation it has a suspending send, and instead of a blocking
       // take operation it has a suspending receive.
-      val actors = Channel<Flows.Actor>()
+      val actors = Channel<Actor>()
       launch {
-        listOf(Flows.henryCavill, Flows.galGadot, Flows.ezraMiller).forEach {
+        listOf(robertDowneyJr, chrisEvans, chrisHemsworth).forEach {
           delay(250)
           actors.send(it)
         }
@@ -47,9 +84,9 @@ object Channels {
       // Conceptually, a close is like sending a special close token to the channel.
       // The iteration stops as soon as this close token is received, so there is a guarantee
       // that all previously sent elements before the close are received:
-      val someOtherActors = Channel<Flows.Actor>()
+      val someOtherActors = Channel<Actor>()
       launch {
-        listOf(Flows.benAffleck, Flows.jasonMomoa).forEach {
+        listOf(chrisEvans, chrisHemsworth).forEach {
           delay(250)
           someOtherActors.send(it)
         }
@@ -66,8 +103,8 @@ object Channels {
 
       // There is a convenient coroutine builder named produce that makes it easy to do it right
       // on producer side
-      fun CoroutineScope.produceActors(): ReceiveChannel<Flows.Actor> = produce {
-        listOf(Flows.henryCavill, Flows.galGadot, Flows.ezraMiller).forEach {
+      fun CoroutineScope.produceActors(): ReceiveChannel<Actor> = produce {
+        listOf(robertDowneyJr, chrisEvans, chrisHemsworth).forEach {
           delay(250)
           send(it)
         }
@@ -87,9 +124,9 @@ object Channels {
       // Both Channel() factory function and produce builder take an optional capacity parameter
       // to specify buffer size. Buffer allows senders to send multiple elements before suspending,
       // similar to the BlockingQueue with a specified capacity, which blocks when buffer is full.
-      val bufferedActors = Channel<Flows.Actor>(capacity = 1)
+      val bufferedActors = Channel<Actor>(capacity = 1)
       val sender = launch {
-        listOf(Flows.henryCavill, Flows.galGadot, Flows.ezraMiller).forEach {
+        listOf(robertDowneyJr, chrisEvans, chrisHemsworth).forEach {
           println("Sending $it") // print before sending each element
           bufferedActors.send(it) // will suspend when buffer is full
           delay(100)
@@ -111,7 +148,7 @@ object Channels {
       // What if we want to use channels in a Flow? We can use the ChannelFlow builder
       // First, let's take a look into what is the channelFlow builder
       val actorsChannelFlow = channelFlow {
-        listOf(Flows.henryCavill, Flows.galGadot, Flows.ezraMiller).forEach {
+        listOf(robertDowneyJr, chrisEvans, chrisHemsworth).forEach {
           // instead of emit, we use send
           send(it)
         }
@@ -128,8 +165,8 @@ object Channels {
       // Flow invariant is violated: Emission from another coroutine is detected
       // FlowCollector is not thread-safe and concurrent emissions are prohibited
       val multipleActors = channelFlow {
-        launch { send(Flows.henryCavill) }
-        launch { send(Flows.robertDowneyJr) }
+        launch { send(henryCavill) }
+        launch { send(robertDowneyJr) }
       }
 
       println(multipleActors.toList().joinToString())
@@ -143,13 +180,13 @@ object Channels {
       // The difference between a flow and a suspend function is just the number of values
       // they produce
 
-      val myFavoriteActor = Channel<Flows.Actor>(1)
+      val myFavoriteActor = Channel<Actor>(1)
 
       // You can't do this in flow either
       val actorsChannelFlow_v2 = channelFlow {
-        listOf(Flows.henryCavill, Flows.galGadot, Flows.robertDowneyJr).forEach {
+        listOf(henryCavill, benAffleck, robertDowneyJr).forEach {
           launch {
-            if (it == Flows.robertDowneyJr) myFavoriteActor.send(it)
+            if (it == robertDowneyJr) myFavoriteActor.send(it)
             send(it)
           }
         }
@@ -168,21 +205,24 @@ object Channels {
       // both the flow collector and the flow producer, since they never attempt to interact with
       // the flow collector directly.
       fun myFlowChannel() = flow {
-        val output = Channel<Flows.Actor>()
+        val output = Channel<Actor>()
         coroutineScope {
           launch {
             delay(100)
-            output.send(Flows.chrisEvans)
+            output.send(chrisEvans)
           }
           launch {
             delay(200)
-            output.send(Flows.chrisHemsworth)
+            output.send(chrisHemsworth)
           }
           emitAll(output)
         }
       }
 
-      myFlowChannel().collect { println(it) }
+      // Timeout to avoid deadlock as we won't handle closing like channelFlow
+      withTimeoutOrNull(1.seconds.inWholeMilliseconds) {
+        myFlowChannel().collect { println(it) }
+      }
       println("------------------------------")
 
       // If we extract the launch block to a lambda, we get this simplified version of
@@ -199,15 +239,29 @@ object Channels {
       fun myBetterFlowChannel() = myBetterFlowChannel { channel ->
         launch {
           delay(100)
-          channel.send(Flows.chrisEvans)
+          channel.send(chrisEvans)
         }
         launch {
           delay(100)
-          channel.send(Flows.robertDowneyJr)
+          channel.send(robertDowneyJr)
         }
       }
 
-      myBetterFlowChannel().collect { println(it) }
+      // Again, timeout to avoid deadlock as we won't handle closing like channelFlow
+      withTimeoutOrNull(1.seconds.inWholeMilliseconds) {
+        myBetterFlowChannel().collect { println(it) }
+      }
+      println("------------------------------")
+
+      // RxJava (RXJAVA3) integration
+      val observable = Observable.fromIterable(favoriteHeroes)
+
+      // Works by subscribing to the ObservableSource, returning channel to receive elements
+      // emitted by it. Then it consumes every item.
+      observable.collect {
+        println("RX Actor: $it")
+      }
+      println("------------------------------")
     }
   }
 }
