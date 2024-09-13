@@ -56,7 +56,7 @@ object Channels {
       chrisEvans,
       chrisHemsworth
     )
-  
+
   @OptIn(ExperimentalCoroutinesApi::class)
   @JvmStatic
   fun main(args: Array<String>) {
