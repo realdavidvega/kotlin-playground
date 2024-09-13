@@ -10,16 +10,17 @@ kotlinx-datetime = "0.6.0"
 kotlinx-serialization = "1.7.0"
 kotlinx-coroutines = "1.8.1"
 
-# Arrow
+# Arrow + SuspendApp
 arrow = "1.2.4"
 suspendapp = "0.4.0"
 
-# Reactor
+# Reactor + RX
 reactor-extensions = "1.2.2"
 reactor-coroutines = "1.8.1"
+rxjava = "3.1.9"
 
-# Ktor
-ktor = "2.3.11"
+# Cache4k
+cache4k = "0.13.0"
 
 # Xef
 xef = "0.0.5-alpha.97"
@@ -27,11 +28,11 @@ xef = "0.0.5-alpha.97"
 # Langchain4j
 langchain4j = "0.31.0"
 
+# Ktor
+ktor = "2.3.11"
+
 # Roboquant
 roboquant = "2.2.0"
-
-# Cache4k
-cache4k = "0.13.0"
 
 # Kotest
 kotest = "5.9.1"
@@ -59,7 +60,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
-# Arrow
+# Arrow + SuspendApp
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-atomic = { module = "io.arrow-kt:arrow-atomic", version.ref = "arrow" }
 arrow-resilience = { module = "io.arrow-kt:arrow-resilience", version.ref = "arrow" }
@@ -68,19 +69,14 @@ arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref 
 suspendapp = { module = "io.arrow-kt:suspendapp", version.ref = "suspendapp" }
 suspendapp-ktor = { module = "io.arrow-kt:suspendapp-ktor", version.ref = "suspendapp" }
 
-# Reactor
+# Reactor + RX
+kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "reactor-coroutines" }
 reactor-extensions = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions", version.ref = "reactor-extensions" }
-reactor-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "reactor-coroutines" }
+rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 
-# Ktor
-ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
-ktor-server-resources = { module = "io.ktor:ktor-server-resources", version.ref = "ktor" }
-ktor-server-default-headers = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor" }
-ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
-ktor-client-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
+# Cache4k
+cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 
 # Xef
 xef-core = { module = "com.xebia:xef-core", version.ref = "xef" }
@@ -95,15 +91,22 @@ langchain4j-ollama = { module = "dev.langchain4j:langchain4j-ollama", version.re
 langchain4j-open-ai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
 langchain4j-local-ai = { module = "dev.langchain4j:langchain4j-local-ai", version.ref = "langchain4j" }
 
+# Ktor
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-resources = { module = "io.ktor:ktor-server-resources", version.ref = "ktor" }
+ktor-server-default-headers = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
+
 # roboquant
 roboquant = { module = "org.roboquant:roboquant", version.ref = "roboquant" }
 roboquant-ta = { module = "org.roboquant:roboquant-ta", version.ref = "roboquant" }
 roboquant-avro = { module = "org.roboquant:roboquant-avro", version.ref = "roboquant" }
 roboquant-charts = { module = "org.roboquant:roboquant-charts", version.ref = "roboquant" }
 roboquant-jupyter = { module = "org.roboquant:roboquant-jupyter", version.ref = "roboquant" }
-
-# Cache4k
-cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 
 # Kotest
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
@@ -138,8 +141,10 @@ arrow = [
 ]
 
 reactor = [
+    "kotlinx-coroutines-reactor",
+    "kotlinx-coroutines-rx3",
     "reactor-extensions",
-    "reactor-coroutines"
+    "rxjava"
 ]
 
 ktor = [
