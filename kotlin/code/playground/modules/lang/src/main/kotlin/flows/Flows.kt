@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.runBlocking
 
-/**
- * (2) Flows - Introduction
- */
+/** (2) Flows - Introduction */
 object Flows {
 
   // Flows represent a cold data source, which means that values are calculated on demand.

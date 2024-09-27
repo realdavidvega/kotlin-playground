@@ -20,9 +20,7 @@ import org.roboquant.strategies.EMAStrategy
 import org.roboquant.strategies.ParallelStrategy
 import org.roboquant.ta.RSIStrategy
 
-/**
- * Algorithmic Trading with Roboquant
- */
+/** Algorithmic Trading with Roboquant */
 object SimBrokerTest {
 
   private val logger = KotlinLogging.logger("sim-broker-test")

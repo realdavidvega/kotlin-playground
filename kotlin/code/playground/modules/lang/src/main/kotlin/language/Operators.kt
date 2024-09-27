@@ -6,9 +6,7 @@ import arrow.core.getOrElse
 import arrow.core.raise.Raise
 import arrow.core.raise.either
 
-/**
- * Kotlin's operator overloading and invoke
- */
+/** Kotlin's operator overloading and invoke */
 object Operators {
   sealed interface SalaryError {
     data object InvalidAmount : SalaryError

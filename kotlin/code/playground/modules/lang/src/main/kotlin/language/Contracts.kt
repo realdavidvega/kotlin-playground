@@ -14,9 +14,7 @@ import language.Contracts.RegisterController
 import language.Contracts.RegisterService
 import language.Contracts.UserRepository
 
-/**
- * Kotlin's contracts
- */
+/** Kotlin's contracts */
 object Contracts {
 
   @JvmInline value class UserId(val value: Int)
