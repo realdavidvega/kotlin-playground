@@ -8,7 +8,10 @@ import extensions.Lists.thirdOrNull
 /**
  * Handful extensions for `kotlin.collections.List`.
  *
- * Some of those extensions include accessors for the second, third, fourth... elements of a list
+ * Includes accessors for [List.second], [List.third], etc. and variants like [List.secondOrNull],
+ * [List.thirdOrNull], etc.
+ *
+ * Includes [MutableList.addNotNull] and variants to add non-null elements.
  */
 object Lists {
   private const val SECOND_INDEX = 1
@@ -38,8 +41,7 @@ object Lists {
    * @param T the type of elements in this list.
    * @return the second element of this list or null if the list has fewer than two elements.
    */
-  fun <T> List<T>.secondOrNull(): T? =
-    if (size <= SECOND_INDEX) null else this[SECOND_INDEX]
+  fun <T> List<T>.secondOrNull(): T? = if (size <= SECOND_INDEX) null else this[SECOND_INDEX]
 
   /**
    * Returns the third element of the list.
@@ -49,7 +51,8 @@ object Lists {
    * @throws NoSuchElementException if the list contains fewer than three elements.
    */
   fun <T> List<T>.third(): T =
-    if (size <= THIRD_INDEX) throw NoSuchElementException("List contains fewer than three elements.")
+    if (size <= THIRD_INDEX)
+      throw NoSuchElementException("List contains fewer than three elements.")
     else this[THIRD_INDEX]
 
   /**
@@ -58,8 +61,7 @@ object Lists {
    * @param T the type of elements in this list.
    * @return the third element of this list or null if the list has fewer than three elements.
    */
-  fun <T> List<T>.thirdOrNull(): T? =
-    if (size <= THIRD_INDEX) null else this[THIRD_INDEX]
+  fun <T> List<T>.thirdOrNull(): T? = if (size <= THIRD_INDEX) null else this[THIRD_INDEX]
 
   /**
    * Returns the fourth element of the list.
@@ -69,7 +71,8 @@ object Lists {
    * @throws NoSuchElementException if the list contains fewer than four elements.
    */
   fun <T> List<T>.fourth(): T =
-    if (size <= FOURTH_INDEX) throw NoSuchElementException("List contains fewer than four elements.")
+    if (size <= FOURTH_INDEX)
+      throw NoSuchElementException("List contains fewer than four elements.")
     else this[FOURTH_INDEX]
 
   /**
@@ -78,8 +81,7 @@ object Lists {
    * @param T the type of elements in this list.
    * @return the fourth element of this list or null if the list has fewer than four elements.
    */
-  fun <T> List<T>.fourthOrNull(): T? =
-    if (size <= FOURTH_INDEX) null else this[FOURTH_INDEX]
+  fun <T> List<T>.fourthOrNull(): T? = if (size <= FOURTH_INDEX) null else this[FOURTH_INDEX]
 
   /**
    * Returns the fifth element of the list.
@@ -98,8 +100,7 @@ object Lists {
    * @param T the type of elements in this list.
    * @return the fifth element of this list or null if the list has fewer than five elements.
    */
-  fun <T> List<T>.fifthOrNull(): T? =
-    if (size <= FIFTH_INDEX) null else this[FIFTH_INDEX]
+  fun <T> List<T>.fifthOrNull(): T? = if (size <= FIFTH_INDEX) null else this[FIFTH_INDEX]
 
   /**
    * Returns the sixth element of the list.
@@ -118,8 +119,7 @@ object Lists {
    * @param T the type of elements in this list.
    * @return the sixth element of this list or null if the list has fewer than six elements.
    */
-  fun <T> List<T>.sixthOrNull(): T? =
-    if (size <= SIXTH_INDEX) null else this[SIXTH_INDEX]
+  fun <T> List<T>.sixthOrNull(): T? = if (size <= SIXTH_INDEX) null else this[SIXTH_INDEX]
 
   /**
    * Returns the seventh element of the list.
@@ -129,7 +129,8 @@ object Lists {
    * @throws NoSuchElementException if the list contains fewer than seven elements.
    */
   fun <T> List<T>.seventh(): T =
-    if (size <= SEVENTH_INDEX) throw NoSuchElementException("List contains fewer than seven elements.")
+    if (size <= SEVENTH_INDEX)
+      throw NoSuchElementException("List contains fewer than seven elements.")
     else this[SEVENTH_INDEX]
 
   /**
@@ -138,8 +139,7 @@ object Lists {
    * @param T the type of elements in this list.
    * @return the seventh element of this list or null if the list has fewer than seven elements.
    */
-  fun <T> List<T>.seventhOrNull(): T? =
-    if (size <= SEVENTH_INDEX) null else this[SEVENTH_INDEX]
+  fun <T> List<T>.seventhOrNull(): T? = if (size <= SEVENTH_INDEX) null else this[SEVENTH_INDEX]
 
   /**
    * Returns the eighth element of the list.
@@ -149,7 +149,8 @@ object Lists {
    * @throws NoSuchElementException if the list contains fewer than eight elements.
    */
   fun <T> List<T>.eighth(): T =
-    if (size <= EIGHTH_INDEX) throw NoSuchElementException("List contains fewer than eight elements.")
+    if (size <= EIGHTH_INDEX)
+      throw NoSuchElementException("List contains fewer than eight elements.")
     else this[EIGHTH_INDEX]
 
   /**
@@ -158,8 +159,7 @@ object Lists {
    * @param T the type of elements in this list.
    * @return the eighth element of this list or null if the list has fewer than eight elements.
    */
-  fun <T> List<T>.eighthOrNull(): T? =
-    if (size <= EIGHTH_INDEX) null else this[EIGHTH_INDEX]
+  fun <T> List<T>.eighthOrNull(): T? = if (size <= EIGHTH_INDEX) null else this[EIGHTH_INDEX]
 
   /**
    * Returns the ninth element of the list.
@@ -178,8 +178,7 @@ object Lists {
    * @param T the type of elements in this list.
    * @return the ninth element of this list or null if the list has fewer than nine elements.
    */
-  fun <T> List<T>.ninthOrNull(): T? =
-    if (size <= NINTH_INDEX) null else this[NINTH_INDEX]
+  fun <T> List<T>.ninthOrNull(): T? = if (size <= NINTH_INDEX) null else this[NINTH_INDEX]
 
   /**
    * Returns the tenth element of the list.
@@ -198,8 +197,25 @@ object Lists {
    * @param T the type of elements in this list.
    * @return the tenth element of this list or null if the list has fewer than ten elements.
    */
-  fun <T> List<T>.tenthOrNull(): T? =
-    if (size <= TENTH_INDEX) null else this[TENTH_INDEX]
+  fun <T> List<T>.tenthOrNull(): T? = if (size <= TENTH_INDEX) null else this[TENTH_INDEX]
+
+  /**
+   * Adds an element to the list if it is not null.
+   *
+   * @param element the element to add to the list.
+   */
+  fun <T> MutableList<T>.addNotNull(element: T?) {
+    if (element != null) add(element)
+  }
+
+  /**
+   * Adds all non-null elements to the list.
+   *
+   * @param elements the elements to add to the list.
+   */
+  fun <T> MutableList<T>.addAllNotNull(vararg elements: T?) {
+    for (element in elements) addNotNull(element)
+  }
 }
 
 private object ListTests {
