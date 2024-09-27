@@ -48,13 +48,7 @@ object Channels {
   val chrisHemsworth: Actor = Actor(Id(9), FirstName("Chris"), LastName("Hemsworth"))
 
   val favoriteHeroes: List<Actor> =
-    listOf(
-      henryCavill,
-      benAffleck,
-      robertDowneyJr,
-      chrisEvans,
-      chrisHemsworth
-    )
+    listOf(henryCavill, benAffleck, robertDowneyJr, chrisEvans, chrisHemsworth)
 
   @OptIn(ExperimentalCoroutinesApi::class)
   @JvmStatic

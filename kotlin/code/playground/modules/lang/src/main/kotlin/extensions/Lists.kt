@@ -1,5 +1,7 @@
 package extensions
 
+import extensions.Lists.addAllNotNull
+import extensions.Lists.addNotNull
 import extensions.Lists.second
 import extensions.Lists.secondOrNull
 import extensions.Lists.third
@@ -221,6 +223,8 @@ object Lists {
 private object ListTests {
   @JvmStatic
   fun main(args: Array<String>) {
+
+    // list accessors
     val numbers = listOf(1, 2)
 
     val second = numbers.second()
@@ -237,5 +241,16 @@ private object ListTests {
 
     val thirdOrNull = numbers.thirdOrNull()
     println(thirdOrNull)
+
+    // mutable list adders
+    val mutableList = mutableListOf(1, 2)
+    mutableList.addNotNull(3)
+    println(mutableList)
+
+    mutableList.addNotNull(null)
+    println(mutableList)
+
+    mutableList.addAllNotNull(4, null, 5)
+    println(mutableList)
   }
 }
