@@ -7,18 +7,13 @@ import arrow.core.getOrElse
 
 // Kotlin lists and list functions
 
-/**
- * Kotlin's list type and list functions
- */
+/** Kotlin's list type and list functions */
 object Lists {
-  @JvmInline
-  value class JobId(val value: Long)
+  @JvmInline value class JobId(val value: Long)
 
-  @JvmInline
-  value class Company(val name: String)
+  @JvmInline value class Company(val name: String)
 
-  @JvmInline
-  value class Role(val name: String)
+  @JvmInline value class Role(val name: String)
 
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
 

@@ -4,9 +4,7 @@ package language
 
 import kotlinx.coroutines.runBlocking
 
-/**
- * Kotlin's context receivers / context parameters
- */
+/** Kotlin's context receivers / context parameters */
 object ContextReceivers {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
 

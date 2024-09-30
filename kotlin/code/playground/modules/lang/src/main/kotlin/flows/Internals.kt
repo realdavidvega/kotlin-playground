@@ -9,9 +9,7 @@ import flows.Flows.rayFisher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
-/**
- * (7) Flows - Flows Appendix
- */
+/** (7) Flows - Flows Appendix */
 object Internals {
 
   // This journey let us understand that there is no magic behind flows

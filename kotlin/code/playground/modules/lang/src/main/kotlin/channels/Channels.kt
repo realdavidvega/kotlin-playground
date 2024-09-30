@@ -1,6 +1,7 @@
 package channels
 
 import io.reactivex.rxjava3.core.Observable
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -17,17 +18,15 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.rx3.collect
-import kotlinx.coroutines.rx3.rxObservable
 import kotlinx.coroutines.withTimeoutOrNull
-import kotlin.time.Duration.Companion.seconds
 
 /**
  * (1) Channels - Introduction
  *
  * Channels are a mechanism for sending and receiving values across coroutines.
  *
- * In Flow, after emitting values we need to collect them from the same coroutine, so we cannot
- * use different dispatchers for emitting and collecting. Channels solve this problem.
+ * In Flow, after emitting values we need to collect them from the same coroutine, so we cannot use
+ * different dispatchers for emitting and collecting. Channels solve this problem.
  */
 object Channels {
 
@@ -49,13 +48,7 @@ object Channels {
   val chrisHemsworth: Actor = Actor(Id(9), FirstName("Chris"), LastName("Hemsworth"))
 
   val favoriteHeroes: List<Actor> =
-    listOf(
-      henryCavill,
-      benAffleck,
-      robertDowneyJr,
-      chrisEvans,
-      chrisHemsworth
-    )
+    listOf(henryCavill, benAffleck, robertDowneyJr, chrisEvans, chrisHemsworth)
 
   @OptIn(ExperimentalCoroutinesApi::class)
   @JvmStatic
@@ -220,9 +213,7 @@ object Channels {
       }
 
       // Timeout to avoid deadlock as we won't handle closing like channelFlow
-      withTimeoutOrNull(1.seconds.inWholeMilliseconds) {
-        myFlowChannel().collect { println(it) }
-      }
+      withTimeoutOrNull(1.seconds.inWholeMilliseconds) { myFlowChannel().collect { println(it) } }
       println("------------------------------")
 
       // If we extract the launch block to a lambda, we get this simplified version of
@@ -258,9 +249,7 @@ object Channels {
 
       // Works by subscribing to the ObservableSource, returning channel to receive elements
       // emitted by it. Then it consumes every item.
-      observable.collect {
-        println("RX Actor: $it")
-      }
+      observable.collect { println("RX Actor: $it") }
       println("------------------------------")
     }
   }

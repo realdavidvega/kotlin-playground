@@ -22,9 +22,7 @@ import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.runBlocking
 
-/**
- * (6) Flows - Racing/Merging and Concurrent Transformers
- */
+/** (6) Flows - Racing/Merging and Concurrent Transformers */
 object Racing {
 
   interface BiographyRepository {

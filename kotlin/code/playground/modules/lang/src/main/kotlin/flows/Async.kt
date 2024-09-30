@@ -6,9 +6,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-/**
- * (1) Flows - Prologue
- */
+/** (1) Flows - Prologue */
 object Async {
   @JvmStatic
   fun main(args: Array<String>) {

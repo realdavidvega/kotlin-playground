@@ -23,9 +23,7 @@ import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
 
-/**
- * (4) Flows - Transformations
- */
+/** (4) Flows - Transformations */
 object Transformations {
   @JvmStatic
   fun main(args: Array<String>) {

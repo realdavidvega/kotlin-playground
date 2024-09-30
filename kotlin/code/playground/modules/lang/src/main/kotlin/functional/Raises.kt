@@ -14,9 +14,7 @@ import arrow.core.raise.recover
 import arrow.core.raise.withError
 import arrow.core.raise.zipOrAccumulate
 
-/**
- * (4) Arrow's raise and raise context
- */
+/** (4) Arrow's raise and raise context */
 object Raises {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
 

@@ -3,20 +3,17 @@ package patterns
 /**
  * Visitor Pattern
  *
- * The Visitor Pattern separates algorithms from the object structure.
- * Think of a Visitor as someone who visits multiple places and performs different actions
- * depending on the place.
- * This means we modify the Visitor instead of the place itself.
- * It's mostly used to implement new functionalities that don't fit inside an object but are
- * necessary for the new feature to work.
+ * The Visitor Pattern separates algorithms from the object structure. Think of a Visitor as someone
+ * who visits multiple places and performs different actions depending on the place. This means we
+ * modify the Visitor instead of the place itself. It's mostly used to implement new functionalities
+ * that don't fit inside an object but are necessary for the new feature to work.
  *
  * What benefits do we get?
  * - Open/Closed Principle: We can add new algorithms without changing the object structure.
  * - Single Responsibility Principle: Each class is responsible for a different behavior.
  * - Extension of a class with minimal to no modification.
- * - Avoidance of polluting the object class.
- * The major downside is that all Visitors must be updated when a class is added or removed from
- * the hierarchy.
+ * - Avoidance of polluting the object class. The major downside is that all Visitors must be
+ *   updated when a class is added or removed from the hierarchy.
  */
 object Visitor {
 
