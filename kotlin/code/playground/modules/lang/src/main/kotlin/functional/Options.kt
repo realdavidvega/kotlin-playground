@@ -9,7 +9,7 @@ import arrow.core.raise.option
 import arrow.core.toOption
 import java.util.NoSuchElementException
 
-/** (1) Kotlin's nullables, Arrow's options and option functions */
+/** () Kotlin's nullables, Arrow's options and option functions */
 object Options {
   data class Job(val id: JobId, val company: Company, val role: Role, val salary: Salary)
 

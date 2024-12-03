@@ -32,9 +32,9 @@ object Arrow {
   /** Contextual raise [E] on [Either.Left] */
   context(Raise<E>, Either<L, R>)
   @OptIn(ExperimentalContracts::class)
-  fun <E, L, R> getOrRaise(block: () -> E) {
+  fun <E, L, R> getOrRaise(block: () -> E): R {
     contract { callsInPlace(block, AT_MOST_ONCE) }
-    getOrElse { raise(block()) }
+    return getOrElse { raise(block()) }
   }
 
   /** Recover from [Either.catch] or other [Either.recoverCatching] */
