@@ -1,14 +1,17 @@
 package extensions
 
 import arrow.core.Either
+import arrow.core.getOrElse
 import arrow.core.raise.Raise
 import arrow.core.raise.RaiseDSL
+import arrow.core.raise.ensureNotNull
 import arrow.core.raise.recover
 import extensions.Kotlin.Quadruple
 import extensions.Kotlin.Quintuple
 import java.time.OffsetDateTime
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
+import kotlin.contracts.InvocationKind.AT_MOST_ONCE
 import kotlin.contracts.contract
 import kotlin.experimental.ExperimentalTypeInference
 import kotlinx.coroutines.runBlocking
@@ -25,6 +28,16 @@ import kotlinx.datetime.toKotlinInstant
  * more than one argument.
  */
 object Arrow {
+
+  /** Contextual raise [E] on [Either.Left] */
+  context(Raise<E>, Either<L, R>)
+  @OptIn(ExperimentalContracts::class)
+  fun <E, L, R> getOrRaise(block: () -> E): R {
+    contract { callsInPlace(block, AT_MOST_ONCE) }
+    return getOrElse { raise(block()) }
+  }
+
+  /** Recover from [Either.catch] or other [Either.recoverCatching] */
   @OptIn(ExperimentalTypeInference::class, ExperimentalContracts::class)
   inline fun <A> Either<Throwable, A>.recoverCatching(
     @BuilderInference recover: (Throwable) -> A
@@ -142,6 +155,9 @@ object Arrow {
 
       // some dummy user
       val user = User()
+
+      /** normal arrow */
+      recover({ ensureNotNull(user.id) { UserError("Oops, id is null") } }) { e -> println(e) }
 
       /** [ensureNotNull] with two arguments, returns a pair if succeeds */
       recover({ ensureNotNull(user.id, user.name) { UserError("Oops, id and name are null") } }) { e
