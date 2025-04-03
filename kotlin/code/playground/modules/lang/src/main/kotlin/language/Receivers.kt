@@ -67,12 +67,26 @@ object Receivers {
   ): Context<Error> = object : Context<Error>, Raise<Error> by raise, ResourceScope by scope {}
 
   // second approach
-  class ClassContext<Error>(
+  class ResourceContext<Error>(
     private val raise: Raise<Error>,
     private val resourceScope: ResourceScope
   ) : Raise<Error> by raise, ResourceScope by resourceScope
 
-  suspend fun ClassContext<Nel<Throwable>>.getBalance(): Pair<String, Double> = getBalanceCall()
+  // with DSL and common resource life cycle (e.g. clients, db connections)
+  suspend fun <A, Error> resourceContext(
+    block: suspend ResourceContext<Nel<Error>>.() -> A,
+    err: (e: Nel<Error>) -> A
+  ) {
+    resourceScope {
+      recover({
+        with(ResourceContext<Nel<Error>>(this@recover, this@resourceScope)) { block() }
+      }) { e ->
+        err(e)
+      }
+    }
+  }
+
+  suspend fun ResourceContext<Nel<Throwable>>.getBalance(): Pair<String, Double> = getBalanceCall()
 
   @JvmStatic
   fun main(args: Array<String>) = SuspendApp {
@@ -100,7 +114,7 @@ object Receivers {
           println(balance2)
 
           // or use the class context
-          val klassCtx = ClassContext(this@recover, this@resourceScope)
+          val klassCtx = ResourceContext(this@recover, this@resourceScope)
           val klassBalance = klassCtx.getBalance()
           println(klassBalance)
         }
@@ -108,6 +122,15 @@ object Receivers {
         errors.forEach { e -> println(e) }
       }
     }
+
+    // DSL version
+    resourceContext({
+      val klassBalance = getBalance()
+      println(klassBalance)
+    }) { errors ->
+      errors.forEach { e -> println(e) }
+    }
+
     cancel()
   }
 }
