@@ -29,6 +29,13 @@ object Objects {
     fun rollWithAdvantage(sides: Int): Int = max(roll(sides), roll(sides))
   }
 
+  // data class with private constructor and consistent data class copy after 2.0
+  data class Feed private constructor(val tweets: List<Tweet>) {
+    companion object {
+      fun withOneTweet(t: Tweet) = Feed(listOf(t))
+    }
+  }
+
   @JvmStatic
   fun main(args: Array<String>) {
     val tweet = Tweet.Normal("Love Kotlin!")
@@ -41,5 +48,11 @@ object Objects {
     val showTweet = Tweet.Combined(listOf(Tweet.FunnyTone, Tweet.DadJoke))
     val scheduledShow = Tweet.Scheduled(date, showTweet)
     println(scheduledShow)
+
+    val feed = Feed.withOneTweet(Tweet.Normal("Love Kotlin!"))
+    println(feed)
+
+    // won't work as constructor is private
+    // feed.copy(tweets = listOf(Tweet.Normal("Love Kotlin in the night!")))
   }
 }

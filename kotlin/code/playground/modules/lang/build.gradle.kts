@@ -42,7 +42,8 @@ spotless {
 ktlint { version.set(libs.versions.ktlint.get()) }
 
 tasks {
-  compileKotlin { compilerOptions { freeCompilerArgs.add("-Xcontext-receivers") } }
-  compileTestKotlin { compilerOptions { freeCompilerArgs.add("-Xcontext-receivers") } }
+  val compilerFlags = listOf("-Xcontext-receivers", "-Xconsistent-data-class-copy-visibility")
+  compileKotlin { compilerOptions { freeCompilerArgs.addAll(compilerFlags) } }
+  compileTestKotlin { compilerOptions { freeCompilerArgs.addAll(compilerFlags) } }
   test { useJUnitPlatform() }
 }
