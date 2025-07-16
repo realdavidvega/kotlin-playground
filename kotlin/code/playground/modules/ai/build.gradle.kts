@@ -14,9 +14,9 @@ repositories {
 
 dependencies {
   implementation(libs.bundles.kotlin)
+  implementation(libs.bundles.koog)
   implementation(libs.bundles.xef)
   implementation(libs.bundles.langchain)
-  implementation(libs.koog)
   implementation(libs.logback)
   testImplementation(libs.bundles.kotest)
   testImplementation(libs.bundles.testcontainers)

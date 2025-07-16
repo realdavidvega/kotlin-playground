@@ -21,8 +21,9 @@ rxjava = "3.1.9"
 # Cache4k
 cache4k = "0.14.0"
 
-# Koog
+# Koog + MCP
 koog = "0.3.0"
+mcp = "0.6.0"
 
 # Xef
 xef = "0.0.5-alpha.97"
@@ -59,7 +60,7 @@ gradle-ktlint = "12.3.0"
 logback = "1.5.18"
 
 [libraries]
-# Kotlin
+# Kotlin + Logging + Kafka + Coroutines + Serialization
 kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlin-logging" }
 kotlin-kafka = { module = "io.github.nomisrev:kotlin-kafka", version.ref = "kotlin-kafka" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
@@ -84,8 +85,9 @@ rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 # Cache4k
 cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 
-# Koog
+# Koog + MCP
 koog = { module = "ai.koog:koog-agents", version.ref = "koog" }
+mcp = { module = "io.modelcontextprotocol:kotlin-sdk", version.ref = "mcp" }
 
 # Xef
 xef-core = { module = "com.xebia:xef-core", version.ref = "xef" }
@@ -94,7 +96,7 @@ xef-server = { module = "com.xebia:xef-server", version.ref = "xef" }
 xef-evaluator = { module = "com.xebia:xef-evaluator", version.ref = "xef" }
 xef-postgresql = { module = "com.xebia:xef-postgresql", version.ref = "xef" }
 
-# Langchain / Langgraph
+# Langchain + Langgraph
 langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
 langchain4j-open-ai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
 langchain4j-google-ai = { module = "dev.langchain4j:langchain4j-google-ai-gemini", version.ref = "langchain4j-google-ai" }
@@ -102,7 +104,7 @@ langchain4j-ollama = { module = "dev.langchain4j:langchain4j-ollama", version.re
 langchain4j-local-ai = { module = "dev.langchain4j:langchain4j-local-ai", version.ref = "langchain4j-local-ai" }
 langgraph4j = { module = "org.bsc.langgraph4j:langgraph4j-core", version.ref = "langgraph4j" }
 
-# Ktor
+# Ktor Server + Client
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-resources = { module = "io.ktor:ktor-server-resources", version.ref = "ktor" }
 ktor-server-default-headers = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor" }
@@ -112,7 +114,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
 
-# roboquant
+# Roboquant
 roboquant = { module = "org.roboquant:roboquant", version.ref = "roboquant" }
 roboquant-ta = { module = "org.roboquant:roboquant-ta", version.ref = "roboquant" }
 roboquant-avro = { module = "org.roboquant:roboquant-avro", version.ref = "roboquant" }
@@ -133,6 +135,7 @@ testcontainers-ollama = { module = "org.testcontainers:ollama", version.ref = "t
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 [bundles]
+# Kotlin + Logging + Kafka + Coroutines + Serialization
 kotlin = [
     "kotlin-logging",
     "kotlin-kafka",
@@ -141,6 +144,7 @@ kotlin = [
     "kotlinx-serialization-json",
 ]
 
+# Arrow + SuspendApp
 arrow = [
     "arrow-core",
     "arrow-atomic",
@@ -151,6 +155,7 @@ arrow = [
     "suspendapp-ktor"
 ]
 
+# Reactor + RX
 reactor = [
     "kotlinx-coroutines-reactor",
     "kotlinx-coroutines-rx3",
@@ -158,6 +163,7 @@ reactor = [
     "rxjava"
 ]
 
+# Ktor Server + Client
 ktor = [
     "ktor-server-core",
     "ktor-server-resources",
@@ -169,6 +175,13 @@ ktor = [
     "ktor-client-serialization",
 ]
 
+# Koog + MCP
+koog = [
+    "koog",
+    "mcp"
+]
+
+# Xef
 xef = [
     "xef-core",
     "xef-reasoning",
@@ -177,6 +190,7 @@ xef = [
     "xef-postgresql"
 ]
 
+# Langchain + Langgraph
 langchain = [
     "langchain4j",
     "langchain4j-ollama",
@@ -185,6 +199,7 @@ langchain = [
     "langgraph4j"
 ]
 
+# Roboquant
 roboquant = [
     "roboquant",
     "roboquant-ta",
@@ -193,6 +208,7 @@ roboquant = [
     "roboquant-jupyter"
 ]
 
+# Kotest
 kotest = [
     "kotest-junit5",
     "kotest-assertions",
@@ -200,6 +216,7 @@ kotest = [
     "kotest-testcontainers"
 ]
 
+# Testcontainers
 testcontainers = [
     "testcontainers",
     "testcontainers-ollama"
