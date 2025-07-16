@@ -6,8 +6,10 @@ import io.ktor.http.ContentType
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.TextContent
 import io.ktor.utils.io.ByteReadChannel
-import io.ktor.utils.io.core.readBytes
+import io.ktor.utils.io.readRemaining
+import io.ktor.utils.io.readText
 import kotlinx.coroutines.runBlocking
+import kotlinx.io.readByteArray
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -64,7 +66,7 @@ object Serialization {
     }
 
     override suspend fun fromContent(contentType: ContentType, content: ByteReadChannel): T {
-      val bytes = content.readRemaining().readBytes()
+      val bytes = content.readRemaining().readByteArray()
       val json = String(bytes)
       return decodeFromString(serializer, json)
     }

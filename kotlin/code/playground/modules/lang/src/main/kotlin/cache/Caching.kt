@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package cache
 
 import arrow.atomic.Atomic
@@ -9,11 +11,12 @@ import arrow.core.raise.recover
 import io.github.reactivecircus.cache4k.Cache
 import io.github.reactivecircus.cache4k.CacheEvent
 import io.github.reactivecircus.cache4k.CacheEventListener
+import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import kotlinx.coroutines.delay
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
 /**
  * Caching
@@ -145,7 +148,7 @@ object Caching {
     private fun getCachedOrInvalidate(id: Long): UserEntry? =
       cache.get(id)?.let { entry ->
         val now = Clock.System.now()
-        if (entry.timestamp.plus(timePolicy) < Clock.System.now()) {
+        if (entry.timestamp.plus(timePolicy) < now) {
           println("$SERVICE_NAME Invalidating cache entry for user with id: $id...")
           cache.invalidate(id).let { null }
         } else {
