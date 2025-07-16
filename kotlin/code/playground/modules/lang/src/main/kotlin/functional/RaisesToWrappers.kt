@@ -6,16 +6,16 @@ import arrow.core.Either
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.getOrElse
-import arrow.core.raise.NullableRaise
-import arrow.core.raise.OptionRaise
 import arrow.core.raise.Raise
 import arrow.core.raise.ResultRaise
 import arrow.core.raise.catch
 import arrow.core.raise.either
 import arrow.core.raise.fold
-import arrow.core.raise.nullable
-import arrow.core.raise.option
 import arrow.core.raise.result
+import extensions.arrow.NullableRaise
+import extensions.arrow.OptionRaise
+import extensions.arrow.nullable
+import extensions.arrow.option
 import functional.Raises.Company
 import functional.Raises.CurrencyConverter
 import functional.Raises.JOBS_DATABASE
@@ -25,18 +25,24 @@ import functional.Raises.JobId
 import functional.Raises.Role
 import functional.Raises.Salary
 
-/** (5) Arrow's raises to wrappers */
+/**
+ * (5) Arrow's raises to wrappers
+ *
+ * Some of the wrappers are provided by the extensions package, as some of the arrow types are
+ * removed in later versions. Modern alternatives use [arrow.core.raise.Raise] instead of the
+ * wrapper types.
+ */
 object RaisesToWrappers {
   interface Jobs {
     // for either
     context(Raise<JobError>)
     fun findById(jobId: JobId): Job
 
-    // for option
-    context(Raise<None>)
+    // for option with OptionRaise or Raise<None>
+    context(OptionRaise)
     fun findByIdWithOption(id: JobId): Job
 
-    // for nullable
+    // for nullable with NullableRaise or Raise<Nothing?>
     context(NullableRaise)
     fun findByIdWithNullable(id: JobId): Job
   }
@@ -47,11 +53,11 @@ object RaisesToWrappers {
     override fun findById(jobId: JobId): Job =
       JOBS_DATABASE[jobId] ?: raise(Raises.JobNotFound(jobId))
 
-    // for option
-    context(Raise<None>)
+    // for option with OptionRaise or Raise<None>
+    context(OptionRaise)
     override fun findByIdWithOption(id: JobId): Job = JOBS_DATABASE[id] ?: raise(None)
 
-    // for nullable
+    // for nullable with NullableRaise or Raise<Nothing?>
     context(NullableRaise)
     override fun findByIdWithNullable(id: JobId): Job = JOBS_DATABASE[id] ?: raise(null)
   }
@@ -72,7 +78,7 @@ object RaisesToWrappers {
       jobs.findByIdWithOption(jobId).salary
     }
 
-    // conversion from Option<A> to Raise<None>
+    // conversion from Option<A> to OptionRaise, which is the same as Raise<None>
     context(OptionRaise)
     fun salaryWithRaise(jobId: JobId): Salary = salary(jobId).bind()
 

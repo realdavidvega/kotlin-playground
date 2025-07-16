@@ -13,6 +13,7 @@ import arrow.fx.coroutines.closeable
 import arrow.fx.coroutines.parZip
 import arrow.fx.coroutines.resource
 import arrow.fx.coroutines.resourceScope
+import arrow.fx.coroutines.use
 import java.io.Closeable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking

@@ -20,18 +20,18 @@ dependencies {
   implementation(libs.bundles.reactor)
   implementation(libs.bundles.ktor)
   implementation(libs.bundles.xef)
-  implementation(libs.bundles.langchain4j)
+  implementation(libs.bundles.langchain)
   implementation(libs.cache4k)
   implementation(libs.logback)
   testImplementation(libs.bundles.kotest)
   testImplementation(libs.bundles.testcontainers)
 }
 
-kotlin { jvmToolchain(21) }
+kotlin { jvmToolchain(24) }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_21
-  targetCompatibility = JavaVersion.VERSION_21
+  sourceCompatibility = JavaVersion.VERSION_24
+  targetCompatibility = JavaVersion.VERSION_24
 }
 
 spotless {
