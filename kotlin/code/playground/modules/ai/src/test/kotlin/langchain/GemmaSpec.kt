@@ -1,4 +1,4 @@
-package ai.local
+package langchain
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.string.shouldContain

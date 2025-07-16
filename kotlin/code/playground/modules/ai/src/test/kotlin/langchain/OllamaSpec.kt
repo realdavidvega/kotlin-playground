@@ -1,4 +1,4 @@
-package ai.local
+package langchain
 
 import com.github.dockerjava.api.model.Image
 import dev.langchain4j.model.ollama.OllamaChatModel
@@ -7,9 +7,11 @@ import org.testcontainers.DockerClientFactory
 import org.testcontainers.ollama.OllamaContainer
 import org.testcontainers.utility.DockerImageName
 
-class OllamaSpecScope(private val model: OllamaChatModel) {
+@DslMarker annotation class OllamaDsl
+
+class OllamaSpec(private val model: OllamaChatModel) {
   fun String.generates(verbose: Boolean = true, block: (String) -> String?) {
-    val msg = model.generate(this)
+    val msg = model.chat(this)
     if (verbose) println(msg)
     block(msg)
   }
@@ -40,17 +42,21 @@ fun createOrUseOllamaImage(modelName: String): OllamaContainer {
   }
 }
 
+@OllamaDsl
 fun ollamaTest(
   modelName: String,
   body:
-    context(OllamaSpecScope, StringSpec)
+    context(OllamaSpec, StringSpec)
     () -> Unit,
 ): StringSpec.() -> Unit = {
   val container = createOrUseOllamaImage(modelName)
+
+  @Suppress("HttpUrlsUsage")
   val model: OllamaChatModel =
     OllamaChatModel.builder()
-      .baseUrl(String.format("http://%s:%d", container.host, container.firstMappedPort))
+      .baseUrl("http://${container.host}:${container.firstMappedPort}")
       .modelName(modelName)
       .build()
-  body(OllamaSpecScope(model), this)
+
+  body(OllamaSpec(model), this)
 }

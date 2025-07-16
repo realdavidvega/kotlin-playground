@@ -21,6 +21,9 @@ rxjava = "3.1.9"
 # Cache4k
 cache4k = "0.14.0"
 
+# Koog
+koog = "0.3.0"
+
 # Xef
 xef = "0.0.5-alpha.97"
 
@@ -80,6 +83,9 @@ rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 
 # Cache4k
 cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
+
+# Koog
+koog = { module = "ai.koog:koog-agents", version.ref = "koog" }
 
 # Xef
 xef-core = { module = "com.xebia:xef-core", version.ref = "xef" }
