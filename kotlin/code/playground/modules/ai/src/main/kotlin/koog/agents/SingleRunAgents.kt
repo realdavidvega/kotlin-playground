@@ -36,13 +36,23 @@ object SingleRunAgents {
   @JvmStatic
   fun main(args: Array<String>) {
     runBlocking {
+      // Prompt executors manage and run prompts. You can choose a prompt executor based on the
+      // LLM provider you plan to use. Also, you can create a custom prompt executor using one of
+      // the available LLM clients.
+
+      // For example, to provide the OpenAI prompt executor, you need to call the
+      // simpleOpenAIExecutor function and provide it with the API key required for authentication
+      // with the OpenAI service:
+      val promptExecutor = simpleGoogleAIExecutor(System.getenv("GOOGLE_API_KEY"))
+
       // Create a single-run agent
-      val agent = AIAgent(
-        executor = simpleGoogleAIExecutor(System.getenv("GOOGLE_API_KEY")),
-        systemPrompt = "You are a helpful assistant. Answer user questions concisely.",
-        llmModel = GoogleModels.Gemini2_5Flash,
-        temperature = 0.0, // Temperature controls the randomness of the agent's responses
-      )
+      val agent =
+        AIAgent(
+          executor = promptExecutor,
+          systemPrompt = "You are a helpful assistant. Answer user questions concisely.",
+          llmModel = GoogleModels.Gemini2_5Flash,
+          temperature = 0.0, // Temperature controls the randomness of the agent's responses
+        )
 
       val result = agent.run("Hello! How can you help me?")
       println(result)
@@ -62,7 +72,7 @@ object SingleRunAgents {
           llmModel = OpenAIModels.Chat.GPT4o,
           toolRegistry = toolRegistry, // Pass the tool registry
           temperature = 0.0,
-          maxIterations = 30 // Maximum number of iterations to run the agent
+          maxIterations = 30, // Maximum number of iterations to run the agent
         ) {
           // Single-run agents support custom event handlers.
           // While having an event handler is not required for creating an agent,
